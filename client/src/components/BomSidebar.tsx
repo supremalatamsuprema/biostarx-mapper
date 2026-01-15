@@ -1,22 +1,48 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { PillButton } from "@/components/ui/pill-button";
-import { FileText, Package } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { FileText, Package, Download } from "lucide-react";
 import { DISCLAIMER } from "@/data/licenseData";
+import { cn } from "@/lib/utils";
 import type { CalculatedBOM } from "@/types/license";
 
 interface BomSidebarProps {
   calculatedBOM: CalculatedBOM;
   onGenerateReport: () => void;
+  tierChanged?: boolean;
 }
 
-export function BomSidebar({ calculatedBOM, onGenerateReport }: BomSidebarProps) {
+export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged }: BomSidebarProps) {
   const { bom, selected } = calculatedBOM;
   const totalItems = bom.reduce((acc, item) => acc + item.qty, 0);
 
+  const handleExportCSV = () => {
+    const headers = ['Part Number', 'Descripcion', 'Cantidad'];
+    const rows = bom.map(item => [item.id, item.name, item.qty.toString()]);
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `BioStarX_BOM_${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="sticky top-6 z-50 print:hidden">
-      <GlassCard className="overflow-hidden">
-        <div className="bg-gradient-to-br from-[#00C2FF] via-[#0047FF] to-[#FF00E5] p-6 sm:p-8">
+      <GlassCard className={cn(
+        "overflow-hidden transition-all duration-300",
+        tierChanged && "ring-2 ring-[#A12944] ring-offset-2 scale-[1.02]"
+      )}>
+        <div className={cn(
+          "bg-gradient-to-br from-[#00C2FF] via-[#0047FF] to-[#FF00E5] p-6 sm:p-8 transition-all duration-300",
+          tierChanged && "animate-pulse"
+        )}>
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
               <Package className="w-5 h-5 text-white" />
@@ -79,14 +105,25 @@ export function BomSidebar({ calculatedBOM, onGenerateReport }: BomSidebarProps)
               </span>
             </div>
             
-            <PillButton 
-              onClick={onGenerateReport}
-              className="w-full"
-              data-testid="button-generate-report"
-            >
-              <FileText className="w-4 h-4 mr-2" />
-              Generar Reporte Maestro
-            </PillButton>
+            <div className="flex gap-2">
+              <PillButton 
+                onClick={onGenerateReport}
+                className="flex-1"
+                data-testid="button-generate-report"
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                Generar Reporte
+              </PillButton>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handleExportCSV}
+                className="rounded-full"
+                data-testid="button-export-csv"
+              >
+                <Download className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
           
           <p className="mt-4 text-[8px] text-muted-foreground leading-relaxed text-center">

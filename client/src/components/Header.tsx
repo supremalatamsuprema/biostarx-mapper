@@ -1,5 +1,6 @@
 import { RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import type { ProjectInputs } from "@/types/license";
 
 interface HeaderProps {
@@ -26,6 +27,7 @@ export function Header({ scenario, onReset }: HeaderProps) {
         <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
           Escenario: {scenario === 'migration' ? 'Migración' : 'Nuevo'}
         </span>
+        <ThemeToggle />
         <Button
           variant="outline"
           size="sm"

@@ -3,10 +3,11 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { PillButton } from "@/components/ui/pill-button";
-import { Printer, Copy, X, CheckCircle } from "lucide-react";
+import { Printer, Copy, X, CheckCircle, Download } from "lucide-react";
 import { useState } from "react";
 import { DISCLAIMER } from "@/data/licenseData";
 import type { ProjectMeta, ProjectInputs, FeatureFlags, CalculatedBOM } from "@/types/license";
@@ -80,6 +81,28 @@ ${DISCLAIMER}
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleExportCSV = () => {
+    const headers = ['Part Number', 'Descripcion', 'Cantidad'];
+    const rows = bom.map(item => [item.id, item.name, item.qty.toString()]);
+    const csvContent = [
+      `# Proyecto: ${meta.projectName}`,
+      `# Cliente: ${meta.client}`,
+      `# Tier: BioStar X ${selected.name}`,
+      `# Fecha: ${new Date().toLocaleDateString('es-ES')}`,
+      '',
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `BioStarX_BOM_${meta.projectName.replace(/\s+/g, '_') || 'proyecto'}_${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   const activeFeatures = Object.entries(features)
     .filter(([_, value]) => value)
     .map(([key]) => key);
@@ -93,7 +116,19 @@ ${DISCLAIMER}
               <DialogTitle className="text-2xl sm:text-3xl font-heading font-black">
                 Reporte Maestro
               </DialogTitle>
+              <DialogDescription className="sr-only">
+                Resumen del proyecto y Bill of Materials calculado
+              </DialogDescription>
               <div className="flex items-center gap-2 print:hidden">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleExportCSV}
+                  className="rounded-full"
+                  data-testid="button-export-csv"
+                >
+                  <Download className="w-4 h-4" />
+                </Button>
                 <Button
                   variant="outline"
                   size="icon"

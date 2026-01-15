@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Header } from "@/components/Header";
 import { ProjectMetadataForm } from "@/components/ProjectMetadataForm";
 import { MigrationValidation } from "@/components/MigrationValidation";
@@ -9,6 +9,7 @@ import { BomSidebar } from "@/components/BomSidebar";
 import { MobileBomSheet } from "@/components/MobileBomSheet";
 import { ReportModal } from "@/components/ReportModal";
 import { LICENSE_TIERS, ADDONS } from "@/data/licenseData";
+import { useToast } from "@/hooks/use-toast";
 import type { ProjectMeta, ProjectInputs, FeatureFlags, CalculatedBOM } from "@/types/license";
 
 interface CalculatorProps {
@@ -16,10 +17,32 @@ interface CalculatorProps {
   onReset: () => void;
 }
 
+const STORAGE_KEY = 'biostarx-draft';
+
+function loadDraft(scenario: ProjectInputs['scenario']) {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data.inputs?.scenario === scenario) {
+        return data;
+      }
+    }
+  } catch (e) {
+    console.error('Error loading draft:', e);
+  }
+  return null;
+}
+
 export function Calculator({ scenario, onReset }: CalculatorProps) {
+  const { toast } = useToast();
   const [showReport, setShowReport] = useState(false);
+  const [tierChanged, setTierChanged] = useState(false);
+  const prevTierRef = useRef<string>('');
   
-  const [meta, setMeta] = useState<ProjectMeta>({
+  const draft = loadDraft(scenario);
+  
+  const [meta, setMeta] = useState<ProjectMeta>(draft?.meta || {
     projectName: '',
     client: '',
     clientType: 'Integrador',
@@ -37,7 +60,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     hardwareChecked: false
   });
 
-  const [inputs, setInputs] = useState<ProjectInputs>({
+  const [inputs, setInputs] = useState<ProjectInputs>(draft?.inputs || {
     scenario,
     users: 0,
     doors: 0,
@@ -49,7 +72,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     tnaUsers: 0
   });
 
-  const [features, setFeatures] = useState<FeatureFlags>({
+  const [features, setFeatures] = useState<FeatureFlags>(draft?.features || {
     globalApb: false,
     fire: false,
     elevator: false,
@@ -66,6 +89,11 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     remote: false,
     eventApi: false
   });
+
+  useEffect(() => {
+    const data = { meta, inputs, features };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }, [meta, inputs, features]);
 
   const calculatedBOM = useMemo<CalculatedBOM>(() => {
     const bom: CalculatedBOM['bom'] = [];
@@ -141,9 +169,43 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     return { bom, selected };
   }, [inputs, features]);
 
+  useEffect(() => {
+    if (prevTierRef.current && prevTierRef.current !== calculatedBOM.selected.id) {
+      setTierChanged(true);
+      const timer = setTimeout(() => setTierChanged(false), 600);
+      return () => clearTimeout(timer);
+    }
+    prevTierRef.current = calculatedBOM.selected.id;
+  }, [calculatedBOM.selected.id]);
+
+  const handleGenerateReport = () => {
+    if (!meta.projectName.trim()) {
+      toast({
+        title: "Campo requerido",
+        description: "Por favor ingresa el nombre del proyecto",
+        variant: "destructive"
+      });
+      return;
+    }
+    if (!meta.client.trim()) {
+      toast({
+        title: "Campo requerido", 
+        description: "Por favor ingresa el nombre del cliente",
+        variant: "destructive"
+      });
+      return;
+    }
+    setShowReport(true);
+  };
+
+  const handleReset = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    onReset();
+  };
+
   return (
     <div className="min-h-screen p-4 lg:p-10 max-w-[1680px] mx-auto animate-fadeIn pb-24 xl:pb-10">
-      <Header scenario={inputs.scenario} onReset={onReset} />
+      <Header scenario={inputs.scenario} onReset={handleReset} />
 
       <div className="flex flex-col xl:flex-row gap-8 xl:gap-12 items-start">
         <div className="w-full xl:w-[68%] space-y-6 sm:space-y-8">
@@ -168,14 +230,15 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
         <div className="hidden xl:block w-[32%] self-start">
           <BomSidebar 
             calculatedBOM={calculatedBOM}
-            onGenerateReport={() => setShowReport(true)}
+            onGenerateReport={handleGenerateReport}
+            tierChanged={tierChanged}
           />
         </div>
       </div>
 
       <MobileBomSheet 
         calculatedBOM={calculatedBOM}
-        onGenerateReport={() => setShowReport(true)}
+        onGenerateReport={handleGenerateReport}
       />
 
       <ReportModal

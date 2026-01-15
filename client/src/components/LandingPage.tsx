@@ -1,5 +1,6 @@
 import { Building2, ArrowRightLeft } from "lucide-react";
 import { PillButton } from "@/components/ui/pill-button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import type { ProjectInputs } from "@/types/license";
 
 interface LandingPageProps {
@@ -9,6 +10,9 @@ interface LandingPageProps {
 export function LandingPage({ onSelectScenario }: LandingPageProps) {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden flex flex-col items-center justify-center p-4 sm:p-8">
+      <div className="absolute top-4 right-4 z-20">
+        <ThemeToggle />
+      </div>
       <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-[#00C2FF] via-[#0047FF] to-[#FF00E5] blur-[200px] opacity-10 rounded-full pointer-events-none" />
 
       <div className="max-w-5xl w-full relative z-10 space-y-12 sm:space-y-16 animate-fadeIn">

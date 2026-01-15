@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { PillButton } from "@/components/ui/pill-button";
 import { Package, ChevronUp, FileText } from "lucide-react";
@@ -46,6 +46,9 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport }: MobileBomShe
               <SheetTitle className="text-xl font-heading font-black">
                 BioStar X {selected.name}
               </SheetTitle>
+              <SheetDescription className="sr-only">
+                Bill of Materials y tier recomendado para el proyecto
+              </SheetDescription>
             </div>
           </div>
         </SheetHeader>
