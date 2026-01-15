@@ -1,0 +1,30 @@
+"Implementa la siguiente lógica de cálculo dentro de la aplicación, respetando estrictamente estas reglas basadas en la documentación técnica de BioStar X:"1. Selección de Base License (Tier)El sistema debe evaluar los 3 parámetros de entrada y elegir el Tier que cubra el valor más alto:Starter (STR): $\le$ 5 puertas, $\le$ 100 usuarios, $\le$ 1 operador.Essential (ESS): $\le$ 32 puertas, $\le$ 1,000 usuarios, $\le$ 10 operadores.Advanced (ADV): $\le$ 128 puertas, $\le$ 50,000 usuarios, $\le$ 20 operadores. (Incluye Mapas).Enterprise (ENT): $\le$ 500 puertas, $\le$ 100,000 usuarios, $\le$ 40 operadores. (Incluye Advanced AC).Elite (ELT): $\le$ 2,000 puertas, $\le$ 500,000 usuarios, $\le$ 100 operadores.2. Lógica de "Upgrade de Puertas" (Optimización de Costos)Si un usuario está en el tier Essential (32 puertas) pero necesita, por ejemplo, 40 puertas, el sistema tiene dos opciones:Saltar a Advanced (caro).Mantener Essential y añadir el SKU BIOSTARX-UP-DOR (Upgrade de 32 puertas).Instrucción: Haz que el calculador sugiera siempre la opción más económica para el cliente.3. El Paquete de "Advanced AC" (BIOSTARX-PKG-AAC)Según la especificación técnica, las funciones avanzadas como Global APB, Intrusion, Mustering, Occupancy Limit e Interlock solo están incluidas por defecto en Enterprise y Elite.Lógica: Si el usuario marca alguna de estas funciones pero su número de puertas solo requiere un Tier Essential o Advanced, el sistema debe añadir automáticamente el BIOSTARX-PKG-AAC al BOM.4. Licencias de Dispositivo (Reglas Mandatorias)Añade estos SKUs al BOM automáticamente si se cumplen estas condiciones:Cámaras QR (QR-LICENSE): Si el usuario selecciona dispositivos como BioStation 3 o X-Station 2 y marca la opción "Uso de QR mediante cámara". Se suma 1 licencia por cada dispositivo de ese tipo.Video (BIOSTARX-ADD-VMS): Si se activa "Integración de Video", preguntar por el número de canales y añadir esa cantidad.Mobile Enrollment (BIOSTARX-ADD-RAC): Si el usuario quiere enviar links de enrolamiento facial al móvil, es obligatorio añadir el "Remote Access" (BIOSTARX-ADD-RAC).5. Mapeo de Migración (BioStar 2 ➔ BioStar X)Si el usuario viene de BioStar 2, el mapeo de equivalencia debe ser:BS2 Basic / Standard ➔ BSX Essential.BS2 Advanced / Professional ➔ BSX Advanced.BS2 Enterprise ➔ BSX Enterprise (o Elite si >100k usuarios).🛠️ Código sugerido para el Hook de React (TypeScript)Puedes copiar este fragmento y decirle a Replit: "Usa esta estructura para la lógica de cálculo":TypeScript// src/hooks/useLicenseCalculator.ts
+
+export const calculateBOM = (inputs: ProjectInputs) => {
+  let baseTier = "STR";
+  let additionalItems = [];
+
+  // 1. Lógica de Tier por Capacidad
+  if (inputs.doors > 500 || inputs.users > 100000 || inputs.operators > 40) {
+    baseTier = "ELT";
+  } else if (inputs.doors > 128 || inputs.users > 50000 || inputs.operators > 20 || inputs.hasAdvancedAC) {
+    baseTier = "ENT";
+  } else if (inputs.doors > 32 || inputs.users > 1000 || inputs.operators > 10) {
+    baseTier = "ADV";
+  } else if (inputs.doors > 5 || inputs.users > 100 || inputs.operators > 1) {
+    baseTier = "ESS";
+  }
+
+  // 2. Lógica de Add-ons (Ejemplo VMS)
+  if (inputs.needsVideo) {
+    additionalItems.push({
+      id: "BIOSTARX-ADD-VMS",
+      qty: inputs.videoChannels,
+      name: "BioStar X Video Management License"
+    });
+  }
+
+  // ... (Resto de la lógica de negocio)
+  
+  return { baseTier, additionalItems };
+};
