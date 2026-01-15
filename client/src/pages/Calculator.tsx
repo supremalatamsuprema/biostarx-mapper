@@ -165,7 +165,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
           <DeviceLicenses inputs={inputs} onChange={setInputs} />
         </div>
 
-        <div className="hidden xl:block w-[32%]">
+        <div className="hidden xl:block w-[32%] self-start">
           <BomSidebar 
             calculatedBOM={calculatedBOM}
             onGenerateReport={() => setShowReport(true)}

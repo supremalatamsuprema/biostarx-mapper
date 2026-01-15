@@ -14,7 +14,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport }: BomSidebarProps)
   const totalItems = bom.reduce((acc, item) => acc + item.qty, 0);
 
   return (
-    <div className="sticky top-6 print:hidden">
+    <div className="sticky top-6 z-50 print:hidden">
       <GlassCard className="overflow-hidden">
         <div className="bg-gradient-to-br from-[#00C2FF] via-[#0047FF] to-[#FF00E5] p-6 sm:p-8">
           <div className="flex items-center gap-3 mb-4">
