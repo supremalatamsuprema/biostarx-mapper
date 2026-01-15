@@ -42,6 +42,10 @@ Preferred communication style: Simple, everyday language.
 - **Component modularity**: Feature toggles, numeric inputs, and form sections as reusable components
 - **Print-ready reports**: Modal-based report generation with print styling
 - **Design compliance**: All components use rounded-md, hover-elevate utility for interactions, no custom hover states on buttons/interactive elements
+- **Dark/Light mode**: ThemeToggle component with localStorage persistence ('biostarx-theme') and system preference detection
+- **Draft persistence**: Auto-save project data to localStorage ('biostarx-draft') to prevent data loss on reload
+- **CSV Export**: BOM can be exported as CSV with project metadata headers from both sidebar and report modal
+- **Tier change animation**: Visual pulse effect when recommended license tier changes
 
 ## External Dependencies
 
