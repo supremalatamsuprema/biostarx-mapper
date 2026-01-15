@@ -1,0 +1,84 @@
+Excelente elección. El stack Vite + React + TypeScript es el estándar de oro actual para este tipo de aplicaciones: es rápido, seguro y profesional.
+
+Aquí tienes el Prompt Maestro Optimizado. Está diseñado para que actúes como un "Technical Lead" y la IA de Replit actúe como tu "Senior Developer".
+
+Copia y pega el siguiente bloque completo en el chat del agente de Replit:
+
+📋 Prompt para Replit AI (Modo: Arquitectura Profesional)
+Rol: Actúa como un Senior Frontend Architect especializado en aplicaciones empresariales B2B.
+
+Misión: Tu objetivo es refactorizar y migrar un prototipo existente (archivo HTML único) hacia una Web App Profesional (SPA) utilizando un stack moderno. La aplicación es un "Calculador de Licencias (BOM Generator)" para la plataforma de seguridad BioStar X.
+
+📍 Stack Tecnológico Obligatorio:
+
+Framework: React 18
+
+Lenguaje: TypeScript (Strict Mode). Es vital para evitar errores de cálculo en las licencias.
+
+Build Tool: Vite.
+
+Estilos: Tailwind CSS (Diseño corporativo y responsive).
+
+Iconos: Lucide-React o Heroicons.
+
+📂 Archivos Fuente (Contexto): Por favor, analiza los siguientes archivos que he subido al proyecto para entender la lógica de negocio y los datos:
+
+Borrador_Calculador_SupremaBioStarX_enero2026.html: Contiene la lógica base (JS) y la estructura visual actual. Úsalo para entender el flujo del usuario.
+
+BioStarX_Mapper_Technical_Specification.md: Contiene las reglas estrictas de los "Tiers" (Starter, Essential, etc.) y límites de dispositivos. Esta es la verdad absoluta para la lógica.
+
+Biostar X_Part Numbers (1).xlsx - Part Numbers.csv: Contiene los SKUs (Códigos de parte) reales.
+
+Licenciamiento BioStar X Vs BioStar 2.pdf: Úsalo para entender las reglas de equivalencia en el modo "Migración".
+
+⚙️ Instrucciones de Arquitectura y Desarrollo:
+
+1. Estructura de Carpetas (Clean Architecture): No quiero todo el código en App.tsx. Organiza el proyecto así:
+
+src/data/: Crea un archivo partNumbers.ts. IMPORTANTE: Extrae los datos del CSV adjunto y conviértelos en un objeto constante (JSON/Array) exportable dentro de este archivo. No leas el CSV en tiempo de ejecución; "hardcodea" los datos del CSV aquí para mayor velocidad.
+
+src/types/: Define interfaces TypeScript para LicenseTier, Addon, BomItem, ProjectSettings.
+
+src/hooks/: Crea un hook personalizado useLicenseCalculator.ts que aísle toda la matemática y lógica de selección de licencias.
+
+src/components/: Componentes modulares (ej: Layout, DisclaimerModal, InputGroup, BomSummary, MigrationWizard).
+
+2. Funcionalidad Crítica:
+
+Modo Dual: Implementa un selector al inicio: "Nuevo Proyecto" vs "Migración BioStar 2".
+
+Lógica de Negocio:
+
+Si el usuario ingresa > 5 puertas → Tier cambia automáticamente a Essential (o superior según las reglas del .md).
+
+Implementa las reglas de "Migración": Si el usuario selecciona una licencia antigua de BioStar 2, el sistema debe sugerir la equivalente en BioStar X según el PDF adjunto.
+
+Validación: Impide números negativos. Campos requeridos marcados en rojo.
+
+3. Requerimiento de Seguridad (Disclaimer):
+
+Al iniciar la app, debe aparecer un Modal Bloqueante (Overlay).
+
+Texto: "Esta herramienta es una guía de ayuda para preventa. Los resultados son estimaciones y requieren validación oficial de Suprema. El software se entrega 'tal cual'."
+
+El usuario debe hacer clic en "Aceptar y Entender" para acceder a la calculadora.
+
+4. UI/UX (Diseño):
+
+Usa una paleta de colores corporativa: Rojo Suprema (#A12944), Gris Oscuro (#1F2937) y Blanco.
+
+El "Resumen de Licencias" (BOM) debe estar siempre visible o accesible fácilmente (Sticky Sidebar en Desktop, Bottom Sheet en Móvil).
+
+Botón de acción principal: "Exportar Resumen" (debe abrir una vista de impresión limpia o generar un PDF simple).
+
+🚀 Tu Tarea Ahora:
+
+Configura el entorno Vite + React + TS.
+
+Genera las interfaces de TypeScript (src/types).
+
+Crea el archivo de datos (src/data/partNumbers.ts) extrayendo la info del CSV.
+
+Escribe el código de los componentes y la lógica.
+
+Comienza analizando el CSV y el Markdown para definir las interfaces de datos.

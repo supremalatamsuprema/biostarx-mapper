@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioStar X Mapper - Suprema Inc.</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React/Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Google Fonts: Montserrat (Headings) & Noto Sans (Body) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Noto+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --suprema-red: #A12944;
+            --bx-blue: #0047FF;
+            --bx-gradient: linear-gradient(135deg, #00C2FF 0%, #0047FF 50%, #FF00E5 100%);
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .brand-font {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .bg-suprema-red {
+            background-color: var(--suprema-red);
+        }
+
+        .text-suprema-red {
+            color: var(--suprema-red);
+        }
+
+        .border-suprema-red {
+            border-color: var(--suprema-red);
+        }
+
+        .bx-gradient-bg {
+            background: var(--bx-gradient);
+        }
+
+        .bx-gradient-text {
+            background: var(--bx-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pill-button {
+            border-radius: 60px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .pill-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(161, 41, 68, 0.3);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .sticky-sidebar {
+            position: sticky;
+            top: 1.5rem;
+            height: calc(100vh - 3rem);
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            .print-content {
+                width: 100% !important;
+                border: none !important;
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#F3F4F6] text-[#111827]">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+
+        // --- DATA ---
+        const LICENSE_TIERS = [
+            { id: 'BIOSTARX-STR', name: 'Starter', maxDoors: 5, maxUsers: 100, maxOperators: 1, desc: 'Pequeños sitios.' },
+            { id: 'BIOSTARX-ESS', name: 'Essential', maxDoors: 32, maxUsers: 1000, maxOperators: 10, desc: 'PyMEs con expansión.' },
+            { id: 'BIOSTARX-ADV', name: 'Advanced', maxDoors: 128, maxUsers: 50000, maxOperators: 20, desc: 'Profesional & Mapas.' },
+            { id: 'BIOSTARX-ENT', name: 'Enterprise', maxDoors: 500, maxUsers: 100000, maxOperators: 40, desc: 'Todo incluido.' },
+            { id: 'BIOSTARX-ELT', name: 'Elite', maxDoors: 2000, maxUsers: 500000, maxOperators: 100, desc: 'Alta capacidad.' }
+        ];
+
+        const ADDONS = {
+            VISITOR: { id: 'BIOSTARX-ADD-VIS', name: 'Visitor Management' },
+            TNA_STD: { id: 'BIOSTARX-ADD-TNA-STD', name: 'T&A Standard' },
+            TNA_ENT: { id: 'BIOSTARX-ADD-TNA-ENT', name: 'T&A Enterprise' },
+            MOBILE: { id: 'BIOSTARX-ADD-MOB', name: 'Mobile App Support' },
+            VIDEO: { id: 'BIOSTARX-ADD-VID', name: 'Video Channel' },
+            API: { id: 'BIOSTARX-ADD-API', name: 'API Tech Support' },
+            DIR: { id: 'BIOSTARX-ADD-DIR', name: 'Directory (AD/LDAP)' },
+            RAC: { id: 'BIOSTARX-ADD-RAC', name: 'Remote Access (Annual)' },
+            ADV_AC: { id: 'BIOSTARX-PKG-AAC', name: 'Advanced AC Package' },
+            DOOR_UP: { id: 'BIOSTARX-UP-DOR', name: 'Upgr: +32 Doors' },
+            OP_UP: { id: 'BIOSTARX-UP-OPR', name: 'Upgr: +5 Ops' },
+            USR_UP: { id: 'BIOSTARX-UP-USR', name: 'Upgr: 5k Users (Ess)' },
+            DEV_QR: { id: 'QR-LICENSE', name: 'Camera QR license' },
+            DEV_WL: { id: 'WL-LICENSE', name: 'Wireless Lock' },
+            EVT_API: { id: 'BIOSTARX-ADD-EVT', name: 'Event API License' }
+        };
+
+        const CLIENT_TYPES = ["Integrador", "Dealer", "Distribuidor", "Cliente Final"];
+        const DISCLAIMER = `Códigos de parte para consideración de compra BioStar X. Contacto: latam@supremainc.com`;
+
+        // --- COMPONENTS ---
+        const NumericInput = ({ label, value, onChange, prefix = "" }) => {
+            const [display, setDisplay] = useState(value === 0 ? '' : value.toString());
+            useEffect(() => { setDisplay(value === 0 ? '' : value.toString()); }, [value]);
+            return (
+                <div className="flex flex-col gap-1.5 focus-within:scale-[1.02] transition-transform">
+                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">{label}</label>
+                    <div className="flex items-center">
+                        {prefix && <span className="text-gray-400 font-bold mr-1">{prefix}</span>}
+                        <input type="number" className="w-full border-b-2 border-gray-100 bg-transparent py-1.5 outline-none focus:border-suprema-red font-bold text-lg transition-colors placeholder-gray-200" value={display} onChange={e => { setDisplay(e.target.value); onChange(parseInt(e.target.value) || 0); }} placeholder="0" />
+                    </div>
+                </div>
+            );
+        };
+
+        const FileField = ({ label, onChange, fileName, accept }) => (
+            <div className="p-4 bg-white/50 border border-gray-100 rounded-2xl flex flex-col gap-2">
+                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block">{label}</label>
+                <input type="file" accept={accept} onChange={e => onChange(e.target.files[0]?.name)} className="text-[9px] text-gray-400 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[9px] file:font-bold file:bg-[#111827] file:text-white cursor-pointer" />
+                {fileName && <p className="text-[8px] text-green-600 font-bold truncate">✓ {fileName}</p>}
+            </div>
+        );
+
+        const FeatureToggle = ({ label, checked, onChange, isPrimary = false }) => (
+            <label className={`flex items-center gap-3 p-3 rounded-2xl border-2 transition-all cursor-pointer ${checked ? (isPrimary ? 'border-suprema-red bg-red-50/20' : 'border-[#111827] bg-gray-50') : 'border-gray-50 hover:border-gray-100'}`}>
+                <input type="checkbox" className={`w-4 h-4 rounded-full ${isPrimary ? 'accent-suprema-red' : 'accent-[#111827]'}`} checked={checked} onChange={e => onChange(e.target.checked)} />
+                <span className={`text-[10px] uppercase tracking-wider font-black ${checked ? 'text-[#111827]' : 'text-gray-400'}`}>{label}</span>
+            </label>
+        );
+
+        // --- MAIN APP ---
+        function App() {
+            const [isLanding, setIsLanding] = useState(true);
+            const [meta, setMeta] = useState({
+                projectName: '', client: '', clientType: 'Integrador', country: '',
+                contactFirst: '', contactLast: '', phone: '', email: '', authorized: false,
+                bs2Version: '', activationCode: '',
+                dashboardFile: '', versionFile: '', licenseFile: '',
+                hardwareChecked: false
+            });
+            const [inputs, setInputs] = useState({ scenario: '', users: 0, doors: 0, devices: 0, operators: 1, video: 0, qr: 0, wireless: 0, tnaUsers: 0 });
+            const [features, setFeatures] = useState({
+                globalApb: false, fire: false, elevator: false, interlock: false, intrusion: false, mustering: false, occupancy: false,
+                maps: false, tna: false, visitor: false, mobile: false, api: false, directory: false, remote: false, eventApi: false
+            });
+            const [showReport, setShowReport] = useState(false);
+
+            const calculatedBOM = useMemo(() => {
+                const bom = [];
+                const reqD = inputs.doors;
+                const reqU = inputs.users;
+                const reqO = inputs.operators;
+
+                // Check for Advanced AC triggers
+                const needsAdvPkg = features.globalApb || features.fire || features.elevator || features.interlock || features.intrusion || features.mustering || features.occupancy;
+
+                // Tier Determination
+                let candidates = [...LICENSE_TIERS];
+
+                // Migration safeguard: Suggest at least Essential for migrations
+                if (inputs.scenario === 'migration') {
+                    candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR');
+                }
+
+                // Filtering by Features: Advanced AC and Maps require Advanced or higher
+                if (needsAdvPkg || features.maps) {
+                    candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-ESS');
+                }
+
+                // Initial candidate based on core limits (Users and Operators)
+                let selected = candidates.find(t => reqU <= t.maxUsers && reqO <= t.maxOperators) || candidates[candidates.length - 1];
+
+                // If doors exceed base max, we check if it's within the upgradeable range or if we need a higher tier
+                // Essential can be upgraded up to 32 doors (+0 upgrade), Advanced up to 128, Enterprise up to 500, Elite up to 2000.
+                // However, ifReqD is higher than the current selected tier's capacity (including potential upgrades), we move up.
+                // For this logic, we'll assume the user wants the most cost-effective tier that supports the volume.
+
+                if (reqD > selected.maxDoors) {
+                    // Check if the next tier is actually required or if door upgrades on current tier are enough
+                    // But typically, if doors > tier_max, we should consider if a higher tier is more appropriate.
+                    // For BioStar X, upgrades usually come in packs of 32.
+                    // Let's find the first tier where reqD is <= its maxDoors OR it's Elite.
+                    const tierByDoors = candidates.find(t => reqD <= t.maxDoors) || candidates[candidates.length - 1];
+
+                    // If the tier required by doors is higher than the one required by users/ops, use it.
+                    const currentIndex = LICENSE_TIERS.findIndex(t => t.id === selected.id);
+                    const doorIndex = LICENSE_TIERS.findIndex(t => t.id === tierByDoors.id);
+                    if (doorIndex > currentIndex) {
+                        selected = tierByDoors;
+                    }
+                }
+
+                // Add Base License
+                bom.push({ id: selected.id, name: `BioStar X ${selected.name}`, qty: 1 });
+
+                // Upgrades
+                // User Upgrades (Specific to Essential)
+                if (selected.id === 'BIOSTARX-ESS' && reqU > 1000) {
+                    const uGap = reqU - 1000;
+                    bom.push({ ...ADDONS.USR_UP, qty: Math.ceil(uGap / 5000) }); // Assuming 5k packs as per ID
+                }
+
+                // Door Upgrades
+                const dGap = Math.max(0, reqD - selected.maxDoors);
+                if (dGap > 0) {
+                    bom.push({ ...ADDONS.DOOR_UP, qty: Math.ceil(dGap / 32) });
+                }
+
+                // Operator Upgrades
+                const oGap = Math.max(0, reqO - selected.maxOperators);
+                if (oGap > 0) {
+                    bom.push({ ...ADDONS.OP_UP, qty: Math.ceil(oGap / 5) });
+                }
+
+                // Packages & Addons
+                if (needsAdvPkg && selected.id !== 'BIOSTARX-ENT' && selected.id !== 'BIOSTARX-ELT') {
+                    bom.push({ ...ADDONS.ADV_AC, qty: 1 });
+                }
+
+                if (features.visitor) bom.push({ ...ADDONS.VISITOR, qty: 1 });
+
+                if (features.tna) {
+                    const tnaUsers = inputs.tnaUsers || reqU;
+                    bom.push({ ...(tnaUsers > 500 ? ADDONS.TNA_ENT : ADDONS.TNA_STD), qty: 1 });
+                }
+
+                if (features.mobile) bom.push({ ...ADDONS.MOBILE, qty: 1 });
+                if (features.api) bom.push({ ...ADDONS.API, qty: 1 });
+                if (features.directory) bom.push({ ...ADDONS.DIR, qty: 1 });
+                if (features.remote) bom.push({ ...ADDONS.RAC, qty: 1 });
+                if (features.eventApi) bom.push({ ...ADDONS.EVT_API, qty: 1 });
+
+                // Device Licenses
+                if (inputs.video > 0) bom.push({ ...ADDONS.VIDEO, qty: inputs.video });
+                if (inputs.qr > 0) bom.push({ ...ADDONS.DEV_QR, qty: inputs.qr });
+                if (inputs.wireless > 0) bom.push({ ...ADDONS.DEV_WL, qty: inputs.wireless });
+
+                return { bom, selected };
+            }, [inputs, features]);
+
+            if (isLanding) return (
+                <div className="min-h-screen bg-white relative overflow-hidden flex flex-col items-center justify-center p-8">
+                    {/* Abstract Background Element */}
+                    <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bx-gradient-bg blur-[200px] opacity-10 rounded-full"></div>
+
+                    <div className="max-w-5xl w-full relative z-10 animate-fadeIn space-y-16">
+                        {/* Header */}
+                        <div className="text-left space-y-6 max-w-3xl">
+                            <img src="https://www.supremainc.com/es/images/logo.png" className="h-8 mb-4 grayscale opacity-80" />
+                            <h1 className="text-6xl font-black text-suprema-red tracking-tight leading-none mb-4">Bienvenido a<br />BioStar X Mapper</h1>
+                            <p className="text-gray-500 text-lg font-medium leading-relaxed">
+                                BioStar X Mapper es una herramienta diseñada para facilitar el cálculo y la selección correcta del licenciamiento de BioStar X. A través de este tool, es posible identificar de manera rápida y precisa las licencias necesarias según el tamaño, alcance y configuración de cada proyecto, evitando sobrecostos o configuraciones incorrectas.
+                            </p>
+                        </div>
+
+                        {/* Scenario Selection Cards */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+                            {/* New Project Card */}
+                            <div className="group bg-[#F8FAFC] p-10 rounded-[3rem] border border-gray-100 hover:border-suprema-red transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/5 cursor-pointer flex flex-col items-start" onClick={() => { setInputs({ ...inputs, scenario: 'new' }); setIsLanding(false); }}>
+                                <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-8 border border-gray-50 group-hover:scale-110 transition-transform duration-500">
+                                    <svg className="w-8 h-8 text-[#111827]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                </div>
+                                <h2 className="text-3xl font-black text-[#111827] mb-4 group-hover:text-suprema-red transition-colors">Proyecto Nuevo</h2>
+                                <p className="text-gray-500 text-sm font-medium leading-relaxed mb-10">
+                                    Implementación desde cero (Greenfield) diseñada nativamente para BioStar X.
+                                </p>
+                                <button className="pill-button bg-[#111827] text-white px-8 py-4 text-xs font-black tracking-widest group-hover:bg-suprema-red transition-all">INICIAR CONFIGURACIÓN</button>
+                            </div>
+
+                            {/* Migration Card */}
+                            <div className="group bg-[#F8FAFC] p-10 rounded-[3rem] border border-gray-100 hover:border-blue-600 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/5 cursor-pointer flex flex-col items-start" onClick={() => { setInputs({ ...inputs, scenario: 'migration' }); setIsLanding(false); }}>
+                                <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-8 border border-gray-50 group-hover:scale-110 transition-transform duration-500">
+                                    <svg className="w-8 h-8 text-[#111827]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                    </svg>
+                                </div>
+                                <h2 className="text-3xl font-black text-[#111827] mb-4 group-hover:text-blue-600 transition-colors">Migración BioStar 2</h2>
+                                <p className="text-gray-500 text-sm font-medium leading-relaxed mb-10">
+                                    Actualización de un sistema existente (Legacy) a la nueva plataforma.
+                                </p>
+                                <button className="pill-button bg-[#111827] text-white px-8 py-4 text-xs font-black tracking-widest group-hover:bg-blue-600 transition-all">GESTIONAR UPGRADE</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            return (
+                <div className="min-h-screen p-4 lg:p-10 max-w-[1680px] mx-auto animate-fadeIn">
+                    <header className="flex justify-between items-center mb-10 no-print">
+                        <div className="flex items-center gap-8">
+                            <img src="https://www.supremainc.com/es/images/logo.png" className="h-6 grayscale opacity-80" />
+                            <div className="h-8 w-px bg-gray-200"></div>
+                            <h2 className="text-xl font-black uppercase tracking-tighter">BioStar <span className="text-suprema-red italic">X</span> Mapper</h2>
+                        </div>
+
+                        <div className="flex gap-4 items-center">
+                            <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Escenario: {inputs.scenario === 'migration' ? 'Migración' : 'Nuevo'}</span>
+                            <button onClick={() => setIsLanding(true)} className="pill-button border-2 border-gray-100 px-6 py-2 text-[10px] font-black tracking-widest text-gray-400 hover:border-suprema-red hover:text-suprema-red transition-all">REINICIAR</button>
+                        </div>
+                    </header>
+
+                    <div className="flex flex-col xl:flex-row gap-12 items-start">
+                        {/* MAIN CONTENT AREA */}
+                        <div className="w-full xl:w-[68%] no-print space-y-8">
+
+                            {/* SECTION 1: IDENTIFICATION */}
+                            <section className="bg-white p-12 rounded-[3.5rem] shadow-sm border border-gray-50/50">
+                                <h3 className="text-2xl font-black text-[#111827] mb-8">Identificación del Proyecto</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+                                    {/* Project Sub-section */}
+                                    <div className="space-y-8">
+                                        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-300 pb-2 border-b border-gray-50">Detalles del Proyecto</h4>
+                                        <div className="space-y-6">
+                                            <div className="space-y-1">
+                                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Nombre del Proyecto</label>
+                                                <input className="w-full border-b-2 border-gray-100 p-2 font-bold text-lg focus:border-suprema-red outline-none transition-all" value={meta.projectName} onChange={e => setMeta({ ...meta, projectName: e.target.value })} />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Cliente Final / Empresa</label>
+                                                <input className="w-full border-b-2 border-gray-100 p-2 font-bold text-lg focus:border-suprema-red outline-none transition-all" value={meta.client} onChange={e => setMeta({ ...meta, client: e.target.value })} />
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-6">
+                                                <div className="space-y-1">
+                                                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">País / Región</label>
+                                                    <input className="w-full border-b-2 border-gray-100 p-2 font-bold text-lg focus:border-suprema-red outline-none transition-all" value={meta.country} onChange={e => setMeta({ ...meta, country: e.target.value })} />
+                                                </div>
+                                                <div className="flex flex-col border-b-2 border-gray-100 focus-within:border-suprema-red transition-all">
+                                                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Tipo de Cliente</label>
+                                                    <select className="bg-transparent p-2 font-bold text-lg outline-none cursor-pointer" value={meta.clientType} onChange={e => setMeta({ ...meta, clientType: e.target.value })}>
+                                                        {CLIENT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Contact Sub-section */}
+                                    <div className="space-y-8">
+                                        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-300 pb-2 border-b border-gray-50">Datos del Contacto</h4>
+                                        <div className="space-y-6">
+                                            <div className="grid grid-cols-2 gap-6">
+                                                <div className="space-y-1">
+                                                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Nombre</label>
+                                                    <input className="w-full border-b-2 border-gray-100 p-2 font-bold text-lg focus:border-suprema-red outline-none transition-all" value={meta.contactFirst} onChange={e => setMeta({ ...meta, contactFirst: e.target.value })} />
+                                                </div>
+                                                <div className="space-y-1">
+                                                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Apellido</label>
+                                                    <input className="w-full border-b-2 border-gray-100 p-2 font-bold text-lg focus:border-suprema-red outline-none transition-all" value={meta.contactLast} onChange={e => setMeta({ ...meta, contactLast: e.target.value })} />
+                                                </div>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Correo Electrónico</label>
+                                                <input className="w-full border-b-2 border-gray-100 p-2 font-bold text-lg focus:border-suprema-red outline-none transition-all" value={meta.email} onChange={e => setMeta({ ...meta, email: e.target.value })} />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Teléfono</label>
+                                                <input className="w-full border-b-2 border-gray-100 p-2 font-bold text-lg focus:border-suprema-red outline-none transition-all" value={meta.phone} onChange={e => setMeta({ ...meta, phone: e.target.value })} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Privacy Authorization */}
+                                <div className="mt-12 p-6 bg-gray-50/50 rounded-3xl border border-gray-100">
+                                    <label className="flex items-center gap-4 cursor-pointer group">
+                                        <input type="checkbox" className="w-5 h-5 accent-suprema-red" checked={meta.authorized} onChange={e => setMeta({ ...meta, authorized: e.target.checked })} />
+                                        <div className="flex flex-col">
+                                            <span className="text-sm font-bold text-[#111827] group-hover:text-suprema-red transition-colors">Autorización de Tratamiento de Datos</span>
+                                            <p className="text-[10px] text-gray-500 mt-0.5 leading-relaxed">Acepto el tratamiento de mis datos personales según la política de privacidad de Suprema Inc.</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </section>
+
+                            {/* SECTION 1.5: MIGRATION (Conditional) */}
+                            {inputs.scenario === 'migration' && (
+                                <section className="bg-white p-12 rounded-[3.5rem] shadow-sm border border-gray-50/50 animate-fadeIn">
+                                    <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-blue-600 mb-8 pb-4 border-b border-gray-50">Validación de Migración BioStar 2</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
+                                        <div className="space-y-1">
+                                            <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Versión BioStar 2 Actual</label>
+                                            <input className="w-full border-b-2 border-gray-100 p-2 font-bold text-lg focus:border-blue-600 outline-none transition-all" placeholder="Ej: 2.9.x" value={meta.bs2Version} onChange={e => setMeta({ ...meta, bs2Version: e.target.value })} />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Código de Activación Actual</label>
+                                            <input className="w-full border-b-2 border-gray-100 p-2 font-bold text-lg focus:border-blue-600 outline-none transition-all" placeholder="XXXX-XXXX-XXXX-XXXX" value={meta.activationCode} onChange={e => setMeta({ ...meta, activationCode: e.target.value })} />
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                        <FileField label="Captura Dash BioStar 2" fileName={meta.dashboardFile} onChange={n => setMeta({ ...meta, dashboardFile: n })} accept="image/*" />
+                                        <FileField label="Captura Ayuda/Acerca de" fileName={meta.versionFile} onChange={n => setMeta({ ...meta, versionFile: n })} accept="image/*" />
+                                        <FileField label="Archivo Licencia (.lic)" fileName={meta.licenseFile} onChange={n => setMeta({ ...meta, licenseFile: n })} accept=".lic" />
+                                    </div>
+                                    <div className="p-6 bg-blue-50/30 rounded-3xl border border-blue-100">
+                                        <label className="flex items-start gap-4 cursor-pointer group">
+                                            <input type="checkbox" className="mt-1 w-5 h-5 accent-blue-600" checked={meta.hardwareChecked} onChange={e => setMeta({ ...meta, hardwareChecked: e.target.checked })} />
+                                            <div className="flex flex-col">
+                                                <span className="text-sm font-bold text-[#111827] group-hover:text-blue-600 transition-colors">Confirmación de Compatibilidad de Hardware</span>
+                                                <p className="text-[10px] text-gray-500 mt-1 leading-relaxed">Confirmo que he revisado mis equipos y <strong>no cuento con equipos de 1ra Generación</strong>.</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </section>
+                            )}
+
+                            {/* SECTION 2: DIMENSIONING */}
+                            <section className="bg-white p-12 rounded-[3.5rem] shadow-sm border border-gray-50/50">
+                                <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-gray-300 mb-10 pb-4 border-b border-gray-50">02. Dimensionamiento y Capacidad</h3>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
+                                    <NumericInput label="Usuarios Totales" value={inputs.users} onChange={v => setInputs({ ...inputs, users: v })} />
+                                    <NumericInput label="Total Puertas" value={inputs.doors} onChange={v => setInputs({ ...inputs, doors: v })} />
+                                    <NumericInput label="Total Dispositivos" value={inputs.devices} onChange={v => setInputs({ ...inputs, devices: v })} />
+                                    <NumericInput label="Operadores Simultáneos" value={inputs.operators} onChange={v => setInputs({ ...inputs, operators: v })} />
+                                </div>
+                            </section>
+
+                            {/* SECTION 3: FEATURES & ADD-ONS */}
+                            <section className="bg-white p-12 rounded-[3.5rem] shadow-sm border border-gray-50/50">
+                                <div className="flex justify-between items-start mb-10 pb-4 border-b border-gray-50">
+                                    <h3 className="text-2xl font-black text-[#111827]">Funciones y Add-ons</h3>
+                                </div>
+
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                                    {/* Advanced AC Section */}
+                                    <div className="space-y-6">
+                                        <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-suprema-red">ADVANCED AC (Paquete)</h4>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                            {[
+                                                { id: 'globalApb', label: 'Global Apb' },
+                                                { id: 'fire', label: 'Fire Zones' },
+                                                { id: 'elevator', label: 'Elevator' },
+                                                { id: 'interlock', label: 'Interlock' },
+                                                { id: 'intrusion', label: 'Intrusion' },
+                                                { id: 'mustering', label: 'Mustering' },
+                                                { id: 'occupancy', label: 'Occupancy' }
+                                            ].map(f => (
+                                                <label key={f.id} className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-xl transition-colors cursor-pointer group">
+                                                    <input type="checkbox" className="w-4 h-4 accent-suprema-red" checked={features[f.id]} onChange={e => setFeatures({ ...features, [f.id]: e.target.checked })} />
+                                                    <span className="text-[10px] font-bold text-gray-500 group-hover:text-[#111827] uppercase tracking-wider">{f.label}</span>
+                                                </label>
+                                            ))}
+                                        </div>
+                                        <p className="text-[8px] font-bold text-gray-400 italic">* Requiere licencia Base Advanced o superior.</p>
+                                    </div>
+
+                                    {/* Modules & Add-ons Section */}
+                                    <div className="space-y-6">
+                                        <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#111827]">MÓDULOS Y ADD-ONS</h4>
+                                        <div className="flex flex-col gap-2">
+                                            <FeatureToggle label="Mapas Gráficos (Requiere Advanced+)" checked={features.maps} onChange={v => setFeatures({ ...features, maps: v })} />
+                                            <FeatureToggle label="Visitantes" checked={features.visitor} onChange={v => setFeatures({ ...features, visitor: v })} />
+                                            <div className="flex flex-col">
+                                                <FeatureToggle label="Tiempo y Asistencia" checked={features.tna} onChange={v => setFeatures({ ...features, tna: v })} />
+                                                {features.tna && (
+                                                    <div className="ml-8 mt-2 animate-fadeIn p-4 bg-gray-50 rounded-2xl">
+                                                        <NumericInput label="Usuarios p/ T&A" value={inputs.tnaUsers} onChange={v => setInputs({ ...inputs, tnaUsers: v })} />
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <FeatureToggle label="Mobile Access" checked={features.mobile} onChange={v => setFeatures({ ...features, mobile: v })} />
+                                            <FeatureToggle label="Directorio Activo (AD/LDAP)" checked={features.directory} onChange={v => setFeatures({ ...features, directory: v })} />
+                                            <FeatureToggle label="Acceso Remoto / Enrolamiento" checked={features.remote} onChange={v => setFeatures({ ...features, remote: v })} />
+                                            <FeatureToggle label="API de Eventos" checked={features.eventApi} onChange={v => setFeatures({ ...features, eventApi: v })} />
+                                            <FeatureToggle label="Soporte API" checked={features.api} onChange={v => setFeatures({ ...features, api: v })} />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="mt-12 pt-12 border-t border-gray-50">
+                                    <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#111827] mb-8">LICENCIAS DE DISPOSITIVO (Opcional)</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                                        <NumericInput label="Cámaras QR (BS3/XS2)" value={inputs.qr} onChange={v => setInputs({ ...inputs, qr: v })} />
+                                        <NumericInput label="Wireless Locks (CS40)" value={inputs.wireless} onChange={v => setInputs({ ...inputs, wireless: v })} />
+                                        <div className="flex flex-col gap-2">
+                                            <div className="flex items-center justify-between">
+                                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Canales de Video</label>
+                                                <input type="checkbox" className="w-4 h-4 accent-suprema-red" checked={inputs.video > 0} onChange={e => setInputs({ ...inputs, video: e.target.checked ? 1 : 0 })} />
+                                            </div>
+                                            {inputs.video > 0 && <input type="number" className="w-full border-b-2 border-suprema-red bg-transparent py-1 font-bold text-lg outline-none" value={inputs.video} onChange={e => setInputs({ ...inputs, video: parseInt(e.target.value) || 0 })} />}
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <div className="flex justify-center pt-8 no-print">
+                                <button onClick={() => setShowReport(true)} className={`pill-button px-16 py-6 text-xs font-black tracking-[0.4em] text-white shadow-2xl ${inputs.scenario === 'migration' ? 'bg-blue-600' : 'bg-suprema-red'}`}>GENERAR REPORTE MAESTRO</button>
+                            </div>
+                        </div>
+
+                        {/* RIGHT: STICKY BOM */}
+                        <div className="w-full xl:w-[32%] sticky-sidebar no-print">
+                            <div className="bg-[#111827] text-white p-12 rounded-[4rem] shadow-4xl h-full flex flex-col relative overflow-hidden group">
+                                <div className="absolute -top-32 -right-32 w-64 h-64 bx-gradient-bg blur-[100px] opacity-20 group-hover:opacity-30 transition-opacity"></div>
+
+                                <div className="mb-12 relative z-10">
+                                    <div className="flex justify-between items-center mb-6">
+                                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-[0.5em]">Recommended BOM</span>
+                                        <span className={`text-[8px] font-black px-2 py-0.5 rounded-full border animate-pulse ${inputs.scenario === 'migration' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' : 'bg-red-500/10 text-red-500 border-red-500/20'}`}>LIVE</span>
+                                    </div>
+                                    <h4 className="text-6xl font-black text-white italic tracking-tighter mb-4 drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">{calculatedBOM.selected.name.toUpperCase()}</h4>
+                                    <p className="text-[10px] text-gray-400 font-medium tracking-wide">{calculatedBOM.selected.desc}</p>
+                                    <div className={`h-1 w-24 mt-6 ${inputs.scenario === 'migration' ? 'bg-blue-600' : 'bx-gradient-bg'}`}></div>
+                                </div>
+
+                                <div className="flex-1 overflow-y-auto space-y-6 pr-4 custom-scrollbar relative z-10">
+                                    {calculatedBOM.bom.map((item, i) => (
+                                        <div key={i} className="flex justify-between items-start animate-fadeIn border-l-2 border-white/5 hover:border-white/20 pl-4 py-2 transition-colors" style={{ animationDelay: `${i * 0.05}s` }}>
+                                            <div>
+                                                <h5 className="text-[11px] font-black uppercase tracking-widest text-white mb-1">{item.name}</h5>
+                                                <p className="text-[9px] font-mono text-gray-500 tracking-tighter">{item.id}</p>
+                                            </div>
+                                            <span className={`text-[10px] font-black px-2 py-1 rounded ${inputs.scenario === 'migration' ? 'text-blue-400 bg-blue-500/5' : 'text-suprema-red bg-red-500/5'}`}>x{item.qty}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-12 pt-10 border-t border-white/5 relative z-10">
+                                    <button onClick={() => setShowReport(true)} className="pill-button w-full py-6 bg-suprema-red text-white text-xs font-black tracking-[0.3em] shadow-[0_20px_40px_-10px_rgba(161,41,68,0.5)] active:scale-95">GENERAR REPORTE MAESTRO</button>
+                                    <p className="text-[9px] text-center text-gray-600 mt-6 font-medium italic">Válido para BioStar X ver. 1.0.0+</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* MODAL: REPORT */}
+                    {showReport && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 lg:p-12 no-print">
+                            <div className="absolute inset-0 bg-[#000]/90 backdrop-blur-sm" onClick={() => setShowReport(false)}></div>
+                            <div className="relative bg-white w-full max-w-6xl max-h-[92vh] rounded-[4rem] shadow-5xl flex flex-col overflow-hidden animate-fadeIn">
+                                <div className="p-10 border-b border-gray-50 flex justify-between items-center bg-gray-50/20">
+                                    <div>
+                                        <h3 className="text-3xl font-black italic tracking-tighter uppercase mb-1">{meta.projectName || 'PROYECTO SIN NOMBRE'}</h3>
+                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Resumen de Configuración BioStar X</p>
+                                    </div>
+                                    <button onClick={() => setShowReport(false)} className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-50 hover:bg-suprema-red hover:text-white transition-all text-2xl font-light">&times;</button>
+                                </div>
+
+                                <div className="flex-1 overflow-auto p-12 custom-scrollbar">
+                                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-10">
+                                        <div className="p-6 bg-gray-50/50 rounded-3xl">
+                                            <span className="text-[9px] font-black text-gray-400 uppercase block mb-2">Capacidad</span>
+                                            <p className="text-xs font-bold leading-relaxed">
+                                                Usuarios: {inputs.users}<br />
+                                                Puertas: {inputs.doors}<br />
+                                                Dispositivos: {inputs.devices}
+                                            </p>
+                                        </div>
+                                        <div className="p-6 bg-gray-50/50 rounded-3xl">
+                                            <span className="text-[9px] font-black text-gray-400 uppercase block mb-2">Features</span>
+                                            <p className="text-xs font-bold leading-relaxed">
+                                                {Object.entries(features).filter(([_, v]) => v).map(([k]) => k).join(', ') || 'Base License only'}
+                                            </p>
+                                        </div>
+                                        <div className="p-6 bg-gray-50/50 rounded-3xl">
+                                            <span className="text-[9px] font-black text-gray-400 uppercase block mb-2">Escenario</span>
+                                            <p className="text-xs font-bold text-suprema-red uppercase tracking-widest">{inputs.scenario === 'migration' ? 'Upgrade de BioStar 2' : 'Instalación Nueva'}</p>
+                                        </div>
+                                    </div>
+
+                                    <pre className="whitespace-pre-wrap font-mono text-[10px] leading-relaxed text-gray-700 bg-white p-12 rounded-[2.5rem] border border-gray-100 shadow-inner">
+                                        {`# BioStar X Master Pricing Report
+# Documento técnico de preventa - Suprema LATAM
+
+DETALLES DEL PROYECTO
+----------------------------------------
+PROYECTO  : ${meta.projectName || 'N/A'}
+CLIENTE   : ${meta.client || 'N/A'}
+TIPO      : ${meta.clientType}
+PAIS      : ${meta.country || 'N/A'}
+CONTACTO  : ${meta.contactFirst} ${meta.contactLast}
+EMAIL     : ${meta.email}
+TELEFONO  : ${meta.phone}
+AUTORIZADO: ${meta.authorized ? 'SI' : 'NO'}
+
+${inputs.scenario === 'migration' ? `VALIDACIÓN DE MIGRACIÓN
+----------------------------------------
+- Versión BS2 Actual: ${meta.bs2Version || 'N/A'}
+- Código Activación: ${meta.activationCode || 'N/A'}
+- Hardware 1ra Gen : ${meta.hardwareChecked ? 'VALIDADO (No hay)' : 'PENDIENTE'}
+- Evidencias:
+  * Dash: ${meta.dashboardFile || 'No adjunto'}
+  * Vers: ${meta.versionFile || 'No adjunto'}
+  * Lic : ${meta.licenseFile || 'No adjunto'}` : ''}
+
+DIMENSIONAMIENTO
+----------------------------------------
+- Usuarios    : ${inputs.users}
+- Puertas     : ${inputs.doors}
+- Equipos     : ${inputs.devices}
+- Operadores  : ${inputs.operators}
+- Video/QR/WL : ${inputs.video} / ${inputs.qr} / ${inputs.wireless}
+
+BILL OF MATERIALS (BOM)
+----------------------------------------
+| Part Number          | Descripción                    | QTY |
+| :---                 | :---                           | :--- |
+${calculatedBOM.bom.map(item => `| ${item.id.padEnd(20)} | ${item.name.padEnd(30)} | ${item.qty.toString().padStart(3)} |`).join('\n')}
+
+-------
+DISCLAIMER:
+${DISCLAIMER}`}
+                                    </pre>
+                                </div>
+
+                                <div className="p-10 bg-gray-50/10 border-t border-gray-50 flex gap-6">
+                                    <button onClick={() => window.print()} className="pill-button flex-1 py-5 bg-suprema-red text-white font-black text-[11px] tracking-[0.2em] shadow-xl shadow-red-500/20">IMPRIMIR / PDF</button>
+                                    <button onClick={() => { navigator.clipboard.writeText(document.querySelector('pre').innerText); alert('Copiado al portapapeles'); }} className="pill-button flex-1 py-5 border-2 border-[#111827] text-[#111827] font-black text-[11px] tracking-[0.2em] hover:bg-[#111827] hover:text-white transition-all">COPIAR TEXTO</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
