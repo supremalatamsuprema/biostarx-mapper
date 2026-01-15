@@ -56,17 +56,17 @@ Component gaps: `gap-4` standard, `gap-6` for major sections
 ## Component Library
 
 ### Glass Cards
-- Background: `rgba(255, 255, 255, 0.8)`
+- Background: `rgba(255, 255, 255, 0.8)` with backdrop blur
 - Backdrop blur: `12px`
 - Border: `1px solid rgba(255, 255, 255, 0.3)`
-- Border radius: `1.5rem` (24px)
+- Border radius: `rounded-md` (following global design guidelines)
 - Shadow: Soft, elevated
 
-### Pill Buttons
-- Border radius: `60px` (fully rounded)
-- Padding: `py-3 px-8`
-- Transition: `transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)`
-- Hover: `translateY(-2px)`, shadow `0 10px 20px -5px rgba(161, 41, 68, 0.3)`
+### Buttons
+- Use standard Shadcn Button component with built-in variants
+- Use `rounded-full` for pill-shaped buttons via className
+- Rely on built-in hover/active states from Button component
+- Do not apply custom padding, height, or hover styles
 
 ### Numeric Inputs
 - **Label:** 9px, uppercase, bold, gray-400, tracking-widest, positioned above
@@ -76,13 +76,13 @@ Component gaps: `gap-4` standard, `gap-6` for major sections
 
 ### Feature Toggles
 - Checkbox-based cards with border treatment
-- Default: `border-gray-50`, hover `border-gray-100`
+- Use `hover-elevate` utility class for hover states
 - Active Primary: `border-suprema-red`, `bg-red-50/20`
-- Active Secondary: `border-gray-900`, `bg-gray-50`
+- Active Secondary: `border-foreground`, `bg-muted/50`
 - Label: 10px, uppercase, tracking-wider, bold
 
 ### File Upload Fields
-- Container: White background with subtle border, rounded-2xl
+- Container: White background with subtle border, rounded-md
 - Custom file button styling: Dark background, rounded-full, 9px text
 - Success indicator: Green checkmark with truncated filename
 
@@ -117,7 +117,7 @@ Each section wrapped in glass card with:
 
 ### Modal (Report & Disclaimer)
 - Overlay: `backdrop-blur-sm bg-black/50`
-- Modal container: `max-w-4xl`, white background, rounded-3xl
+- Modal container: `max-w-4xl`, white background, rounded-md
 - Print-friendly styling with `.no-print` class
 
 ---
@@ -130,8 +130,8 @@ Each section wrapped in glass card with:
 
 ### Interactions
 - Input focus: Scale 1.02, 200ms
-- Button hover: Lift 2px, shadow expansion, 300ms cubic-bezier
-- Toggle activation: Border color fade, 200ms
+- Button hover: Use built-in Button component hover states (no custom hover effects)
+- Toggle activation: Use `hover-elevate` utility class
 - NO distracting micro-animations or scroll triggers
 
 ### State Changes
