@@ -4,15 +4,16 @@ import { Button } from "@/components/ui/button";
 import { FileText, Package, Download } from "lucide-react";
 import { DISCLAIMER } from "@/data/licenseData";
 import { cn } from "@/lib/utils";
-import type { CalculatedBOM } from "@/types/license";
+import type { CalculatedBOM, ProjectMeta } from "@/types/license";
 
 interface BomSidebarProps {
   calculatedBOM: CalculatedBOM;
   onGenerateReport: () => void;
   tierChanged?: boolean;
+  meta: ProjectMeta;
 }
 
-export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged }: BomSidebarProps) {
+export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta }: BomSidebarProps) {
   const { bom, selected } = calculatedBOM;
   const totalItems = bom.reduce((acc, item) => acc + item.qty, 0);
 
@@ -20,6 +21,11 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged }: Bom
     const headers = ['Part Number', 'Descripcion', 'Cantidad'];
     const rows = bom.map(item => [item.id, item.name, item.qty.toString()]);
     const csvContent = [
+      `# Proyecto: ${meta.projectName || 'Sin nombre'}`,
+      `# Cliente: ${meta.client || 'Sin especificar'}`,
+      `# Tier: BioStar X ${selected.name}`,
+      `# Fecha: ${new Date().toLocaleDateString('es-ES')}`,
+      '',
       headers.join(','),
       ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
     ].join('\n');
@@ -28,7 +34,10 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged }: Bom
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `BioStarX_BOM_${new Date().toISOString().split('T')[0]}.csv`;
+    const filename = meta.projectName?.trim() 
+      ? `BioStarX_BOM_${meta.projectName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`
+      : `BioStarX_BOM_${new Date().toISOString().split('T')[0]}.csv`;
+    link.download = filename;
     link.click();
     URL.revokeObjectURL(url);
   };

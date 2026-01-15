@@ -232,6 +232,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
             calculatedBOM={calculatedBOM}
             onGenerateReport={handleGenerateReport}
             tierChanged={tierChanged}
+            meta={meta}
           />
         </div>
       </div>
