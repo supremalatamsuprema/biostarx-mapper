@@ -8,6 +8,7 @@ import { DeviceLicenses } from "@/components/DeviceLicenses";
 import { BomSidebar } from "@/components/BomSidebar";
 import { MobileBomSheet } from "@/components/MobileBomSheet";
 import { ReportModal } from "@/components/ReportModal";
+import { DisclaimerModal } from "@/components/DisclaimerModal";
 import { LICENSE_TIERS, ADDONS } from "@/data/licenseData";
 import { useToast } from "@/hooks/use-toast";
 import type { ProjectMeta, ProjectInputs, FeatureFlags, CalculatedBOM } from "@/types/license";
@@ -37,6 +38,7 @@ function loadDraft(scenario: ProjectInputs['scenario']) {
 export function Calculator({ scenario, onReset }: CalculatorProps) {
   const { toast } = useToast();
   const [showReport, setShowReport] = useState(false);
+  const [showExportDisclaimer, setShowExportDisclaimer] = useState(false);
   const [tierChanged, setTierChanged] = useState(false);
   const prevTierRef = useRef<string>('');
   
@@ -195,6 +197,11 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
       });
       return;
     }
+    setShowExportDisclaimer(true);
+  };
+
+  const handleConfirmExport = () => {
+    setShowExportDisclaimer(false);
     setShowReport(true);
   };
 
@@ -240,6 +247,11 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
       <MobileBomSheet 
         calculatedBOM={calculatedBOM}
         onGenerateReport={handleGenerateReport}
+      />
+
+      <DisclaimerModal
+        open={showExportDisclaimer}
+        onAccept={handleConfirmExport}
       />
 
       <ReportModal
