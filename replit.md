@@ -47,6 +47,12 @@ Preferred communication style: Simple, everyday language.
 - **Draft persistence**: Auto-save project data to localStorage ('biostarx-draft') to prevent data loss on reload
 - **CSV Export**: BOM can be exported as CSV with project metadata headers from both sidebar and report modal
 - **Tier change animation**: Visual pulse effect when recommended license tier changes
+- **Multi-language support (i18n)**: Full translation support for Spanish, English, and Brazilian Portuguese
+  - **Implementation**: React Context API with I18nProvider and useI18n hook (`client/src/lib/i18n.tsx`)
+  - **Language selector**: Globe icon dropdown in header (LanguageSelector component)
+  - **Translation keys**: Organized by namespace (projectMeta.*, migration.*, capacity.*, features.*, devices.*, mobile.*, clientType.*, advancedFeature.*, bom.*, validation.*, disclaimer.*)
+  - **Persistence**: Language preference saved to localStorage key 'biostarx-language'
+  - **Date formatting**: Respects selected language (es-ES, en-US, pt-BR)
 
 ## External Dependencies
 
