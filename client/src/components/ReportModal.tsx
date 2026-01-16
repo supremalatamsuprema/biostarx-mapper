@@ -163,9 +163,9 @@ ${DISCLAIMER}
           <div className="space-y-6 print:space-y-4">
             <div className="flex items-center gap-4 pb-4 border-b border-border">
               <img 
-                src="https://www.supremainc.com/es/images/logo.png" 
+                src="/attached_assets/m_logo_Suprema_1768527453302.png" 
                 alt="Suprema Logo"
-                className="h-6 grayscale opacity-80" 
+                className="h-6" 
               />
               <div className="h-6 w-px bg-border" />
               <span className="text-sm font-heading font-bold uppercase tracking-tight">

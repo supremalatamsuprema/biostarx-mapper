@@ -18,9 +18,9 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
       <div className="max-w-5xl w-full relative z-10 space-y-12 sm:space-y-16 animate-fadeIn">
         <div className="text-left space-y-4 sm:space-y-6 max-w-3xl">
           <img 
-            src="https://www.supremainc.com/es/images/logo.png" 
+            src="/attached_assets/m_logo_Suprema_1768527453302.png" 
             alt="Suprema Logo"
-            className="h-6 sm:h-8 mb-4 grayscale opacity-80" 
+            className="h-6 sm:h-8 mb-4" 
           />
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-black text-[#A12944] tracking-tight leading-none">
             Bienvenido a<br />BioStar X Mapper
