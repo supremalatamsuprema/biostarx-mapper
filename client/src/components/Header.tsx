@@ -1,6 +1,8 @@
 import { RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { useI18n } from "@/lib/i18n";
 import type { ProjectInputs } from "@/types/license";
 
 interface HeaderProps {
@@ -9,6 +11,8 @@ interface HeaderProps {
 }
 
 export function Header({ scenario, onReset }: HeaderProps) {
+  const { t } = useI18n();
+  
   return (
     <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 sm:mb-10 print:hidden">
       <div className="flex items-center gap-4 sm:gap-8">
@@ -23,10 +27,11 @@ export function Header({ scenario, onReset }: HeaderProps) {
         </h2>
       </div>
 
-      <div className="flex gap-3 sm:gap-4 items-center">
+      <div className="flex gap-3 sm:gap-4 items-center flex-wrap">
         <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
-          Escenario: {scenario === 'migration' ? 'Migración' : 'Nuevo'}
+          {t("header.scenario")}: {scenario === 'migration' ? t("header.migration") : t("header.new")}
         </span>
+        <LanguageSelector />
         <ThemeToggle />
         <Button
           variant="outline"
@@ -36,7 +41,7 @@ export function Header({ scenario, onReset }: HeaderProps) {
           data-testid="button-reset"
         >
           <RefreshCcw className="w-3 h-3 mr-2" />
-          Reiniciar
+          {t("header.reset")}
         </Button>
       </div>
     </header>

@@ -3,6 +3,7 @@ import { FeatureToggle } from "@/components/FeatureToggle";
 import { NumericInput } from "@/components/NumericInput";
 import { ADVANCED_AC_FEATURES } from "@/data/licenseData";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useI18n } from "@/lib/i18n";
 import type { ProjectInputs, FeatureFlags } from "@/types/license";
 
 interface FeaturesSectionProps {
@@ -18,6 +19,7 @@ export function FeaturesSection({
   onInputsChange, 
   onFeaturesChange 
 }: FeaturesSectionProps) {
+  const { t } = useI18n();
   const updateFeature = <K extends keyof FeatureFlags>(field: K, value: boolean) => {
     onFeaturesChange({ ...features, [field]: value });
   };
@@ -26,14 +28,14 @@ export function FeaturesSection({
     <GlassCard className="p-8 sm:p-12">
       <div className="flex justify-between items-start mb-8 sm:mb-10 pb-4 border-b border-border">
         <h3 className="text-xl sm:text-2xl font-heading font-black text-foreground">
-          Funciones y Add-ons
+          {t("features.sectionTitle")}
         </h3>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
         <div className="space-y-4 sm:space-y-6">
           <h4 className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#A12944]">
-            Advanced AC (Paquete)
+            {t("features.advancedAC")}
           </h4>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -49,44 +51,44 @@ export function FeaturesSection({
                   data-testid={`checkbox-${f.id}`}
                 />
                 <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-                  {f.label}
+                  {t(`advancedFeature.${f.id}`)}
                 </span>
               </label>
             ))}
           </div>
           
           <p className="text-[8px] font-bold text-muted-foreground italic">
-            * Requiere licencia Base Advanced o superior.
+            {t("features.advancedNote")}
           </p>
         </div>
 
         <div className="space-y-4 sm:space-y-6">
           <h4 className="text-[11px] font-bold uppercase tracking-[0.3em] text-foreground">
-            Módulos y Add-ons
+            {t("features.modulesAddons")}
           </h4>
           
           <div className="flex flex-col gap-2">
             <FeatureToggle 
-              label="Mapas Gráficos (Requiere Advanced+)" 
+              label={t("features.graphicMaps")} 
               checked={features.maps} 
               onChange={v => updateFeature('maps', v)}
             />
             <FeatureToggle 
-              label="Visitantes" 
+              label={t("features.visitors")} 
               checked={features.visitor} 
               onChange={v => updateFeature('visitor', v)}
             />
             
             <div className="flex flex-col">
               <FeatureToggle 
-                label="Tiempo y Asistencia" 
+                label={t("features.timeAttendance")} 
                 checked={features.tna} 
                 onChange={v => updateFeature('tna', v)}
               />
               {features.tna && (
                 <div className="ml-6 sm:ml-8 mt-2 animate-fadeIn p-4 bg-muted/50 rounded-md">
                   <NumericInput 
-                    label="Usuarios p/ T&A" 
+                    label={t("features.tnaUsersLabel")} 
                     value={inputs.tnaUsers} 
                     onChange={v => onInputsChange({ ...inputs, tnaUsers: v })}
                   />
@@ -95,27 +97,27 @@ export function FeaturesSection({
             </div>
             
             <FeatureToggle 
-              label="Mobile Access" 
+              label={t("features.mobileAccess")} 
               checked={features.mobile} 
               onChange={v => updateFeature('mobile', v)}
             />
             <FeatureToggle 
-              label="API Support" 
+              label={t("features.apiSupport")} 
               checked={features.api} 
               onChange={v => updateFeature('api', v)}
             />
             <FeatureToggle 
-              label="Directorio (AD/LDAP)" 
+              label={t("features.directory")} 
               checked={features.directory} 
               onChange={v => updateFeature('directory', v)}
             />
             <FeatureToggle 
-              label="Remote Access (Anual)" 
+              label={t("features.remoteAccess")} 
               checked={features.remote} 
               onChange={v => updateFeature('remote', v)}
             />
             <FeatureToggle 
-              label="Event API License" 
+              label={t("features.eventApi")} 
               checked={features.eventApi} 
               onChange={v => updateFeature('eventApi', v)}
             />

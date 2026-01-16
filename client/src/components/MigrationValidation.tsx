@@ -1,6 +1,7 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { FileUpload } from "@/components/FileUpload";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useI18n } from "@/lib/i18n";
 import type { ProjectMeta } from "@/types/license";
 
 interface MigrationValidationProps {
@@ -9,6 +10,7 @@ interface MigrationValidationProps {
 }
 
 export function MigrationValidation({ meta, onChange }: MigrationValidationProps) {
+  const { t } = useI18n();
   const updateField = <K extends keyof ProjectMeta>(field: K, value: ProjectMeta[K]) => {
     onChange({ ...meta, [field]: value });
   };
@@ -16,17 +18,17 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
   return (
     <GlassCard className="p-8 sm:p-12 animate-fadeIn">
       <h3 className="text-[11px] font-bold uppercase tracking-[0.4em] text-[#0047FF] mb-6 sm:mb-8 pb-4 border-b border-border">
-        Validación de Migración BioStar 2
+        {t("migration.sectionTitle")}
       </h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mb-8 sm:mb-10">
         <div className="space-y-1">
           <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-            Versión BioStar 2 Actual
+            {t("migration.currentVersion")}
           </label>
           <input 
             className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#0047FF] outline-none transition-all"
-            placeholder="Ej: 2.9.x"
+            placeholder={t("migration.versionPlaceholder")}
             value={meta.bs2Version}
             onChange={e => updateField('bs2Version', e.target.value)}
             data-testid="input-bs2-version"
@@ -35,11 +37,11 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
         
         <div className="space-y-1">
           <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-            Código de Activación Actual
+            {t("migration.currentActivation")}
           </label>
           <input 
             className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#0047FF] outline-none transition-all"
-            placeholder="XXXX-XXXX-XXXX-XXXX"
+            placeholder={t("migration.activationPlaceholder")}
             value={meta.activationCode}
             onChange={e => updateField('activationCode', e.target.value)}
             data-testid="input-activation-code"
@@ -49,19 +51,19 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <FileUpload 
-          label="Captura Dash BioStar 2" 
+          label={t("migration.dashCapture")} 
           fileName={meta.dashboardFile} 
           onChange={n => updateField('dashboardFile', n)} 
           accept="image/*"
         />
         <FileUpload 
-          label="Captura Ayuda/Acerca de" 
+          label={t("migration.helpCapture")} 
           fileName={meta.versionFile} 
           onChange={n => updateField('versionFile', n)} 
           accept="image/*"
         />
         <FileUpload 
-          label="Archivo Licencia (.lic)" 
+          label={t("migration.licenseFile")} 
           fileName={meta.licenseFile} 
           onChange={n => updateField('licenseFile', n)} 
           accept=".lic"
@@ -78,10 +80,10 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
           />
           <div className="flex flex-col">
             <span className="text-sm font-bold text-foreground">
-              Confirmación de Compatibilidad de Hardware
+              {t("migration.hardwareConfirmation")}
             </span>
             <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed">
-              Confirmo que he revisado mis equipos y <strong>no cuento con equipos de 1ra Generación</strong>.
+              {t("migration.hardwareConfirmDesc")}
             </p>
           </div>
         </label>

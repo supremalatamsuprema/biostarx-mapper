@@ -1,0 +1,591 @@
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+
+export type Language = "es" | "en" | "pt";
+
+const STORAGE_KEY = "biostarx-language";
+
+interface I18nContextType {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: string) => string;
+}
+
+const I18nContext = createContext<I18nContextType | null>(null);
+
+export const translations: Record<Language, Record<string, string>> = {
+  es: {
+    "app.title": "BioStar X Mapper",
+    "app.welcome": "Bienvenido a",
+    "app.description": "BioStar X Mapper es una herramienta diseñada para facilitar el cálculo y la selección correcta del licenciamiento de BioStar X. A través de este tool, es posible identificar de manera rápida y precisa las licencias necesarias según el tamaño, alcance y configuración de cada proyecto.",
+    
+    "scenario.new": "Proyecto Nuevo",
+    "scenario.new.desc": "Implementación desde cero (Greenfield) diseñada nativamente para BioStar X.",
+    "scenario.new.button": "Iniciar Configuración",
+    "scenario.migration": "Migración BioStar 2",
+    "scenario.migration.desc": "Actualización de un sistema existente (Legacy) a la nueva plataforma.",
+    "scenario.migration.button": "Gestionar Upgrade",
+    
+    "header.scenario": "Escenario",
+    "header.new": "Nuevo",
+    "header.migration": "Migración",
+    "header.reset": "Reiniciar",
+    
+    "form.project": "Información del Proyecto",
+    "form.projectName": "Nombre del Proyecto",
+    "form.projectName.placeholder": "Ej: Torres del Norte",
+    "form.client": "Cliente",
+    "form.client.placeholder": "Nombre del cliente",
+    "form.clientType": "Tipo de Cliente",
+    "form.country": "País",
+    "form.country.placeholder": "Seleccionar país",
+    "form.contact": "Datos de Contacto",
+    "form.firstName": "Nombre",
+    "form.lastName": "Apellido",
+    "form.phone": "Teléfono",
+    "form.email": "Email",
+    "form.authorized": "Autorizado a contactar",
+    
+    "migration.title": "Validación de Migración",
+    "migration.bs2Version": "Versión BioStar 2",
+    "migration.activationCode": "Código de Activación",
+    "migration.hardware": "Hardware 1ra Gen Verificado",
+    "migration.verified": "Verificado OK",
+    "migration.notVerified": "No verificado",
+    
+    "capacity.title": "Dimensionamiento",
+    "capacity.users": "Usuarios",
+    "capacity.doors": "Puertas",
+    "capacity.devices": "Dispositivos",
+    "capacity.operators": "Operadores",
+    
+    "features.title": "Funciones Adicionales",
+    "features.advanced": "Paquete Avanzado AC",
+    "features.advanced.desc": "Funciones que requieren el paquete Advanced AC",
+    "features.integrations": "Integraciones",
+    "features.tna": "Time & Attendance",
+    "features.tnaUsers": "Usuarios T&A",
+    "features.maps": "Mapas Visuales",
+    
+    "devices.title": "Licencias de Dispositivos",
+    "devices.video": "Canales de Video",
+    "devices.qr": "Licencias QR Camera",
+    "devices.wireless": "Cerraduras Wireless",
+    
+    "bom.title": "Bill of Materials",
+    "bom.recommended": "Tier Recomendado",
+    "bom.doors": "Puertas",
+    "bom.users": "Usuarios",
+    "bom.ops": "Ops",
+    "bom.totalItems": "Total Items",
+    "bom.generate": "Generar Reporte",
+    "bom.export": "Exportar CSV",
+    
+    "report.title": "Reporte Maestro",
+    "report.projectInfo": "Información del Proyecto",
+    "report.project": "Proyecto",
+    "report.client": "Cliente",
+    "report.country": "País",
+    "report.type": "Tipo",
+    "report.scenario": "Escenario",
+    "report.contactInfo": "Datos de Contacto",
+    "report.name": "Nombre",
+    "report.email": "Email",
+    "report.phone": "Teléfono",
+    "report.migrationValidation": "Validación de Migración",
+    "report.bs2Version": "Versión BS2",
+    "report.activationCode": "Código Activación",
+    "report.hardware": "Hardware 1ra Gen",
+    "report.selectedFeatures": "Funciones Seleccionadas",
+    "report.recommendedTier": "Tier Recomendado",
+    "report.maxDoors": "Máx. Puertas",
+    "report.maxUsers": "Máx. Usuarios",
+    "report.maxOps": "Máx. Ops",
+    "report.bom": "Bill of Materials (BOM)",
+    "report.partNumber": "Part Number",
+    "report.description": "Descripción",
+    "report.quantity": "Cantidad",
+    "report.generated": "Generado",
+    "report.close": "Cerrar",
+    "report.print": "Imprimir / PDF",
+    "report.noName": "Sin nombre",
+    "report.noSpec": "Sin especificar",
+    
+    "report.purchaseNote": "A continuación, compartimos los códigos de parte correspondientes para la consideración de compra de BioStar X. Estos códigos permitirán identificar correctamente las licencias y componentes necesarios según la configuración del proyecto.",
+    "report.contactNote": "Para cualquier duda, validación o seguimiento del proceso de compra, por favor contactar a nuestro equipo de LATAM a través de",
+    "report.supportNote": "quienes con gusto les brindarán el apoyo necesario.",
+    "report.closingNote": "Quedamos atentos para acompañarlos en el proceso.",
+    
+    "disclaimer.title": "Aviso Legal",
+    "disclaimer.text": "Esta herramienta es una guía de ayuda para preventa. Los resultados son estimaciones basadas en los datos ingresados y requieren validación oficial de Suprema antes de cualquier proceso de compra.",
+    "disclaimer.note": "El software se entrega \"tal cual\" sin garantías de ningún tipo. Suprema no se hace responsable por decisiones de compra basadas únicamente en estos resultados.",
+    "disclaimer.accept": "Aceptar y Continuar",
+    
+    "validation.required": "Campo requerido",
+    "validation.projectName": "Por favor ingresa el nombre del proyecto",
+    "validation.client": "Por favor ingresa el nombre del cliente",
+    
+    "projectMeta.title": "Identificación del Proyecto",
+    "projectMeta.details": "Detalles del Proyecto",
+    "projectMeta.projectName": "Nombre del Proyecto",
+    "projectMeta.client": "Cliente Final / Empresa",
+    "projectMeta.country": "País / Región",
+    "projectMeta.clientType": "Tipo de Cliente",
+    "projectMeta.contactDetails": "Datos del Contacto",
+    "projectMeta.firstName": "Nombre",
+    "projectMeta.lastName": "Apellido",
+    "projectMeta.email": "Correo Electrónico",
+    "projectMeta.phone": "Teléfono",
+    "projectMeta.dataAuth": "Autorización de Tratamiento de Datos",
+    "projectMeta.dataAuthDesc": "Acepto el tratamiento de mis datos personales según la política de privacidad de Suprema Inc.",
+    
+    "migration.sectionTitle": "Validación de Migración BioStar 2",
+    "migration.currentVersion": "Versión BioStar 2 Actual",
+    "migration.versionPlaceholder": "Ej: 2.9.x",
+    "migration.currentActivation": "Código de Activación Actual",
+    "migration.activationPlaceholder": "XXXX-XXXX-XXXX-XXXX",
+    "migration.dashCapture": "Captura Dash BioStar 2",
+    "migration.helpCapture": "Captura Ayuda/Acerca de",
+    "migration.licenseFile": "Archivo Licencia (.lic)",
+    "migration.hardwareConfirmation": "Confirmación de Compatibilidad de Hardware",
+    "migration.hardwareConfirmDesc": "Confirmo que he revisado mis equipos y no cuento con equipos de 1ra Generación.",
+    
+    "capacity.sectionTitle": "02. Dimensionamiento y Capacidad",
+    "capacity.totalUsers": "Usuarios Totales",
+    "capacity.totalDoors": "Total Puertas",
+    "capacity.totalDevices": "Total Dispositivos",
+    "capacity.simultOperators": "Operadores Simultáneos",
+    
+    "features.sectionTitle": "Funciones y Add-ons",
+    "features.advancedAC": "Advanced AC (Paquete)",
+    "features.advancedNote": "* Requiere licencia Base Advanced o superior.",
+    "features.modulesAddons": "Módulos y Add-ons",
+    "features.graphicMaps": "Mapas Gráficos (Requiere Advanced+)",
+    "features.visitors": "Visitantes",
+    "features.timeAttendance": "Tiempo y Asistencia",
+    "features.tnaUsersLabel": "Usuarios p/ T&A",
+    "features.mobileAccess": "Mobile Access",
+    "features.apiSupport": "API Support",
+    "features.directory": "Directorio (AD/LDAP)",
+    "features.remoteAccess": "Remote Access (Anual)",
+    "features.eventApi": "Event API License",
+    
+    "devices.sectionTitle": "04. Licencias de Dispositivos",
+    "devices.videoChannels": "Canales de Video",
+    "devices.qrCameras": "Cámaras QR",
+    "devices.wirelessLocks": "Cerraduras Inalámbricas",
+    
+    "mobile.recommended": "Tier Recomendado",
+    "mobile.bomDescription": "Bill of Materials y tier recomendado para el proyecto",
+    "mobile.generateMaster": "Generar Reporte Maestro",
+    "mobile.items": "items",
+    
+    "clientType.integrator": "Integrador",
+    "clientType.dealer": "Dealer",
+    "clientType.distributor": "Distribuidor",
+    "clientType.endClient": "Cliente Final",
+    
+    "advancedFeature.globalApb": "Global APB",
+    "advancedFeature.fire": "Zonas de Incendio",
+    "advancedFeature.elevator": "Elevador",
+    "advancedFeature.interlock": "Interlock",
+    "advancedFeature.intrusion": "Intrusión",
+    "advancedFeature.mustering": "Punto de Reunión",
+    "advancedFeature.occupancy": "Ocupación"
+  },
+  en: {
+    "app.title": "BioStar X Mapper",
+    "app.welcome": "Welcome to",
+    "app.description": "BioStar X Mapper is a tool designed to facilitate the calculation and correct selection of BioStar X licensing. Through this tool, it is possible to quickly and accurately identify the necessary licenses according to the size, scope, and configuration of each project.",
+    
+    "scenario.new": "New Project",
+    "scenario.new.desc": "Greenfield implementation designed natively for BioStar X.",
+    "scenario.new.button": "Start Configuration",
+    "scenario.migration": "BioStar 2 Migration",
+    "scenario.migration.desc": "Upgrade from an existing (Legacy) system to the new platform.",
+    "scenario.migration.button": "Manage Upgrade",
+    
+    "header.scenario": "Scenario",
+    "header.new": "New",
+    "header.migration": "Migration",
+    "header.reset": "Reset",
+    
+    "form.project": "Project Information",
+    "form.projectName": "Project Name",
+    "form.projectName.placeholder": "Ex: North Towers",
+    "form.client": "Client",
+    "form.client.placeholder": "Client name",
+    "form.clientType": "Client Type",
+    "form.country": "Country",
+    "form.country.placeholder": "Select country",
+    "form.contact": "Contact Information",
+    "form.firstName": "First Name",
+    "form.lastName": "Last Name",
+    "form.phone": "Phone",
+    "form.email": "Email",
+    "form.authorized": "Authorized to contact",
+    
+    "migration.title": "Migration Validation",
+    "migration.bs2Version": "BioStar 2 Version",
+    "migration.activationCode": "Activation Code",
+    "migration.hardware": "1st Gen Hardware Verified",
+    "migration.verified": "Verified OK",
+    "migration.notVerified": "Not verified",
+    
+    "capacity.title": "Sizing",
+    "capacity.users": "Users",
+    "capacity.doors": "Doors",
+    "capacity.devices": "Devices",
+    "capacity.operators": "Operators",
+    
+    "features.title": "Additional Features",
+    "features.advanced": "Advanced AC Package",
+    "features.advanced.desc": "Features requiring the Advanced AC package",
+    "features.integrations": "Integrations",
+    "features.tna": "Time & Attendance",
+    "features.tnaUsers": "T&A Users",
+    "features.maps": "Visual Maps",
+    
+    "devices.title": "Device Licenses",
+    "devices.video": "Video Channels",
+    "devices.qr": "QR Camera Licenses",
+    "devices.wireless": "Wireless Locks",
+    
+    "bom.title": "Bill of Materials",
+    "bom.recommended": "Recommended Tier",
+    "bom.doors": "Doors",
+    "bom.users": "Users",
+    "bom.ops": "Ops",
+    "bom.totalItems": "Total Items",
+    "bom.generate": "Generate Report",
+    "bom.export": "Export CSV",
+    
+    "report.title": "Master Report",
+    "report.projectInfo": "Project Information",
+    "report.project": "Project",
+    "report.client": "Client",
+    "report.country": "Country",
+    "report.type": "Type",
+    "report.scenario": "Scenario",
+    "report.contactInfo": "Contact Information",
+    "report.name": "Name",
+    "report.email": "Email",
+    "report.phone": "Phone",
+    "report.migrationValidation": "Migration Validation",
+    "report.bs2Version": "BS2 Version",
+    "report.activationCode": "Activation Code",
+    "report.hardware": "1st Gen Hardware",
+    "report.selectedFeatures": "Selected Features",
+    "report.recommendedTier": "Recommended Tier",
+    "report.maxDoors": "Max. Doors",
+    "report.maxUsers": "Max. Users",
+    "report.maxOps": "Max. Ops",
+    "report.bom": "Bill of Materials (BOM)",
+    "report.partNumber": "Part Number",
+    "report.description": "Description",
+    "report.quantity": "Quantity",
+    "report.generated": "Generated",
+    "report.close": "Close",
+    "report.print": "Print / PDF",
+    "report.noName": "Unnamed",
+    "report.noSpec": "Not specified",
+    
+    "report.purchaseNote": "Below, we share the corresponding part codes for the consideration of BioStar X purchase. These codes will allow you to correctly identify the necessary licenses and components according to the project configuration.",
+    "report.contactNote": "For any questions, validation, or follow-up on the purchase process, please contact our LATAM team at",
+    "report.supportNote": "who will gladly provide the necessary support.",
+    "report.closingNote": "We remain attentive to accompany you in the process.",
+    
+    "disclaimer.title": "Legal Notice",
+    "disclaimer.text": "This tool is a presales guidance aid. The results are estimates based on the entered data and require official Suprema validation before any purchase process.",
+    "disclaimer.note": "The software is provided \"as is\" without warranties of any kind. Suprema is not responsible for purchase decisions based solely on these results.",
+    "disclaimer.accept": "Accept and Continue",
+    
+    "validation.required": "Required field",
+    "validation.projectName": "Please enter the project name",
+    "validation.client": "Please enter the client name",
+    
+    "projectMeta.title": "Project Identification",
+    "projectMeta.details": "Project Details",
+    "projectMeta.projectName": "Project Name",
+    "projectMeta.client": "End Client / Company",
+    "projectMeta.country": "Country / Region",
+    "projectMeta.clientType": "Client Type",
+    "projectMeta.contactDetails": "Contact Details",
+    "projectMeta.firstName": "First Name",
+    "projectMeta.lastName": "Last Name",
+    "projectMeta.email": "Email",
+    "projectMeta.phone": "Phone",
+    "projectMeta.dataAuth": "Data Processing Authorization",
+    "projectMeta.dataAuthDesc": "I accept the processing of my personal data according to Suprema Inc.'s privacy policy.",
+    
+    "migration.sectionTitle": "BioStar 2 Migration Validation",
+    "migration.currentVersion": "Current BioStar 2 Version",
+    "migration.versionPlaceholder": "Ex: 2.9.x",
+    "migration.currentActivation": "Current Activation Code",
+    "migration.activationPlaceholder": "XXXX-XXXX-XXXX-XXXX",
+    "migration.dashCapture": "BioStar 2 Dashboard Screenshot",
+    "migration.helpCapture": "Help/About Screenshot",
+    "migration.licenseFile": "License File (.lic)",
+    "migration.hardwareConfirmation": "Hardware Compatibility Confirmation",
+    "migration.hardwareConfirmDesc": "I confirm that I have reviewed my equipment and do not have 1st Generation devices.",
+    
+    "capacity.sectionTitle": "02. Sizing and Capacity",
+    "capacity.totalUsers": "Total Users",
+    "capacity.totalDoors": "Total Doors",
+    "capacity.totalDevices": "Total Devices",
+    "capacity.simultOperators": "Simultaneous Operators",
+    
+    "features.sectionTitle": "Features and Add-ons",
+    "features.advancedAC": "Advanced AC (Package)",
+    "features.advancedNote": "* Requires Advanced Base license or higher.",
+    "features.modulesAddons": "Modules and Add-ons",
+    "features.graphicMaps": "Graphic Maps (Requires Advanced+)",
+    "features.visitors": "Visitors",
+    "features.timeAttendance": "Time & Attendance",
+    "features.tnaUsersLabel": "T&A Users",
+    "features.mobileAccess": "Mobile Access",
+    "features.apiSupport": "API Support",
+    "features.directory": "Directory (AD/LDAP)",
+    "features.remoteAccess": "Remote Access (Annual)",
+    "features.eventApi": "Event API License",
+    
+    "devices.sectionTitle": "04. Device Licenses",
+    "devices.videoChannels": "Video Channels",
+    "devices.qrCameras": "QR Cameras",
+    "devices.wirelessLocks": "Wireless Locks",
+    
+    "mobile.recommended": "Recommended Tier",
+    "mobile.bomDescription": "Bill of Materials and recommended tier for the project",
+    "mobile.generateMaster": "Generate Master Report",
+    "mobile.items": "items",
+    
+    "clientType.integrator": "Integrator",
+    "clientType.dealer": "Dealer",
+    "clientType.distributor": "Distributor",
+    "clientType.endClient": "End Client",
+    
+    "advancedFeature.globalApb": "Global APB",
+    "advancedFeature.fire": "Fire Zones",
+    "advancedFeature.elevator": "Elevator",
+    "advancedFeature.interlock": "Interlock",
+    "advancedFeature.intrusion": "Intrusion",
+    "advancedFeature.mustering": "Mustering",
+    "advancedFeature.occupancy": "Occupancy"
+  },
+  pt: {
+    "app.title": "BioStar X Mapper",
+    "app.welcome": "Bem-vindo ao",
+    "app.description": "BioStar X Mapper é uma ferramenta projetada para facilitar o cálculo e a seleção correta do licenciamento BioStar X. Através desta ferramenta, é possível identificar de forma rápida e precisa as licenças necessárias de acordo com o tamanho, escopo e configuração de cada projeto.",
+    
+    "scenario.new": "Novo Projeto",
+    "scenario.new.desc": "Implementação do zero (Greenfield) projetada nativamente para BioStar X.",
+    "scenario.new.button": "Iniciar Configuração",
+    "scenario.migration": "Migração BioStar 2",
+    "scenario.migration.desc": "Atualização de um sistema existente (Legacy) para a nova plataforma.",
+    "scenario.migration.button": "Gerenciar Upgrade",
+    
+    "header.scenario": "Cenário",
+    "header.new": "Novo",
+    "header.migration": "Migração",
+    "header.reset": "Reiniciar",
+    
+    "form.project": "Informações do Projeto",
+    "form.projectName": "Nome do Projeto",
+    "form.projectName.placeholder": "Ex: Torres do Norte",
+    "form.client": "Cliente",
+    "form.client.placeholder": "Nome do cliente",
+    "form.clientType": "Tipo de Cliente",
+    "form.country": "País",
+    "form.country.placeholder": "Selecionar país",
+    "form.contact": "Dados de Contato",
+    "form.firstName": "Nome",
+    "form.lastName": "Sobrenome",
+    "form.phone": "Telefone",
+    "form.email": "Email",
+    "form.authorized": "Autorizado a contatar",
+    
+    "migration.title": "Validação de Migração",
+    "migration.bs2Version": "Versão BioStar 2",
+    "migration.activationCode": "Código de Ativação",
+    "migration.hardware": "Hardware 1ª Geração Verificado",
+    "migration.verified": "Verificado OK",
+    "migration.notVerified": "Não verificado",
+    
+    "capacity.title": "Dimensionamento",
+    "capacity.users": "Usuários",
+    "capacity.doors": "Portas",
+    "capacity.devices": "Dispositivos",
+    "capacity.operators": "Operadores",
+    
+    "features.title": "Funções Adicionais",
+    "features.advanced": "Pacote Avançado AC",
+    "features.advanced.desc": "Funções que requerem o pacote Advanced AC",
+    "features.integrations": "Integrações",
+    "features.tna": "Time & Attendance",
+    "features.tnaUsers": "Usuários T&A",
+    "features.maps": "Mapas Visuais",
+    
+    "devices.title": "Licenças de Dispositivos",
+    "devices.video": "Canais de Vídeo",
+    "devices.qr": "Licenças QR Camera",
+    "devices.wireless": "Fechaduras Wireless",
+    
+    "bom.title": "Bill of Materials",
+    "bom.recommended": "Tier Recomendado",
+    "bom.doors": "Portas",
+    "bom.users": "Usuários",
+    "bom.ops": "Ops",
+    "bom.totalItems": "Total de Itens",
+    "bom.generate": "Gerar Relatório",
+    "bom.export": "Exportar CSV",
+    
+    "report.title": "Relatório Mestre",
+    "report.projectInfo": "Informações do Projeto",
+    "report.project": "Projeto",
+    "report.client": "Cliente",
+    "report.country": "País",
+    "report.type": "Tipo",
+    "report.scenario": "Cenário",
+    "report.contactInfo": "Dados de Contato",
+    "report.name": "Nome",
+    "report.email": "Email",
+    "report.phone": "Telefone",
+    "report.migrationValidation": "Validação de Migração",
+    "report.bs2Version": "Versão BS2",
+    "report.activationCode": "Código de Ativação",
+    "report.hardware": "Hardware 1ª Geração",
+    "report.selectedFeatures": "Funções Selecionadas",
+    "report.recommendedTier": "Tier Recomendado",
+    "report.maxDoors": "Máx. Portas",
+    "report.maxUsers": "Máx. Usuários",
+    "report.maxOps": "Máx. Ops",
+    "report.bom": "Bill of Materials (BOM)",
+    "report.partNumber": "Part Number",
+    "report.description": "Descrição",
+    "report.quantity": "Quantidade",
+    "report.generated": "Gerado",
+    "report.close": "Fechar",
+    "report.print": "Imprimir / PDF",
+    "report.noName": "Sem nome",
+    "report.noSpec": "Não especificado",
+    
+    "report.purchaseNote": "A seguir, compartilhamos os códigos de peça correspondentes para a consideração de compra do BioStar X. Esses códigos permitirão identificar corretamente as licenças e componentes necessários de acordo com a configuração do projeto.",
+    "report.contactNote": "Para qualquer dúvida, validação ou acompanhamento do processo de compra, por favor entre em contato com nossa equipe LATAM através de",
+    "report.supportNote": "que terão prazer em fornecer o suporte necessário.",
+    "report.closingNote": "Permanecemos atentos para acompanhá-los no processo.",
+    
+    "disclaimer.title": "Aviso Legal",
+    "disclaimer.text": "Esta ferramenta é um guia de auxílio para pré-venda. Os resultados são estimativas baseadas nos dados inseridos e requerem validação oficial da Suprema antes de qualquer processo de compra.",
+    "disclaimer.note": "O software é fornecido \"como está\" sem garantias de qualquer tipo. A Suprema não se responsabiliza por decisões de compra baseadas exclusivamente nestes resultados.",
+    "disclaimer.accept": "Aceitar e Continuar",
+    
+    "validation.required": "Campo obrigatório",
+    "validation.projectName": "Por favor, insira o nome do projeto",
+    "validation.client": "Por favor, insira o nome do cliente",
+    
+    "projectMeta.title": "Identificação do Projeto",
+    "projectMeta.details": "Detalhes do Projeto",
+    "projectMeta.projectName": "Nome do Projeto",
+    "projectMeta.client": "Cliente Final / Empresa",
+    "projectMeta.country": "País / Região",
+    "projectMeta.clientType": "Tipo de Cliente",
+    "projectMeta.contactDetails": "Dados de Contato",
+    "projectMeta.firstName": "Nome",
+    "projectMeta.lastName": "Sobrenome",
+    "projectMeta.email": "Email",
+    "projectMeta.phone": "Telefone",
+    "projectMeta.dataAuth": "Autorização de Tratamento de Dados",
+    "projectMeta.dataAuthDesc": "Aceito o tratamento dos meus dados pessoais de acordo com a política de privacidade da Suprema Inc.",
+    
+    "migration.sectionTitle": "Validação de Migração BioStar 2",
+    "migration.currentVersion": "Versão BioStar 2 Atual",
+    "migration.versionPlaceholder": "Ex: 2.9.x",
+    "migration.currentActivation": "Código de Ativação Atual",
+    "migration.activationPlaceholder": "XXXX-XXXX-XXXX-XXXX",
+    "migration.dashCapture": "Captura do Dashboard BioStar 2",
+    "migration.helpCapture": "Captura Ajuda/Sobre",
+    "migration.licenseFile": "Arquivo de Licença (.lic)",
+    "migration.hardwareConfirmation": "Confirmação de Compatibilidade de Hardware",
+    "migration.hardwareConfirmDesc": "Confirmo que revisei meus equipamentos e não tenho dispositivos de 1ª Geração.",
+    
+    "capacity.sectionTitle": "02. Dimensionamento e Capacidade",
+    "capacity.totalUsers": "Usuários Totais",
+    "capacity.totalDoors": "Total de Portas",
+    "capacity.totalDevices": "Total de Dispositivos",
+    "capacity.simultOperators": "Operadores Simultâneos",
+    
+    "features.sectionTitle": "Funções e Add-ons",
+    "features.advancedAC": "Advanced AC (Pacote)",
+    "features.advancedNote": "* Requer licença Base Advanced ou superior.",
+    "features.modulesAddons": "Módulos e Add-ons",
+    "features.graphicMaps": "Mapas Gráficos (Requer Advanced+)",
+    "features.visitors": "Visitantes",
+    "features.timeAttendance": "Tempo e Presença",
+    "features.tnaUsersLabel": "Usuários T&A",
+    "features.mobileAccess": "Mobile Access",
+    "features.apiSupport": "API Support",
+    "features.directory": "Diretório (AD/LDAP)",
+    "features.remoteAccess": "Remote Access (Anual)",
+    "features.eventApi": "Event API License",
+    
+    "devices.sectionTitle": "04. Licenças de Dispositivos",
+    "devices.videoChannels": "Canais de Vídeo",
+    "devices.qrCameras": "Câmeras QR",
+    "devices.wirelessLocks": "Fechaduras Sem Fio",
+    
+    "mobile.recommended": "Tier Recomendado",
+    "mobile.bomDescription": "Bill of Materials e tier recomendado para o projeto",
+    "mobile.generateMaster": "Gerar Relatório Mestre",
+    "mobile.items": "itens",
+    
+    "clientType.integrator": "Integrador",
+    "clientType.dealer": "Dealer",
+    "clientType.distributor": "Distribuidor",
+    "clientType.endClient": "Cliente Final",
+    
+    "advancedFeature.globalApb": "Global APB",
+    "advancedFeature.fire": "Zonas de Incêndio",
+    "advancedFeature.elevator": "Elevador",
+    "advancedFeature.interlock": "Interlock",
+    "advancedFeature.intrusion": "Intrusão",
+    "advancedFeature.mustering": "Ponto de Encontro",
+    "advancedFeature.occupancy": "Ocupação"
+  }
+};
+
+export function I18nProvider({ children }: { children: ReactNode }) {
+  const [language, setLanguageState] = useState<Language>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved && (saved === "es" || saved === "en" || saved === "pt")) {
+        return saved as Language;
+      }
+    }
+    return "es";
+  });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, language);
+  }, [language]);
+
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+  };
+
+  const t = (key: string): string => {
+    return translations[language][key] || key;
+  };
+
+  return (
+    <I18nContext.Provider value={{ language, setLanguage, t }}>
+      {children}
+    </I18nContext.Provider>
+  );
+}
+
+export function useI18n() {
+  const context = useContext(I18nContext);
+  if (!context) {
+    throw new Error("useI18n must be used within an I18nProvider");
+  }
+  return context;
+}

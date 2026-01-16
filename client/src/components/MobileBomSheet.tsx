@@ -3,7 +3,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescri
 import { Button } from "@/components/ui/button";
 import { PillButton } from "@/components/ui/pill-button";
 import { Package, ChevronUp, FileText } from "lucide-react";
-import { DISCLAIMER } from "@/data/licenseData";
+import { useI18n } from "@/lib/i18n";
 import type { CalculatedBOM } from "@/types/license";
 
 interface MobileBomSheetProps {
@@ -15,6 +15,7 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport }: MobileBomShe
   const [open, setOpen] = useState(false);
   const { bom, selected } = calculatedBOM;
   const totalItems = bom.reduce((acc, item) => acc + item.qty, 0);
+  const { t } = useI18n();
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -27,7 +28,7 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport }: MobileBomShe
           <Package className="w-5 h-5 mr-2" />
           <span>BioStar X {selected.name}</span>
           <span className="ml-auto bg-white/20 px-3 py-1 rounded-full text-sm">
-            {totalItems} items
+            {totalItems} {t("mobile.items")}
           </span>
           <ChevronUp className="w-5 h-5 ml-2" />
         </Button>
@@ -41,13 +42,13 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport }: MobileBomShe
             </div>
             <div>
               <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
-                Tier Recomendado
+                {t("mobile.recommended")}
               </p>
               <SheetTitle className="text-xl font-heading font-black">
                 BioStar X {selected.name}
               </SheetTitle>
               <SheetDescription className="sr-only">
-                Bill of Materials y tier recomendado para el proyecto
+                {t("mobile.bomDescription")}
               </SheetDescription>
             </div>
           </div>
@@ -56,22 +57,22 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport }: MobileBomShe
         <div className="mt-4 space-y-4 overflow-y-auto max-h-[calc(80vh-200px)] custom-scrollbar">
           <div className="grid grid-cols-3 gap-2">
             <div className="bg-muted/50 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">Puertas</p>
+              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.doors")}</p>
               <p className="text-lg font-black">{selected.maxDoors}</p>
             </div>
             <div className="bg-muted/50 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">Usuarios</p>
+              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.users")}</p>
               <p className="text-lg font-black">{selected.maxUsers.toLocaleString()}</p>
             </div>
             <div className="bg-muted/50 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">Ops</p>
+              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.ops")}</p>
               <p className="text-lg font-black">{selected.maxOperators}</p>
             </div>
           </div>
 
           <div className="space-y-2">
             <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              Bill of Materials
+              {t("bom.title")}
             </h4>
             {bom.map((item, index) => (
               <div 
@@ -99,10 +100,10 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport }: MobileBomShe
             className="w-full"
           >
             <FileText className="w-4 h-4 mr-2" />
-            Generar Reporte Maestro
+            {t("mobile.generateMaster")}
           </PillButton>
           <p className="mt-3 text-[8px] text-muted-foreground leading-relaxed text-center">
-            {DISCLAIMER}
+            {t("disclaimer.note")}
           </p>
         </div>
       </SheetContent>

@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { PillButton } from "@/components/ui/pill-button";
 import { Shield, AlertTriangle } from "lucide-react";
-import { DISCLAIMER } from "@/data/licenseData";
+import { useI18n } from "@/lib/i18n";
 
 interface DisclaimerModalProps {
   open: boolean;
@@ -15,6 +15,8 @@ interface DisclaimerModalProps {
 }
 
 export function DisclaimerModal({ open, onAccept }: DisclaimerModalProps) {
+  const { t } = useI18n();
+  
   return (
     <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent 
@@ -29,7 +31,7 @@ export function DisclaimerModal({ open, onAccept }: DisclaimerModalProps) {
                 <Shield className="w-8 h-8 text-[#A12944]" />
               </div>
               <DialogTitle className="text-2xl font-heading font-black text-center">
-                Aviso Legal
+                {t("disclaimer.title")}
               </DialogTitle>
             </DialogHeader>
             
@@ -37,12 +39,12 @@ export function DisclaimerModal({ open, onAccept }: DisclaimerModalProps) {
               <div className="flex items-start gap-3 p-4 bg-amber-50 dark:bg-amber-950/30 rounded-md border border-amber-200 dark:border-amber-800">
                 <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-amber-800 dark:text-amber-200 leading-relaxed">
-                  Esta herramienta es exclusivamente para uso de preventa y estimación.
+                  {t("disclaimer.text")}
                 </p>
               </div>
               
               <DialogDescription className="text-sm text-muted-foreground leading-relaxed text-center">
-                {DISCLAIMER}
+                {t("disclaimer.note")}
               </DialogDescription>
             </div>
 
@@ -51,7 +53,7 @@ export function DisclaimerModal({ open, onAccept }: DisclaimerModalProps) {
               className="w-full"
               data-testid="button-accept-disclaimer"
             >
-              Aceptar y Continuar
+              {t("disclaimer.accept")}
             </PillButton>
           </div>
         </div>

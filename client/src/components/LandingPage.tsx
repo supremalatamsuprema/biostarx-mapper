@@ -1,6 +1,8 @@
 import { Building2, ArrowRightLeft } from "lucide-react";
 import { PillButton } from "@/components/ui/pill-button";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { useI18n } from "@/lib/i18n";
 import type { ProjectInputs } from "@/types/license";
 
 interface LandingPageProps {
@@ -8,9 +10,12 @@ interface LandingPageProps {
 }
 
 export function LandingPage({ onSelectScenario }: LandingPageProps) {
+  const { t } = useI18n();
+  
   return (
     <div className="min-h-screen bg-background relative overflow-hidden flex flex-col items-center justify-center p-4 sm:p-8">
-      <div className="absolute top-4 right-4 z-20">
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+        <LanguageSelector />
         <ThemeToggle />
       </div>
       <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-[#00C2FF] via-[#0047FF] to-[#FF00E5] blur-[200px] opacity-10 rounded-full pointer-events-none" />
@@ -23,10 +28,10 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
             className="h-6 sm:h-8 mb-4" 
           />
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-black text-[#A12944] tracking-tight leading-none">
-            Bienvenido a<br />BioStar X Mapper
+            {t("app.welcome")}<br />{t("app.title")}
           </h1>
           <p className="text-muted-foreground text-base sm:text-lg font-medium leading-relaxed">
-            BioStar X Mapper es una herramienta diseñada para facilitar el cálculo y la selección correcta del licenciamiento de BioStar X. A través de este tool, es posible identificar de manera rápida y precisa las licencias necesarias según el tamaño, alcance y configuración de cada proyecto.
+            {t("app.description")}
           </p>
         </div>
 
@@ -40,13 +45,13 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
               <Building2 className="w-7 h-7 sm:w-8 sm:h-8 text-foreground" />
             </div>
             <h2 className="text-2xl sm:text-3xl font-heading font-black text-foreground mb-3 sm:mb-4">
-              Proyecto Nuevo
+              {t("scenario.new")}
             </h2>
             <p className="text-muted-foreground text-sm font-medium leading-relaxed mb-8 sm:mb-10">
-              Implementación desde cero (Greenfield) diseñada nativamente para BioStar X.
+              {t("scenario.new.desc")}
             </p>
             <PillButton variant="secondary">
-              Iniciar Configuración
+              {t("scenario.new.button")}
             </PillButton>
           </div>
 
@@ -59,13 +64,13 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
               <ArrowRightLeft className="w-7 h-7 sm:w-8 sm:h-8 text-foreground" />
             </div>
             <h2 className="text-2xl sm:text-3xl font-heading font-black text-foreground mb-3 sm:mb-4">
-              Migración BioStar 2
+              {t("scenario.migration")}
             </h2>
             <p className="text-muted-foreground text-sm font-medium leading-relaxed mb-8 sm:mb-10">
-              Actualización de un sistema existente (Legacy) a la nueva plataforma.
+              {t("scenario.migration.desc")}
             </p>
             <PillButton variant="secondary">
-              Gestionar Upgrade
+              {t("scenario.migration.button")}
             </PillButton>
           </div>
         </div>

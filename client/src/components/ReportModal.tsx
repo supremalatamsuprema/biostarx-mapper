@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import { PillButton } from "@/components/ui/pill-button";
 import { Printer, Copy, X, CheckCircle, Download } from "lucide-react";
 import { useState } from "react";
-import { DISCLAIMER } from "@/data/licenseData";
 import { downloadCSV } from "@/lib/calc";
+import { useI18n } from "@/lib/i18n";
 import type { ProjectMeta, ProjectInputs, FeatureFlags, CalculatedBOM } from "@/types/license";
 
 interface ReportModalProps {
@@ -32,6 +32,7 @@ export function ReportModal({
 }: ReportModalProps) {
   const [copied, setCopied] = useState(false);
   const { bom, selected } = calculatedBOM;
+  const { t, language } = useI18n();
   
   const handlePrint = () => {
     window.print();
@@ -40,41 +41,41 @@ export function ReportModal({
   const handleCopy = () => {
     const bomText = bom.map(item => `${item.id} - ${item.name} x${item.qty}`).join('\n');
     const text = `
-REPORTE MAESTRO - BioStar X Mapper
+${t("report.title").toUpperCase()} - BioStar X Mapper
 ===================================
 
-PROYECTO: ${meta.projectName || 'Sin nombre'}
-CLIENTE: ${meta.client || 'Sin especificar'}
-PAÍS: ${meta.country || 'Sin especificar'}
-TIPO: ${meta.clientType}
-ESCENARIO: ${inputs.scenario === 'migration' ? 'Migración BioStar 2' : 'Proyecto Nuevo'}
+${t("report.project").toUpperCase()}: ${meta.projectName || t("report.noName")}
+${t("report.client").toUpperCase()}: ${meta.client || t("report.noSpec")}
+${t("report.country").toUpperCase()}: ${meta.country || t("report.noSpec")}
+${t("report.type").toUpperCase()}: ${meta.clientType}
+${t("report.scenario").toUpperCase()}: ${inputs.scenario === 'migration' ? t("scenario.migration") : t("scenario.new")}
 
-CONTACTO
+${t("report.contactInfo").toUpperCase()}
 --------
 ${meta.contactFirst} ${meta.contactLast}
 ${meta.email}
 ${meta.phone}
 
-DIMENSIONAMIENTO
+${t("capacity.title").toUpperCase()}
 ----------------
-Usuarios: ${inputs.users}
-Puertas: ${inputs.doors}
-Dispositivos: ${inputs.devices}
-Operadores: ${inputs.operators}
+${t("capacity.users")}: ${inputs.users}
+${t("capacity.doors")}: ${inputs.doors}
+${t("capacity.devices")}: ${inputs.devices}
+${t("capacity.operators")}: ${inputs.operators}
 
-TIER RECOMENDADO
+${t("report.recommendedTier").toUpperCase()}
 ----------------
 BioStar X ${selected.name}
-- Máx. Puertas: ${selected.maxDoors}
-- Máx. Usuarios: ${selected.maxUsers.toLocaleString()}
-- Máx. Operadores: ${selected.maxOperators}
+- ${t("report.maxDoors")}: ${selected.maxDoors}
+- ${t("report.maxUsers")}: ${selected.maxUsers.toLocaleString()}
+- ${t("report.maxOps")}: ${selected.maxOperators}
 
-BILL OF MATERIALS
+${t("report.bom").toUpperCase()}
 -----------------
 ${bomText}
 
 ---
-${DISCLAIMER}
+${t("disclaimer.note")}
     `.trim();
     
     navigator.clipboard.writeText(text);
@@ -102,10 +103,10 @@ ${DISCLAIMER}
           <DialogHeader className="mb-6 print:mb-4">
             <div className="flex items-center justify-between">
               <DialogTitle className="text-2xl sm:text-3xl font-heading font-black">
-                Reporte Maestro
+                {t("report.title")}
               </DialogTitle>
               <DialogDescription className="sr-only">
-                Resumen del proyecto y Bill of Materials calculado
+                {t("report.title")} - BioStar X
               </DialogDescription>
               <div className="flex items-center gap-2 print:hidden">
                 <Button
@@ -164,29 +165,29 @@ ${DISCLAIMER}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 print:gap-4">
               <div className="space-y-4">
                 <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground border-b border-border pb-2">
-                  Información del Proyecto
+                  {t("report.projectInfo")}
                 </h4>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Proyecto:</span>
-                    <span className="text-xs font-bold">{meta.projectName || 'Sin nombre'}</span>
+                    <span className="text-xs text-muted-foreground">{t("report.project")}:</span>
+                    <span className="text-xs font-bold">{meta.projectName || t("report.noName")}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Cliente:</span>
-                    <span className="text-xs font-bold">{meta.client || 'Sin especificar'}</span>
+                    <span className="text-xs text-muted-foreground">{t("report.client")}:</span>
+                    <span className="text-xs font-bold">{meta.client || t("report.noSpec")}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">País:</span>
-                    <span className="text-xs font-bold">{meta.country || 'Sin especificar'}</span>
+                    <span className="text-xs text-muted-foreground">{t("report.country")}:</span>
+                    <span className="text-xs font-bold">{meta.country || t("report.noSpec")}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Tipo:</span>
+                    <span className="text-xs text-muted-foreground">{t("report.type")}:</span>
                     <span className="text-xs font-bold">{meta.clientType}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Escenario:</span>
+                    <span className="text-xs text-muted-foreground">{t("report.scenario")}:</span>
                     <span className="text-xs font-bold">
-                      {inputs.scenario === 'migration' ? 'Migración BioStar 2' : 'Proyecto Nuevo'}
+                      {inputs.scenario === 'migration' ? t("scenario.migration") : t("scenario.new")}
                     </span>
                   </div>
                 </div>
@@ -194,20 +195,20 @@ ${DISCLAIMER}
 
               <div className="space-y-4">
                 <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground border-b border-border pb-2">
-                  Datos de Contacto
+                  {t("report.contactInfo")}
                 </h4>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Nombre:</span>
+                    <span className="text-xs text-muted-foreground">{t("report.name")}:</span>
                     <span className="text-xs font-bold">{meta.contactFirst} {meta.contactLast}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Email:</span>
-                    <span className="text-xs font-bold">{meta.email || 'Sin especificar'}</span>
+                    <span className="text-xs text-muted-foreground">{t("report.email")}:</span>
+                    <span className="text-xs font-bold">{meta.email || t("report.noSpec")}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Teléfono:</span>
-                    <span className="text-xs font-bold">{meta.phone || 'Sin especificar'}</span>
+                    <span className="text-xs text-muted-foreground">{t("report.phone")}:</span>
+                    <span className="text-xs font-bold">{meta.phone || t("report.noSpec")}</span>
                   </div>
                 </div>
               </div>
@@ -216,20 +217,20 @@ ${DISCLAIMER}
             {inputs.scenario === 'migration' && (
               <div className="p-4 bg-[#0047FF]/5 rounded-md border border-[#0047FF]/20">
                 <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0047FF] mb-3">
-                  Validación de Migración
+                  {t("report.migrationValidation")}
                 </h4>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Versión BS2:</span>
+                    <span className="text-xs text-muted-foreground">{t("report.bs2Version")}:</span>
                     <span className="text-xs font-bold">{meta.bs2Version || 'N/A'}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Código Activación:</span>
+                    <span className="text-xs text-muted-foreground">{t("report.activationCode")}:</span>
                     <span className="text-xs font-bold font-mono">{meta.activationCode || 'N/A'}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Hardware 1ra Gen:</span>
-                    <span className="text-xs font-bold">{meta.hardwareChecked ? 'Verificado OK' : 'No verificado'}</span>
+                    <span className="text-xs text-muted-foreground">{t("report.hardware")}:</span>
+                    <span className="text-xs font-bold">{meta.hardwareChecked ? t("migration.verified") : t("migration.notVerified")}</span>
                   </div>
                 </div>
               </div>
@@ -237,19 +238,19 @@ ${DISCLAIMER}
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/30 rounded-md">
               <div className="text-center">
-                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Usuarios</p>
+                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">{t("capacity.users")}</p>
                 <p className="text-2xl font-heading font-black text-foreground">{inputs.users.toLocaleString()}</p>
               </div>
               <div className="text-center">
-                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Puertas</p>
+                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">{t("capacity.doors")}</p>
                 <p className="text-2xl font-heading font-black text-foreground">{inputs.doors}</p>
               </div>
               <div className="text-center">
-                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Dispositivos</p>
+                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">{t("capacity.devices")}</p>
                 <p className="text-2xl font-heading font-black text-foreground">{inputs.devices}</p>
               </div>
               <div className="text-center">
-                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Operadores</p>
+                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">{t("capacity.operators")}</p>
                 <p className="text-2xl font-heading font-black text-foreground">{inputs.operators}</p>
               </div>
             </div>
@@ -257,7 +258,7 @@ ${DISCLAIMER}
             {activeFeatures.length > 0 && (
               <div className="space-y-2">
                 <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-                  Funciones Seleccionadas
+                  {t("report.selectedFeatures")}
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {activeFeatures.map(feature => (
@@ -275,21 +276,21 @@ ${DISCLAIMER}
             <div className="bg-gradient-to-br from-[#00C2FF]/10 via-[#0047FF]/10 to-[#FF00E5]/10 rounded-md p-6">
               <div className="flex items-center justify-between mb-4">
                 <h4 className="text-lg font-heading font-black">
-                  Tier Recomendado: <span className="text-[#0047FF]">BioStar X {selected.name}</span>
+                  {t("report.recommendedTier")}: <span className="text-[#0047FF]">BioStar X {selected.name}</span>
                 </h4>
               </div>
               
               <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="text-center p-3 bg-white/50 dark:bg-card/50 rounded-md">
-                  <p className="text-[8px] font-bold text-muted-foreground uppercase">Máx. Puertas</p>
+                  <p className="text-[8px] font-bold text-muted-foreground uppercase">{t("report.maxDoors")}</p>
                   <p className="text-xl font-black">{selected.maxDoors}</p>
                 </div>
                 <div className="text-center p-3 bg-white/50 dark:bg-card/50 rounded-md">
-                  <p className="text-[8px] font-bold text-muted-foreground uppercase">Máx. Usuarios</p>
+                  <p className="text-[8px] font-bold text-muted-foreground uppercase">{t("report.maxUsers")}</p>
                   <p className="text-xl font-black">{selected.maxUsers.toLocaleString()}</p>
                 </div>
                 <div className="text-center p-3 bg-white/50 dark:bg-card/50 rounded-md">
-                  <p className="text-[8px] font-bold text-muted-foreground uppercase">Máx. Ops</p>
+                  <p className="text-[8px] font-bold text-muted-foreground uppercase">{t("report.maxOps")}</p>
                   <p className="text-xl font-black">{selected.maxOperators}</p>
                 </div>
               </div>
@@ -297,14 +298,14 @@ ${DISCLAIMER}
 
             <div className="p-4 bg-[#0047FF]/5 rounded-md border border-[#0047FF]/20">
               <p className="text-xs text-foreground leading-relaxed">
-                A continuación, compartimos los códigos de parte correspondientes para la consideración de compra de BioStar X. Estos códigos permitirán identificar correctamente las licencias y componentes necesarios según la configuración del proyecto.
+                {t("report.purchaseNote")}
               </p>
               <p className="text-xs text-foreground leading-relaxed mt-3">
-                Para cualquier duda, validación o seguimiento del proceso de compra, por favor contactar a nuestro equipo de LATAM a través de{' '}
-                <a href="mailto:latam@supremainc.com" className="text-[#0047FF] font-bold hover:underline">latam@supremainc.com</a>, quienes con gusto les brindarán el apoyo necesario.
+                {t("report.contactNote")}{' '}
+                <a href="mailto:latam@supremainc.com" className="text-[#0047FF] font-bold hover:underline">latam@supremainc.com</a>, {t("report.supportNote")}
               </p>
               <p className="text-xs text-foreground leading-relaxed mt-3 font-bold">
-                Quedamos atentos para acompañarlos en el proceso.
+                {t("report.closingNote")}
               </p>
               <p className="text-xs text-[#A12944] font-bold mt-2">
                 Suprema LATAM — latam@supremainc.com
@@ -313,15 +314,15 @@ ${DISCLAIMER}
 
             <div>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4 pb-2 border-b border-border">
-                Bill of Materials (BOM)
+                {t("report.bom")}
               </h4>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-border">
-                      <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">Part Number</th>
-                      <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">Descripción</th>
-                      <th className="text-right py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">Cantidad</th>
+                      <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.partNumber")}</th>
+                      <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.description")}</th>
+                      <th className="text-right py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.quantity")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -339,21 +340,21 @@ ${DISCLAIMER}
 
             <div className="pt-4 border-t border-border">
               <p className="text-[8px] text-muted-foreground text-center leading-relaxed">
-                {DISCLAIMER}
+                {t("disclaimer.note")}
               </p>
               <p className="text-[8px] text-muted-foreground text-center mt-2">
-                Generado: {new Date().toLocaleString('es-ES')}
+                {t("report.generated")}: {new Date().toLocaleString(language === 'pt' ? 'pt-BR' : language === 'en' ? 'en-US' : 'es-ES')}
               </p>
             </div>
           </div>
 
           <div className="mt-6 flex justify-end gap-3 print:hidden">
             <Button variant="outline" onClick={onClose} className="rounded-full">
-              Cerrar
+              {t("report.close")}
             </Button>
             <PillButton onClick={handlePrint}>
               <Printer className="w-4 h-4 mr-2" />
-              Imprimir / PDF
+              {t("report.print")}
             </PillButton>
           </div>
         </div>

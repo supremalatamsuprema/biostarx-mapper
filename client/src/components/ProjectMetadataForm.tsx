@@ -1,6 +1,6 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CLIENT_TYPES } from "@/data/licenseData";
+import { useI18n } from "@/lib/i18n";
 import type { ProjectMeta } from "@/types/license";
 
 interface ProjectMetadataFormProps {
@@ -9,6 +9,7 @@ interface ProjectMetadataFormProps {
 }
 
 export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps) {
+  const { t } = useI18n();
   const updateField = <K extends keyof ProjectMeta>(field: K, value: ProjectMeta[K]) => {
     onChange({ ...meta, [field]: value });
   };
@@ -16,19 +17,19 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
   return (
     <GlassCard className="p-8 sm:p-12">
       <h3 className="text-xl sm:text-2xl font-heading font-black text-foreground mb-6 sm:mb-8">
-        Identificación del Proyecto
+        {t("projectMeta.title")}
       </h3>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 sm:gap-x-12 gap-y-8 sm:gap-y-10">
         <div className="space-y-6 sm:space-y-8">
           <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50 pb-2 border-b border-border">
-            Detalles del Proyecto
+            {t("projectMeta.details")}
           </h4>
           
           <div className="space-y-5 sm:space-y-6">
             <div className="space-y-1">
               <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-                Nombre del Proyecto
+                {t("projectMeta.projectName")}
               </label>
               <input 
                 className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#A12944] outline-none transition-all"
@@ -40,7 +41,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
             
             <div className="space-y-1">
               <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-                Cliente Final / Empresa
+                {t("projectMeta.client")}
               </label>
               <input 
                 className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#A12944] outline-none transition-all"
@@ -53,7 +54,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
             <div className="grid grid-cols-2 gap-4 sm:gap-6">
               <div className="space-y-1">
                 <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-                  País / Región
+                  {t("projectMeta.country")}
                 </label>
                 <input 
                   className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#A12944] outline-none transition-all"
@@ -65,7 +66,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
               
               <div className="flex flex-col border-b-2 border-muted focus-within:border-[#A12944] transition-all">
                 <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-                  Tipo de Cliente
+                  {t("projectMeta.clientType")}
                 </label>
                 <select 
                   className="bg-transparent p-2 font-bold text-base sm:text-lg outline-none cursor-pointer"
@@ -73,9 +74,10 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
                   onChange={e => updateField('clientType', e.target.value)}
                   data-testid="select-client-type"
                 >
-                  {CLIENT_TYPES.map(t => (
-                    <option key={t} value={t}>{t}</option>
-                  ))}
+                  <option value="Integrador">{t("clientType.integrator")}</option>
+                  <option value="Dealer">{t("clientType.dealer")}</option>
+                  <option value="Distribuidor">{t("clientType.distributor")}</option>
+                  <option value="Cliente Final">{t("clientType.endClient")}</option>
                 </select>
               </div>
             </div>
@@ -84,14 +86,14 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
 
         <div className="space-y-6 sm:space-y-8">
           <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50 pb-2 border-b border-border">
-            Datos del Contacto
+            {t("projectMeta.contactDetails")}
           </h4>
           
           <div className="space-y-5 sm:space-y-6">
             <div className="grid grid-cols-2 gap-4 sm:gap-6">
               <div className="space-y-1">
                 <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-                  Nombre
+                  {t("projectMeta.firstName")}
                 </label>
                 <input 
                   className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#A12944] outline-none transition-all"
@@ -103,7 +105,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
               
               <div className="space-y-1">
                 <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-                  Apellido
+                  {t("projectMeta.lastName")}
                 </label>
                 <input 
                   className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#A12944] outline-none transition-all"
@@ -116,7 +118,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
             
             <div className="space-y-1">
               <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-                Correo Electrónico
+                {t("projectMeta.email")}
               </label>
               <input 
                 type="email"
@@ -129,7 +131,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
             
             <div className="space-y-1">
               <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-                Teléfono
+                {t("projectMeta.phone")}
               </label>
               <input 
                 type="tel"
@@ -153,10 +155,10 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
           />
           <div className="flex flex-col">
             <span className="text-sm font-bold text-foreground">
-              Autorización de Tratamiento de Datos
+              {t("projectMeta.dataAuth")}
             </span>
             <p className="text-[10px] text-muted-foreground mt-0.5 leading-relaxed">
-              Acepto el tratamiento de mis datos personales según la política de privacidad de Suprema Inc.
+              {t("projectMeta.dataAuthDesc")}
             </p>
           </div>
         </label>

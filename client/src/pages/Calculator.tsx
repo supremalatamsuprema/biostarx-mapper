@@ -10,6 +10,7 @@ import { MobileBomSheet } from "@/components/MobileBomSheet";
 import { ReportModal } from "@/components/ReportModal";
 import { DisclaimerModal } from "@/components/DisclaimerModal";
 import { calculateBOM } from "@/lib/calc";
+import { useI18n } from "@/lib/i18n";
 import { useToast } from "@/hooks/use-toast";
 import type { ProjectMeta, ProjectInputs, FeatureFlags, CalculatedBOM } from "@/types/license";
 
@@ -37,6 +38,7 @@ function loadDraft(scenario: ProjectInputs['scenario']) {
 
 export function Calculator({ scenario, onReset }: CalculatorProps) {
   const { toast } = useToast();
+  const { t } = useI18n();
   const [showReport, setShowReport] = useState(false);
   const [showExportDisclaimer, setShowExportDisclaimer] = useState(false);
   const [tierChanged, setTierChanged] = useState(false);
@@ -113,16 +115,16 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
   const handleGenerateReport = () => {
     if (!meta.projectName.trim()) {
       toast({
-        title: "Campo requerido",
-        description: "Por favor ingresa el nombre del proyecto",
+        title: t("validation.required"),
+        description: t("validation.projectName"),
         variant: "destructive"
       });
       return;
     }
     if (!meta.client.trim()) {
       toast({
-        title: "Campo requerido", 
-        description: "Por favor ingresa el nombre del cliente",
+        title: t("validation.required"), 
+        description: t("validation.client"),
         variant: "destructive"
       });
       return;

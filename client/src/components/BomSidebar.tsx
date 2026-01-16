@@ -2,9 +2,9 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { PillButton } from "@/components/ui/pill-button";
 import { Button } from "@/components/ui/button";
 import { FileText, Package, Download } from "lucide-react";
-import { DISCLAIMER } from "@/data/licenseData";
 import { cn } from "@/lib/utils";
 import { downloadCSV, getTotalItems } from "@/lib/calc";
+import { useI18n } from "@/lib/i18n";
 import type { CalculatedBOM, ProjectMeta } from "@/types/license";
 
 interface BomSidebarProps {
@@ -17,6 +17,7 @@ interface BomSidebarProps {
 export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta }: BomSidebarProps) {
   const { bom, selected } = calculatedBOM;
   const totalItems = getTotalItems(bom);
+  const { t } = useI18n();
 
   const handleExportCSV = () => {
     downloadCSV({
@@ -43,7 +44,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
             </div>
             <div>
               <p className="text-[9px] font-bold uppercase tracking-widest text-white/70">
-                Tier Recomendado
+                {t("bom.recommended")}
               </p>
               <h3 className="text-xl sm:text-2xl font-heading font-black text-white">
                 BioStar X {selected.name}
@@ -53,15 +54,15 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
           
           <div className="grid grid-cols-3 gap-3 mt-4">
             <div className="bg-white/10 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-white/60 uppercase tracking-wider">Puertas</p>
+              <p className="text-[8px] font-bold text-white/60 uppercase tracking-wider">{t("bom.doors")}</p>
               <p className="text-lg font-black text-white">{selected.maxDoors}</p>
             </div>
             <div className="bg-white/10 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-white/60 uppercase tracking-wider">Usuarios</p>
+              <p className="text-[8px] font-bold text-white/60 uppercase tracking-wider">{t("bom.users")}</p>
               <p className="text-lg font-black text-white">{selected.maxUsers.toLocaleString()}</p>
             </div>
             <div className="bg-white/10 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-white/60 uppercase tracking-wider">Ops</p>
+              <p className="text-[8px] font-bold text-white/60 uppercase tracking-wider">{t("bom.ops")}</p>
               <p className="text-lg font-black text-white">{selected.maxOperators}</p>
             </div>
           </div>
@@ -69,7 +70,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
         
         <div className="p-6 sm:p-8">
           <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4 pb-2 border-b border-border">
-            Bill of Materials
+            {t("bom.title")}
           </h4>
           
           <div className="space-y-2 max-h-64 overflow-y-auto custom-scrollbar pr-2">
@@ -92,7 +93,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
           <div className="mt-6 pt-4 border-t border-border">
             <div className="flex justify-between items-center mb-4">
               <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-                Total Items
+                {t("bom.totalItems")}
               </span>
               <span className="text-lg font-heading font-black text-foreground">
                 {totalItems}
@@ -106,7 +107,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
                 data-testid="button-generate-report"
               >
                 <FileText className="w-4 h-4 mr-2" />
-                Generar Reporte
+                {t("bom.generate")}
               </PillButton>
               <Button
                 variant="outline"
@@ -121,7 +122,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
           </div>
           
           <p className="mt-4 text-[8px] text-muted-foreground leading-relaxed text-center">
-            {DISCLAIMER}
+            {t("disclaimer.note")}
           </p>
         </div>
       </GlassCard>
