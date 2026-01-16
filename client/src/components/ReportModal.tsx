@@ -307,6 +307,22 @@ ${DISCLAIMER}
               </div>
             </div>
 
+            <div className="p-4 bg-[#0047FF]/5 rounded-md border border-[#0047FF]/20">
+              <p className="text-xs text-foreground leading-relaxed">
+                A continuación, compartimos los códigos de parte correspondientes para la consideración de compra de BioStar X. Estos códigos permitirán identificar correctamente las licencias y componentes necesarios según la configuración del proyecto.
+              </p>
+              <p className="text-xs text-foreground leading-relaxed mt-3">
+                Para cualquier duda, validación o seguimiento del proceso de compra, por favor contactar a nuestro equipo de LATAM a través de{' '}
+                <a href="mailto:latam@supremainc.com" className="text-[#0047FF] font-bold hover:underline">latam@supremainc.com</a>, quienes con gusto les brindarán el apoyo necesario.
+              </p>
+              <p className="text-xs text-foreground leading-relaxed mt-3 font-bold">
+                Quedamos atentos para acompañarlos en el proceso.
+              </p>
+              <p className="text-xs text-[#A12944] font-bold mt-2">
+                Suprema LATAM — latam@supremainc.com
+              </p>
+            </div>
+
             <div>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4 pb-2 border-b border-border">
                 Bill of Materials (BOM)
