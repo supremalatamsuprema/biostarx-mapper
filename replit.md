@@ -33,7 +33,8 @@ Preferred communication style: Simple, everyday language.
 ### Application Structure
 - **Monorepo Layout**: Client code in `client/`, server in `server/`, shared types in `shared/`
 - **Path Aliases**: `@/` maps to client/src, `@shared/` maps to shared/
-- **License Logic**: Business rules for tier calculation in `client/src/data/licenseData.ts`
+- **Business Logic**: Pure utility functions in `client/src/lib/calc.ts` for BOM calculation and CSV export
+- **License Data**: Tier definitions and addon constants in `client/src/data/licenseData.ts`
 - **Type Definitions**: License tiers, addons, BOM items defined in `client/src/types/license.ts`
 
 ### Design Patterns

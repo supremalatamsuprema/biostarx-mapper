@@ -9,7 +9,7 @@ import { BomSidebar } from "@/components/BomSidebar";
 import { MobileBomSheet } from "@/components/MobileBomSheet";
 import { ReportModal } from "@/components/ReportModal";
 import { DisclaimerModal } from "@/components/DisclaimerModal";
-import { LICENSE_TIERS, ADDONS } from "@/data/licenseData";
+import { calculateBOM } from "@/lib/calc";
 import { useToast } from "@/hooks/use-toast";
 import type { ProjectMeta, ProjectInputs, FeatureFlags, CalculatedBOM } from "@/types/license";
 
@@ -98,77 +98,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
   }, [meta, inputs, features]);
 
   const calculatedBOM = useMemo<CalculatedBOM>(() => {
-    const bom: CalculatedBOM['bom'] = [];
-    const reqD = inputs.doors;
-    const reqU = inputs.users;
-    const reqO = inputs.operators;
-
-    const needsAdvPkg = features.globalApb || features.fire || features.elevator || 
-                        features.interlock || features.intrusion || features.mustering || 
-                        features.occupancy;
-
-    let candidates = [...LICENSE_TIERS];
-
-    if (inputs.scenario === 'migration') {
-      candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR');
-    }
-
-    if (needsAdvPkg || features.maps) {
-      candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-ESS');
-    }
-
-    let selected = candidates.find(t => reqU <= t.maxUsers && reqO <= t.maxOperators) || 
-                   candidates[candidates.length - 1];
-
-    if (reqD > selected.maxDoors) {
-      const tierByDoors = candidates.find(t => reqD <= t.maxDoors) || 
-                          candidates[candidates.length - 1];
-      const currentIndex = candidates.findIndex(t => t.id === selected.id);
-      const doorIndex = candidates.findIndex(t => t.id === tierByDoors.id);
-      if (doorIndex > currentIndex) {
-        selected = tierByDoors;
-      }
-    }
-
-    bom.push({ id: selected.id, name: `BioStar X ${selected.name}`, qty: 1 });
-
-    if (selected.id === 'BIOSTARX-ESS' && reqU > 1000) {
-      const uGap = reqU - 1000;
-      bom.push({ ...ADDONS.USR_UP, qty: Math.ceil(uGap / 5000) });
-    }
-
-    const dGap = Math.max(0, reqD - selected.maxDoors);
-    if (dGap > 0) {
-      bom.push({ ...ADDONS.DOOR_UP, qty: Math.ceil(dGap / 32) });
-    }
-
-    const oGap = Math.max(0, reqO - selected.maxOperators);
-    if (oGap > 0) {
-      bom.push({ ...ADDONS.OP_UP, qty: Math.ceil(oGap / 5) });
-    }
-
-    if (needsAdvPkg && selected.id !== 'BIOSTARX-ENT' && selected.id !== 'BIOSTARX-ELT') {
-      bom.push({ ...ADDONS.ADV_AC, qty: 1 });
-    }
-
-    if (features.visitor) bom.push({ ...ADDONS.VISITOR, qty: 1 });
-
-    if (features.tna) {
-      const tnaUsers = inputs.tnaUsers || reqU;
-      bom.push({ ...(tnaUsers > 500 ? ADDONS.TNA_ENT : ADDONS.TNA_STD), qty: 1 });
-    }
-
-    if (features.mobile) bom.push({ ...ADDONS.MOBILE, qty: 1 });
-    if (features.api) bom.push({ ...ADDONS.API, qty: 1 });
-    if (features.directory) bom.push({ ...ADDONS.DIR, qty: 1 });
-    if (features.remote) bom.push({ ...ADDONS.RAC, qty: 1 });
-    if (features.eventApi) bom.push({ ...ADDONS.EVT_API, qty: 1 });
-
-    if (inputs.video > 0) bom.push({ ...ADDONS.VIDEO, qty: inputs.video });
-    if (inputs.qr > 0) bom.push({ ...ADDONS.DEV_QR, qty: inputs.qr });
-    if (inputs.wireless > 0) bom.push({ ...ADDONS.DEV_WL, qty: inputs.wireless });
-
-    return { bom, selected };
+    return calculateBOM(inputs, features);
   }, [inputs, features]);
 
   useEffect(() => {

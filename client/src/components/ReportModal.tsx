@@ -10,6 +10,7 @@ import { PillButton } from "@/components/ui/pill-button";
 import { Printer, Copy, X, CheckCircle, Download } from "lucide-react";
 import { useState } from "react";
 import { DISCLAIMER } from "@/data/licenseData";
+import { downloadCSV } from "@/lib/calc";
 import type { ProjectMeta, ProjectInputs, FeatureFlags, CalculatedBOM } from "@/types/license";
 
 interface ReportModalProps {
@@ -82,25 +83,12 @@ ${DISCLAIMER}
   };
 
   const handleExportCSV = () => {
-    const headers = ['Part Number', 'Descripcion', 'Cantidad'];
-    const rows = bom.map(item => [item.id, item.name, item.qty.toString()]);
-    const csvContent = [
-      `# Proyecto: ${meta.projectName}`,
-      `# Cliente: ${meta.client}`,
-      `# Tier: BioStar X ${selected.name}`,
-      `# Fecha: ${new Date().toLocaleDateString('es-ES')}`,
-      '',
-      headers.join(','),
-      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
-    ].join('\n');
-    
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `BioStarX_BOM_${meta.projectName.replace(/\s+/g, '_') || 'proyecto'}_${new Date().toISOString().split('T')[0]}.csv`;
-    link.click();
-    URL.revokeObjectURL(url);
+    downloadCSV({
+      projectName: meta.projectName,
+      client: meta.client,
+      tierName: selected.name,
+      bom
+    });
   };
 
   const activeFeatures = Object.entries(features)
