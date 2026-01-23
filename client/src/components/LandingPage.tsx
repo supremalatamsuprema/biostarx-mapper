@@ -3,6 +3,7 @@ import { PillButton } from "@/components/ui/pill-button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { useI18n } from "@/lib/i18n";
+import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
 import type { ProjectInputs } from "@/types/license";
 
 interface LandingPageProps {
@@ -23,9 +24,9 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
       <div className="max-w-5xl w-full relative z-10 space-y-12 sm:space-y-16 animate-fadeIn">
         <div className="text-left space-y-4 sm:space-y-6 max-w-3xl">
           <img 
-            src="/attached_assets/m_logo_Suprema_1768527453302.png" 
+            src={logoImg} 
             alt="Suprema Logo"
-            className="h-6 sm:h-8 mb-4" 
+            className="h-6 sm:h-8 mb-4 object-contain" 
           />
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-black text-[#A12944] tracking-tight leading-none">
             {t("app.welcome")}<br />{t("app.title")}
