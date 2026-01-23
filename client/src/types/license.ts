@@ -69,4 +69,9 @@ export interface FeatureFlags {
 export interface CalculatedBOM {
   bom: BomItem[];
   selected: LicenseTier;
+  alternative?: {
+    bom: BomItem[];
+    selected: LicenseTier;
+    reason: string;
+  };
 }

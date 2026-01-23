@@ -15,21 +15,25 @@ interface BomSidebarProps {
 }
 
 export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta }: BomSidebarProps) {
-  const { bom, selected } = calculatedBOM;
+  const { bom, selected, alternative } = calculatedBOM;
   const totalItems = getTotalItems(bom);
   const { t } = useI18n();
 
-  const handleExportCSV = () => {
+  const handleExportCSV = (isAlternative = false) => {
+    const targetBOM = isAlternative && alternative ? alternative.bom : bom;
+    const targetTier = isAlternative && alternative ? `${alternative.selected.name} (Alternativa)` : selected.name;
+    
     downloadCSV({
       projectName: meta.projectName,
       client: meta.client,
-      tierName: selected.name,
-      bom
+      tierName: targetTier,
+      bom: targetBOM
     });
   };
 
   return (
-    <div className="sticky top-6 z-50 print:hidden">
+    <div className="sticky top-6 z-50 print:hidden space-y-6">
+      {/* Opción Recomendada */}
       <GlassCard className={cn(
         "overflow-hidden transition-all duration-300",
         tierChanged && "ring-2 ring-[#A12944] ring-offset-2 scale-[1.02]"
@@ -44,7 +48,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
             </div>
             <div>
               <p className="text-[9px] font-bold uppercase tracking-widest text-white/70">
-                {t("bom.recommended")}
+                {t("bom.originalTitle")}
               </p>
               <h3 className="text-xl sm:text-2xl font-heading font-black text-white">
                 BioStar X {selected.name}
@@ -73,7 +77,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
             {t("bom.title")}
           </h4>
           
-          <div className="space-y-2 max-h-64 overflow-y-auto custom-scrollbar pr-2">
+          <div className="space-y-2 max-h-48 overflow-y-auto custom-scrollbar pr-2">
             {bom.map((item, index) => (
               <div 
                 key={`${item.id}-${index}`}
@@ -112,7 +116,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
               <Button
                 variant="outline"
                 size="icon"
-                onClick={handleExportCSV}
+                onClick={() => handleExportCSV(false)}
                 className="rounded-full"
                 data-testid="button-export-csv"
               >
@@ -120,12 +124,62 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
               </Button>
             </div>
           </div>
-          
-          <p className="mt-4 text-[8px] text-muted-foreground leading-relaxed text-center">
-            {t("disclaimer.note")}
-          </p>
         </div>
       </GlassCard>
+
+      {/* Opción Alternativa */}
+      {alternative && (
+        <GlassCard className="overflow-hidden border-[#0047FF]/30 border-2">
+          <div className="bg-[#0047FF]/10 p-4 border-b border-[#0047FF]/20">
+            <div className="flex items-center gap-2">
+              <Package className="w-4 h-4 text-[#0047FF]" />
+              <p className="text-[10px] font-black uppercase tracking-widest text-[#0047FF]">
+                {t("bom.alternativeTitle")}
+              </p>
+            </div>
+            <h3 className="text-lg font-heading font-black text-foreground mt-1">
+              BioStar X {alternative.selected.name}
+            </h3>
+            <p className="text-[9px] text-muted-foreground mt-1 font-medium italic">
+              * {alternative.reason}
+            </p>
+          </div>
+          
+          <div className="p-4 space-y-4">
+            <div className="space-y-2 max-h-32 overflow-y-auto custom-scrollbar pr-2">
+              {alternative.bom.map((item, index) => (
+                <div 
+                  key={`alt-${item.id}-${index}`}
+                  className="flex items-center justify-between p-2 bg-muted/20 rounded-md"
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[10px] font-bold text-foreground truncate">{item.name}</p>
+                    <p className="text-[8px] font-mono text-muted-foreground">{item.id}</p>
+                  </div>
+                  <div className="ml-2 px-2 py-0.5 bg-foreground/80 text-background rounded-full text-[10px] font-black">
+                    x{item.qty}
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleExportCSV(true)}
+              className="w-full text-[10px] font-bold"
+              data-testid="button-export-alternative-csv"
+            >
+              <Download className="w-3 h-3 mr-2" />
+              Exportar Alternativa (CSV)
+            </Button>
+          </div>
+        </GlassCard>
+      )}
+
+      <p className="text-[8px] text-muted-foreground leading-relaxed text-center px-4 italic">
+        {t("disclaimer.note")}
+      </p>
     </div>
   );
 }

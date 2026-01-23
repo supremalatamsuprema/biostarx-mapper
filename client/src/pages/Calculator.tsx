@@ -12,6 +12,7 @@ import { DisclaimerModal } from "@/components/DisclaimerModal";
 import { calculateBOM } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
 import { useToast } from "@/hooks/use-toast";
+import { MIGRATION_MAPPING } from "@/data/licenseData";
 import type { ProjectMeta, ProjectInputs, FeatureFlags, CalculatedBOM } from "@/types/license";
 
 interface CalculatorProps {
@@ -111,6 +112,32 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     }
     prevTierRef.current = calculatedBOM.selected.id;
   }, [calculatedBOM.selected.id]);
+
+  useEffect(() => {
+    if (inputs.scenario === 'migration' && meta.activationCode) {
+      const mapping = (MIGRATION_MAPPING.AC as any)[meta.activationCode];
+      if (mapping) {
+        // Automatically set features based on BS2 license
+        const newFeatures = { ...features };
+        if (mapping.addons.includes('ADV_AC')) {
+          newFeatures.globalApb = true;
+          newFeatures.fire = true;
+          newFeatures.elevator = true;
+          newFeatures.interlock = true;
+          newFeatures.intrusion = true;
+          newFeatures.mustering = true;
+          newFeatures.occupancy = true;
+        }
+        setFeatures(newFeatures);
+        
+        // Adjust doors if upgrade is present
+        if (mapping.addons.includes('DOOR_UP') && inputs.doors < 64) {
+          // Standard migration implies 64 doors benefit
+          // We don't force input change, but the calculation handles it
+        }
+      }
+    }
+  }, [meta.activationCode, inputs.scenario]);
 
   const handleGenerateReport = () => {
     if (!meta.projectName.trim()) {

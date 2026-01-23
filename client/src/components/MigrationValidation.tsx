@@ -2,6 +2,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { FileUpload } from "@/components/FileUpload";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useI18n } from "@/lib/i18n";
+import { MIGRATION_MAPPING } from "@/data/licenseData";
 import type { ProjectMeta } from "@/types/license";
 
 interface MigrationValidationProps {
@@ -37,15 +38,19 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
         
         <div className="space-y-1">
           <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-            {t("migration.currentActivation")}
+            {t("migration.currentActivation")} (BioStar 2 Tier)
           </label>
-          <input 
-            className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#0047FF] outline-none transition-all"
-            placeholder={t("migration.activationPlaceholder")}
+          <select 
+            className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#0047FF] outline-none transition-all cursor-pointer"
             value={meta.activationCode}
             onChange={e => updateField('activationCode', e.target.value)}
-            data-testid="input-activation-code"
-          />
+            data-testid="select-bs2-tier"
+          >
+            <option value="">Selecciona tu licencia actual</option>
+            {Object.keys(MIGRATION_MAPPING.AC).map(tier => (
+              <option key={tier} value={tier}>{tier.replace('BioStar2-', '')}</option>
+            ))}
+          </select>
         </div>
       </div>
       
