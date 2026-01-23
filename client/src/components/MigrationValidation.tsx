@@ -16,6 +16,11 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
     onChange({ ...meta, [field]: value });
   };
 
+  const handleTierChange = (val: string) => {
+    updateField('activationCode', val);
+    // Also trigger update on inputs if needed, though Calculator.tsx handles the effect
+  };
+
   return (
     <GlassCard className="p-8 sm:p-12 animate-fadeIn">
       <h3 className="text-[11px] font-bold uppercase tracking-[0.4em] text-[#0047FF] mb-6 sm:mb-8 pb-4 border-b border-border">
@@ -43,7 +48,7 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
           <select 
             className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#0047FF] outline-none transition-all cursor-pointer"
             value={meta.activationCode}
-            onChange={e => updateField('activationCode', e.target.value)}
+            onChange={e => handleTierChange(e.target.value)}
             data-testid="select-bs2-tier"
           >
             <option value="">Selecciona tu licencia actual</option>

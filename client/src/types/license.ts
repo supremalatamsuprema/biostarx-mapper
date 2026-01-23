@@ -46,6 +46,7 @@ export interface ProjectInputs {
   qr: number;
   wireless: number;
   tnaUsers: number;
+  activationCode?: string; // BioStar 2 license tier for migration
 }
 
 export interface FeatureFlags {

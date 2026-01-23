@@ -115,6 +115,11 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
 
   useEffect(() => {
     if (inputs.scenario === 'migration' && meta.activationCode) {
+      // Sync activationCode to inputs for calculation
+      if (inputs.activationCode !== meta.activationCode) {
+        setInputs(prev => ({ ...prev, activationCode: meta.activationCode }));
+      }
+
       const mapping = (MIGRATION_MAPPING.AC as any)[meta.activationCode];
       if (mapping) {
         // Automatically set features based on BS2 license
@@ -129,12 +134,6 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
           newFeatures.occupancy = true;
         }
         setFeatures(newFeatures);
-        
-        // Adjust doors if upgrade is present
-        if (mapping.addons.includes('DOOR_UP') && inputs.doors < 64) {
-          // Standard migration implies 64 doors benefit
-          // We don't force input change, but the calculation handles it
-        }
       }
     }
   }, [meta.activationCode, inputs.scenario]);
