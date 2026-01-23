@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { useI18n } from "@/lib/i18n";
+import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
 import type { ProjectInputs } from "@/types/license";
 
 interface HeaderProps {
@@ -17,7 +18,7 @@ export function Header({ scenario, onReset }: HeaderProps) {
     <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 sm:mb-10 print:hidden">
       <div className="flex items-center gap-4 sm:gap-8">
         <img 
-          src="/attached_assets/m_logo_Suprema_1768527453302.png" 
+          src={logoImg} 
           alt="Suprema Logo"
           className="h-5 sm:h-6 object-contain" 
         />
