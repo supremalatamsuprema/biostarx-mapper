@@ -19,7 +19,7 @@ export function Header({ scenario, onReset }: HeaderProps) {
         <img 
           src="/attached_assets/m_logo_Suprema_1768527453302.png" 
           alt="Suprema Logo"
-          className="h-5 sm:h-6" 
+          className="h-5 sm:h-6 object-contain" 
         />
         <div className="h-6 sm:h-8 w-px bg-border hidden sm:block" />
         <h2 className="text-lg sm:text-xl font-heading font-black uppercase tracking-tighter">
