@@ -174,8 +174,9 @@ export const translations: Record<Language, Record<string, string>> = {
     "devices.qrCameras": "Cámaras QR",
     "devices.wirelessLocks": "Cerraduras Inalámbricas",
     
-    "mobile.recommended": "Tier Recomendado",
-    "mobile.bomDescription": "Bill of Materials y tier recomendado para el proyecto",
+    "mobile.recommended": "Opción Recomendada",
+    "mobile.alternative": "Opción Alternativa",
+    "mobile.bomDescription": "Bill of Materials y opciones para el proyecto",
     "mobile.generateMaster": "Generar Reporte Maestro",
     "mobile.items": "items",
     

@@ -13,7 +13,7 @@ interface MobileBomSheetProps {
 
 export function MobileBomSheet({ calculatedBOM, onGenerateReport }: MobileBomSheetProps) {
   const [open, setOpen] = useState(false);
-  const { bom, selected } = calculatedBOM;
+  const { bom, selected, alternative } = calculatedBOM;
   const totalItems = bom.reduce((acc, item) => acc + item.qty, 0);
   const { t } = useI18n();
 
@@ -34,64 +34,120 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport }: MobileBomShe
         </Button>
       </SheetTrigger>
       
-      <SheetContent side="bottom" className="h-[80vh] rounded-t-md">
-        <SheetHeader className="pb-4 border-b border-border">
+      <SheetContent side="bottom" className="h-[90vh] rounded-t-xl overflow-hidden flex flex-col p-0">
+        <SheetHeader className="p-6 border-b border-border bg-background sticky top-0 z-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#00C2FF] via-[#0047FF] to-[#FF00E5] flex items-center justify-center">
-              <Package className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <Package className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
-                {t("mobile.recommended")}
-              </p>
               <SheetTitle className="text-xl font-heading font-black">
-                BioStar X {selected.name}
+                {t("bom.title")}
               </SheetTitle>
-              <SheetDescription className="sr-only">
+              <SheetDescription className="text-xs">
                 {t("mobile.bomDescription")}
               </SheetDescription>
             </div>
           </div>
         </SheetHeader>
 
-        <div className="mt-4 space-y-4 overflow-y-auto max-h-[calc(80vh-200px)] custom-scrollbar">
-          <div className="grid grid-cols-3 gap-2">
-            <div className="bg-muted/50 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.doors")}</p>
-              <p className="text-lg font-black">{selected.maxDoors}</p>
+        <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar pb-32">
+          {/* Opción Recomendada */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-black uppercase tracking-widest text-primary">
+                {t("mobile.recommended")}
+              </h3>
+              <span className="text-xs font-bold px-2 py-1 bg-primary/10 text-primary rounded-full">
+                BioStar X {selected.name}
+              </span>
             </div>
-            <div className="bg-muted/50 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.users")}</p>
-              <p className="text-lg font-black">{selected.maxUsers.toLocaleString()}</p>
+
+            <div className="grid grid-cols-3 gap-2">
+              <div className="bg-muted/50 rounded-md p-3 text-center">
+                <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.doors")}</p>
+                <p className="text-lg font-black">{selected.maxDoors}</p>
+              </div>
+              <div className="bg-muted/50 rounded-md p-3 text-center">
+                <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.users")}</p>
+                <p className="text-lg font-black">{selected.maxUsers.toLocaleString()}</p>
+              </div>
+              <div className="bg-muted/50 rounded-md p-3 text-center">
+                <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.ops")}</p>
+                <p className="text-lg font-black">{selected.maxOperators}</p>
+              </div>
             </div>
-            <div className="bg-muted/50 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.ops")}</p>
-              <p className="text-lg font-black">{selected.maxOperators}</p>
+
+            <div className="space-y-2">
+              {bom.map((item, index) => (
+                <div 
+                  key={`rec-${item.id}-${index}`}
+                  className="flex items-center justify-between p-3 bg-muted/30 rounded-md"
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold text-foreground truncate">{item.name}</p>
+                    <p className="text-[9px] font-mono text-muted-foreground">{item.id}</p>
+                  </div>
+                  <div className="ml-3 px-3 py-1 bg-foreground text-background rounded-full text-xs font-black">
+                    x{item.qty}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="space-y-2">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              {t("bom.title")}
-            </h4>
-            {bom.map((item, index) => (
-              <div 
-                key={`${item.id}-${index}`}
-                className="flex items-center justify-between p-3 bg-muted/30 rounded-md"
-              >
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-bold text-foreground truncate">{item.name}</p>
-                  <p className="text-[9px] font-mono text-muted-foreground">{item.id}</p>
+          {/* Opción Alternativa */}
+          {alternative && (
+            <div className="space-y-4 pt-4 border-t border-border">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-black uppercase tracking-widest text-primary">
+                  {t("mobile.alternative")}
+                </h3>
+                <span className="text-xs font-bold px-2 py-1 bg-primary/10 text-primary rounded-full">
+                  BioStar X {alternative.selected.name}
+                </span>
+              </div>
+              
+              <p className="text-[10px] text-muted-foreground italic">
+                * {alternative.reason}
+              </p>
+
+              <div className="grid grid-cols-3 gap-2">
+                <div className="bg-muted/50 rounded-md p-3 text-center">
+                  <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.doors")}</p>
+                  <p className="text-lg font-black">{alternative.selected.maxDoors}</p>
                 </div>
-                <div className="ml-3 px-3 py-1 bg-foreground text-background rounded-full text-xs font-black">
-                  x{item.qty}
+                <div className="bg-muted/50 rounded-md p-3 text-center">
+                  <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.users")}</p>
+                  <p className="text-lg font-black">{alternative.selected.maxUsers.toLocaleString()}</p>
+                </div>
+                <div className="bg-muted/50 rounded-md p-3 text-center">
+                  <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.ops")}</p>
+                  <p className="text-lg font-black">{alternative.selected.maxOperators}</p>
                 </div>
               </div>
-            ))}
-          </div>
+
+              <div className="space-y-2">
+                {alternative.bom.map((item, index) => (
+                  <div 
+                    key={`alt-${item.id}-${index}`}
+                    className="flex items-center justify-between p-3 bg-muted/30 rounded-md"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-bold text-foreground truncate">{item.name}</p>
+                      <p className="text-[9px] font-mono text-muted-foreground">{item.id}</p>
+                    </div>
+                    <div className="ml-3 px-3 py-1 bg-foreground text-background rounded-full text-xs font-black">
+                      x{item.qty}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-background border-t border-border">
+        <div className="absolute bottom-0 left-0 right-0 p-6 bg-background border-t border-border z-20">
           <PillButton 
             onClick={() => {
               setOpen(false);
