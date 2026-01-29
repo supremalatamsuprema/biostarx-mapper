@@ -65,14 +65,27 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
                 <ChevronDown className="w-3 h-3 ml-2 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={onGenerateReport} className="cursor-pointer">
-                <FileText className="w-4 h-4 mr-2" />
-                <span>PDF (Reporte)</span>
+            <DropdownMenuContent align="end" className="w-56 p-2">
+              <div className="px-2 py-1.5 mb-1">
+                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Formatos Disponibles</p>
+              </div>
+              <DropdownMenuItem onClick={onGenerateReport} className="cursor-pointer rounded-md focus:bg-primary/5 focus:text-primary py-2.5">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                  <FileText className="w-4 h-4 text-primary" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-bold text-sm">Reporte PDF</span>
+                  <span className="text-[10px] text-muted-foreground">Documento profesional para cliente</span>
+                </div>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleExportCSV} className="cursor-pointer">
-                <Download className="w-4 h-4 mr-2" />
-                <span>CSV (Excel)</span>
+              <DropdownMenuItem onClick={handleExportCSV} className="cursor-pointer rounded-md focus:bg-[#0047FF]/5 focus:text-[#0047FF] py-2.5 mt-1">
+                <div className="w-8 h-8 rounded-full bg-[#0047FF]/10 flex items-center justify-center mr-3">
+                  <Download className="w-4 h-4 text-[#0047FF]" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-bold text-sm">Archivo CSV</span>
+                  <span className="text-[10px] text-muted-foreground">Listado BOM para Excel</span>
+                </div>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

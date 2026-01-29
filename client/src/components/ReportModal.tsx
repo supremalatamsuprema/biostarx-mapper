@@ -273,43 +273,110 @@ ${t("disclaimer.note")}
               </div>
             )}
 
-            <div className="bg-gradient-to-br from-[#00C2FF]/10 via-[#0047FF]/10 to-[#FF00E5]/10 rounded-md p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h4 className="text-lg font-heading font-black">
-                  {t("report.recommendedTier")}: <span className="text-[#0047FF]">BioStar X {selected.name}</span>
-                </h4>
+            {/* Comparativa de Opciones */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+              {/* Opción Principal */}
+              <div className="border-2 border-primary/20 rounded-xl overflow-hidden bg-white shadow-sm">
+                <div className="bg-primary/5 p-4 border-b border-primary/10">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Package className="w-4 h-4 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-primary">OPCIÓN RECOMENDADA</p>
+                      <h4 className="text-xl font-heading font-black text-foreground leading-tight">BioStar X {calculatedBOM.selected.name}</h4>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-5 space-y-4">
+                  <div className="grid grid-cols-3 gap-2 py-3 border-b border-dashed">
+                    <div className="text-center">
+                      <p className="text-[9px] font-bold text-muted-foreground uppercase">Puertas</p>
+                      <p className="text-base font-black">{calculatedBOM.selected.maxDoors}</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[9px] font-bold text-muted-foreground uppercase">Usuarios</p>
+                      <p className="text-base font-black">{calculatedBOM.selected.maxUsers.toLocaleString()}</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[9px] font-bold text-muted-foreground uppercase">Operadores</p>
+                      <p className="text-base font-black">{calculatedBOM.selected.maxOperators}</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-2">Desglose de Licencias:</p>
+                    {calculatedBOM.bom.map((item, idx) => (
+                      <div key={idx} className="flex justify-between items-center text-sm py-1 border-b border-muted last:border-0">
+                        <span className="text-muted-foreground font-medium">{item.name} <span className="text-[10px] font-mono opacity-50 ml-1">({item.id})</span></span>
+                        <span className="font-bold">x{item.qty}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-              
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="text-center p-3 bg-white/50 dark:bg-card/50 rounded-md">
-                  <p className="text-[8px] font-bold text-muted-foreground uppercase">{t("report.maxDoors")}</p>
-                  <p className="text-xl font-black">{selected.maxDoors}</p>
+
+              {/* Opción Alternativa */}
+              {calculatedBOM.alternative && (
+                <div className="border-2 border-[#0047FF]/20 rounded-xl overflow-hidden bg-white shadow-sm">
+                  <div className="bg-[#0047FF]/5 p-4 border-b border-[#0047FF]/10">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-[#0047FF]/10 flex items-center justify-center">
+                        <Package className="w-4 h-4 text-[#0047FF]" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-[#0047FF]">OPCIÓN OPTIMIZADA</p>
+                        <h4 className="text-xl font-heading font-black text-foreground leading-tight">BioStar X {calculatedBOM.alternative.selected.name}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-5 space-y-4">
+                    <p className="text-[10px] text-[#0047FF] font-bold italic bg-[#0047FF]/5 p-2 rounded border border-[#0047FF]/10">
+                      * {calculatedBOM.alternative.reason}
+                    </p>
+                    <div className="grid grid-cols-3 gap-2 py-3 border-b border-dashed">
+                      <div className="text-center">
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase">Puertas</p>
+                        <p className="text-base font-black">{calculatedBOM.alternative.selected.maxDoors}</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase">Usuarios</p>
+                        <p className="text-base font-black">{calculatedBOM.alternative.selected.maxUsers.toLocaleString()}</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase">Operadores</p>
+                        <p className="text-base font-black">{calculatedBOM.alternative.selected.maxOperators}</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-2">Desglose de Licencias:</p>
+                      {calculatedBOM.alternative.bom.map((item, idx) => (
+                        <div key={idx} className="flex justify-between items-center text-sm py-1 border-b border-muted last:border-0">
+                          <span className="text-muted-foreground font-medium">{item.name} <span className="text-[10px] font-mono opacity-50 ml-1">({item.id})</span></span>
+                          <span className="font-bold">x{item.qty}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                <div className="text-center p-3 bg-white/50 dark:bg-card/50 rounded-md">
-                  <p className="text-[8px] font-bold text-muted-foreground uppercase">{t("report.maxUsers")}</p>
-                  <p className="text-xl font-black">{selected.maxUsers.toLocaleString()}</p>
-                </div>
-                <div className="text-center p-3 bg-white/50 dark:bg-card/50 rounded-md">
-                  <p className="text-[8px] font-bold text-muted-foreground uppercase">{t("report.maxOps")}</p>
-                  <p className="text-xl font-black">{selected.maxOperators}</p>
-                </div>
-              </div>
+              )}
             </div>
 
             <div className="p-4 bg-[#0047FF]/5 rounded-md border border-[#0047FF]/20">
               <p className="text-xs text-foreground leading-relaxed">
                 {t("report.purchaseNote")}
               </p>
-              <p className="text-xs text-foreground leading-relaxed mt-3">
-                {t("report.contactNote")}{' '}
-                <a href="mailto:latam@supremainc.com" className="text-[#0047FF] font-bold hover:underline">latam@supremainc.com</a>, {t("report.supportNote")}
-              </p>
-              <p className="text-xs text-foreground leading-relaxed mt-3 font-bold">
-                {t("report.closingNote")}
-              </p>
-              <p className="text-xs text-[#A12944] font-bold mt-2">
-                Suprema LATAM — latam@supremainc.com
-              </p>
+              <div className="mt-4 pt-4 border-t border-[#0047FF]/10">
+                <p className="text-xs text-foreground leading-relaxed">
+                  {t("report.contactNote")}{' '}
+                  <a href="mailto:latam@supremainc.com" className="text-[#0047FF] font-bold hover:underline">latam@supremainc.com</a>, {t("report.supportNote")}
+                </p>
+                <p className="text-xs text-foreground leading-relaxed mt-3 font-bold">
+                  {t("report.closingNote")}
+                </p>
+                <p className="text-sm text-[#A12944] font-black mt-2 uppercase tracking-tighter">
+                  Suprema LATAM — latam@supremainc.com
+                </p>
+              </div>
             </div>
 
             <div>
