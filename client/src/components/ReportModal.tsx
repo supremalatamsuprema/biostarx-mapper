@@ -88,7 +88,9 @@ ${t("disclaimer.note")}
       projectName: meta.projectName,
       client: meta.client,
       tierName: selected.name,
-      bom
+      bom,
+      alternative: calculatedBOM.alternative?.bom,
+      alternativeTierName: calculatedBOM.alternative?.selected.name
     });
   };
 
