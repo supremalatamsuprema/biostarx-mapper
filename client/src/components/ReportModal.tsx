@@ -161,7 +161,7 @@ ${t("disclaimer.note")}
               />
               <div className="h-6 w-px bg-border" />
               <span className="text-sm font-heading font-bold uppercase tracking-tight">
-                BioStar <span className="text-[#A12944] italic">X</span> Mapper
+                Calculador de BioStar <span className="text-[#A12944] italic">X</span>
               </span>
             </div>
 
