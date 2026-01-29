@@ -386,25 +386,62 @@ ${t("disclaimer.note")}
               <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4 pb-2 border-b border-border">
                 {t("report.bom")}
               </h4>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-border">
-                      <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.partNumber")}</th>
-                      <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.description")}</th>
-                      <th className="text-right py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.quantity")}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {bom.map((item, index) => (
-                      <tr key={`${item.id}-${index}`} className="border-b border-border/50">
-                        <td className="py-3 text-xs font-mono font-bold">{item.id}</td>
-                        <td className="py-3 text-xs">{item.name}</td>
-                        <td className="py-3 text-xs font-bold text-right">{item.qty}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="space-y-8">
+                {/* Tabla Opción Recomendada */}
+                <div>
+                  <h5 className="text-[10px] font-black text-primary uppercase tracking-widest mb-3">
+                    BOM - Opción Recomendada (BioStar X {calculatedBOM.selected.name})
+                  </h5>
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-border">
+                          <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.partNumber")}</th>
+                          <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.description")}</th>
+                          <th className="text-right py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.quantity")}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {calculatedBOM.bom.map((item, index) => (
+                          <tr key={`rec-${item.id}-${index}`} className="border-b border-border/50">
+                            <td className="py-3 text-xs font-mono font-bold">{item.id}</td>
+                            <td className="py-3 text-xs">{item.name}</td>
+                            <td className="py-3 text-xs font-bold text-right">{item.qty}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Tabla Opción Alternativa */}
+                {calculatedBOM.alternative && (
+                  <div>
+                    <h5 className="text-[10px] font-black text-[#0047FF] uppercase tracking-widest mb-3">
+                      BOM - Opción Optimizada (BioStar X {calculatedBOM.alternative.selected.name})
+                    </h5>
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead>
+                          <tr className="border-b border-border">
+                            <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.partNumber")}</th>
+                            <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.description")}</th>
+                            <th className="text-right py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.quantity")}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {calculatedBOM.alternative.bom.map((item, index) => (
+                            <tr key={`alt-table-${item.id}-${index}`} className="border-b border-border/50">
+                              <td className="py-3 text-xs font-mono font-bold">{item.id}</td>
+                              <td className="py-3 text-xs">{item.name}</td>
+                              <td className="py-3 text-xs font-bold text-right">{item.qty}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
