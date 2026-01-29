@@ -11,6 +11,7 @@ import { Printer, Copy, X, CheckCircle, Download, Package } from "lucide-react";
 import { useState } from "react";
 import { downloadCSV } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
+import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
 import type { ProjectMeta, ProjectInputs, FeatureFlags, CalculatedBOM } from "@/types/license";
 
 interface ReportModalProps {
@@ -154,7 +155,7 @@ ${t("disclaimer.note")}
           <div className="space-y-6 print:space-y-4">
             <div className="flex items-center gap-4 pb-4 border-b border-border">
               <img 
-                src="/attached_assets/m_logo_Suprema_1768527453302.png" 
+                src={logoImg} 
                 alt="Suprema Logo"
                 className="h-6" 
               />
