@@ -34,42 +34,42 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
     <div className="sticky top-10 z-50 print:hidden space-y-6 max-h-[calc(100vh-5rem)] overflow-y-auto custom-scrollbar pr-1">
       {/* Opción Recomendada */}
       <GlassCard className={cn(
-        "overflow-hidden transition-all duration-300",
-        tierChanged && "ring-2 ring-[#A12944] ring-offset-2 scale-[1.02]"
+        "overflow-hidden transition-all duration-300 border-2 border-primary shadow-lg ring-4 ring-primary/10",
+        tierChanged && "scale-[1.02]"
       )}>
-        <div className="bg-[#0047FF]/10 p-6 border-b border-[#0047FF]/20 transition-all duration-300">
+        <div className="bg-primary p-6 border-b border-primary/20 transition-all duration-300">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-              <Package className="w-5 h-5 text-primary" />
+            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+              <Package className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="text-[9px] font-black uppercase tracking-widest text-primary">
+              <p className="text-[9px] font-black uppercase tracking-widest text-white/90">
                 {t("bom.originalTitle")}
               </p>
-              <h3 className="text-xl sm:text-2xl font-heading font-black text-foreground">
+              <h3 className="text-xl sm:text-2xl font-heading font-black text-white">
                 BioStar X {selected.name}
               </h3>
             </div>
           </div>
           
           <div className="grid grid-cols-3 gap-3 mt-4">
-            <div className="bg-muted/50 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.doors")}</p>
-              <p className="text-lg font-black text-foreground">{selected.maxDoors}</p>
+            <div className="bg-white/10 backdrop-blur-sm rounded-md p-3 text-center border border-white/10">
+              <p className="text-[8px] font-bold text-white/70 uppercase tracking-wider">{t("bom.doors")}</p>
+              <p className="text-lg font-black text-white">{selected.maxDoors}</p>
             </div>
-            <div className="bg-muted/50 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.users")}</p>
-              <p className="text-lg font-black text-foreground">{selected.maxUsers.toLocaleString()}</p>
+            <div className="bg-white/10 backdrop-blur-sm rounded-md p-3 text-center border border-white/10">
+              <p className="text-[8px] font-bold text-white/70 uppercase tracking-wider">{t("bom.users")}</p>
+              <p className="text-lg font-black text-white">{selected.maxUsers.toLocaleString()}</p>
             </div>
-            <div className="bg-muted/50 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.ops")}</p>
-              <p className="text-lg font-black text-foreground">{selected.maxOperators}</p>
+            <div className="bg-white/10 backdrop-blur-sm rounded-md p-3 text-center border border-white/10">
+              <p className="text-[8px] font-bold text-white/70 uppercase tracking-wider">{t("bom.ops")}</p>
+              <p className="text-lg font-black text-white">{selected.maxOperators}</p>
             </div>
           </div>
         </div>
         
-        <div className="p-6 sm:p-8">
-          <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4 pb-2 border-b border-border">
+        <div className="p-6 sm:p-8 bg-white/50 dark:bg-card/50">
+          <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary mb-4 pb-2 border-b border-primary/10">
             {t("bom.title")}
           </h4>
           
