@@ -32,7 +32,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
   };
 
   return (
-    <div className="sticky top-6 z-50 print:hidden space-y-6">
+    <div className="sticky top-10 z-50 print:hidden space-y-6 max-h-[calc(100vh-5rem)] overflow-y-auto custom-scrollbar pr-1">
       {/* Opción Recomendada */}
       <GlassCard className={cn(
         "overflow-hidden transition-all duration-300",
