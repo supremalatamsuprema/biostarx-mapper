@@ -91,34 +91,13 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
           </div>
           
           <div className="mt-6 pt-4 border-t border-border">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-0">
               <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 {t("bom.totalItems")}
               </span>
               <span className="text-lg font-heading font-black text-foreground">
                 {totalItems}
               </span>
-            </div>
-            
-            <div className="flex gap-2">
-              <PillButton 
-                onClick={onGenerateReport}
-                className="flex-1"
-                data-testid="button-generate-report"
-              >
-                <FileText className="w-4 h-4 mr-2" />
-                {t("bom.generate")}
-              </PillButton>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={handleExportCSV}
-                className="rounded-full bg-primary/5 hover:bg-primary/10 border-primary/20"
-                data-testid="button-export-csv"
-                title="Exportar Todas las Opciones (CSV)"
-              >
-                <Download className="w-4 h-4 text-primary" />
-              </Button>
             </div>
           </div>
         </div>

@@ -170,7 +170,13 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
 
   return (
     <div className="min-h-screen p-4 lg:p-10 max-w-[1680px] mx-auto animate-fadeIn pb-24 xl:pb-10">
-      <Header scenario={inputs.scenario} onReset={handleReset} />
+      <Header 
+        scenario={inputs.scenario} 
+        onReset={handleReset} 
+        calculatedBOM={calculatedBOM}
+        meta={meta}
+        onGenerateReport={handleGenerateReport}
+      />
 
       <div className="flex flex-col xl:flex-row gap-8 xl:gap-12 items-start">
         <div className="w-full xl:w-[68%] space-y-6 sm:space-y-8">
