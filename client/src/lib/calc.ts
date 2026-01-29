@@ -38,6 +38,12 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
       bom.push({ ...ADDONS.USR_UP, qty: Math.ceil(uGap / 5000) });
     }
 
+    // Advanced tier user expansion logic
+    if (selectedTier.id === 'BIOSTARX-ADV' && reqU > 50000) {
+      const uGap = reqU - 50000;
+      bom.push({ ...ADDONS.USR_UP, qty: Math.ceil(uGap / 50000) });
+    }
+
     const dGap = Math.max(0, reqD - selectedTier.maxDoors);
     if (dGap > 0) {
       bom.push({ ...ADDONS.DOOR_UP, qty: Math.ceil(dGap / 32) });
