@@ -14,8 +14,8 @@ const I18nContext = createContext<I18nContextType | null>(null);
 
 export const translations: Record<Language, Record<string, string>> = {
   es: {
-    "app.title": "BioStar X Mapper",
-    "app.welcome": "Bienvenido a",
+    "app.title": "BioStar X",
+    "app.welcome": "Calculador",
     "app.description": "BioStar X Mapper es una herramienta diseñada para facilitar el cálculo y la selección correcta del licenciamiento de BioStar X. A través de este tool, es posible identificar de manera rápida y precisa las licencias necesarias según el tamaño, alcance y configuración de cada proyecto.",
     
     "scenario.new": "Proyecto Nuevo",

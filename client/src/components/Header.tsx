@@ -24,7 +24,7 @@ export function Header({ scenario, onReset }: HeaderProps) {
         />
         <div className="h-6 sm:h-8 w-px bg-border hidden sm:block" />
         <h2 className="text-lg sm:text-xl font-heading font-black uppercase tracking-tighter">
-          BioStar <span className="text-[#A12944] italic">X</span> Mapper
+          Calculador BioStar <span className="text-[#A12944] italic">X</span>
         </h2>
       </div>
 
