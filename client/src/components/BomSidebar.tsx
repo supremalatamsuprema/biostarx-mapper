@@ -19,15 +19,14 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
   const totalItems = getTotalItems(bom);
   const { t } = useI18n();
 
-  const handleExportCSV = (isAlternative = false) => {
-    const targetBOM = isAlternative && alternative ? alternative.bom : bom;
-    const targetTier = isAlternative && alternative ? `${alternative.selected.name} (Alternativa)` : selected.name;
-    
+  const handleExportCSV = () => {
     downloadCSV({
       projectName: meta.projectName,
       client: meta.client,
-      tierName: targetTier,
-      bom: targetBOM
+      tierName: selected.name,
+      bom: bom,
+      alternative: alternative?.bom,
+      alternativeTierName: alternative?.selected.name
     });
   };
 
@@ -113,11 +112,12 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => handleExportCSV(false)}
-                className="rounded-full"
+                onClick={handleExportCSV}
+                className="rounded-full bg-primary/5 hover:bg-primary/10 border-primary/20"
                 data-testid="button-export-csv"
+                title="Exportar Todas las Opciones (CSV)"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-4 h-4 text-primary" />
               </Button>
             </div>
           </div>
@@ -179,17 +179,6 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
                 </div>
               ))}
             </div>
-            
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleExportCSV(true)}
-              className="w-full text-[10px] font-bold"
-              data-testid="button-export-alternative-csv"
-            >
-              <Download className="w-3 h-3 mr-2" />
-              Exportar Alternativa (CSV)
-            </Button>
           </div>
         </GlassCard>
       )}

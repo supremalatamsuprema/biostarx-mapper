@@ -140,26 +140,37 @@ export interface CSVExportOptions {
   client?: string;
   tierName: string;
   bom: BomItem[];
+  alternative?: BomItem[];
+  alternativeTierName?: string;
 }
 
 export function generateCSVContent(options: CSVExportOptions): string {
-  const { projectName, client, tierName, bom } = options;
+  const { projectName, client, tierName, bom, alternative, alternativeTierName } = options;
   const headers = ['Part Number', 'Descripcion', 'Cantidad'];
-  const rows = bom.map(item => [item.id, item.name, item.qty.toString()]);
   
-  const alternativeInfo = options.tierName.includes('(Alternativa)') ? 
-    [`# Nota: Esta es una opción de costo optimizado basada en paquetes de expansión.`] : [];
-
-  return [
+  const content = [
     `# Proyecto: ${projectName?.trim() || 'Sin nombre'}`,
     `# Cliente: ${client?.trim() || 'Sin especificar'}`,
-    `# Tier: BioStar X ${tierName}`,
-    ...alternativeInfo,
+    `# Tier Principal: BioStar X ${tierName}`,
     `# Fecha: ${new Date().toLocaleDateString('es-ES')}`,
     '',
+    '### OPCIÓN RECOMENDADA ###',
     headers.join(','),
-    ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
-  ].join('\n');
+    ...bom.map(item => [item.id, item.name, item.qty.toString()].map(cell => `"${cell}"`).join(',')),
+  ];
+
+  if (alternative && alternativeTierName) {
+    content.push(
+      '',
+      '### OPCIÓN ALTERNATIVA (OPTIMIZADA) ###',
+      `# Tier: BioStar X ${alternativeTierName}`,
+      `# Nota: Esta es una opción de costo optimizado basada en paquetes de expansión.`,
+      headers.join(','),
+      ...alternative.map(item => [item.id, item.name, item.qty.toString()].map(cell => `"${cell}"`).join(','))
+    );
+  }
+
+  return content.join('\n');
 }
 
 export function generateCSVFilename(projectName?: string): string {
