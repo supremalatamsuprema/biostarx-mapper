@@ -278,16 +278,16 @@ ${t("disclaimer.note")}
 
             {/* Comparativa de Opciones */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-              {/* Opción Principal */}
-              <div className="border-2 border-primary/20 rounded-xl overflow-hidden bg-white shadow-sm">
-                <div className="bg-primary/5 p-4 border-b border-primary/10">
+              {/* Opción Principal - Resaltada */}
+              <div className="border-2 border-primary rounded-xl overflow-hidden bg-white shadow-md ring-2 ring-primary/20 ring-offset-2">
+                <div className="bg-primary p-4 border-b border-primary/10">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Package className="w-4 h-4 text-primary" />
+                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                      <Package className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-primary">OPCIÓN RECOMENDADA</p>
-                      <h4 className="text-xl font-heading font-black text-foreground leading-tight">BioStar X {calculatedBOM.selected.name}</h4>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/90">OPCIÓN RECOMENDADA</p>
+                      <h4 className="text-xl font-heading font-black text-white leading-tight">BioStar X {calculatedBOM.selected.name}</h4>
                     </div>
                   </div>
                 </div>
@@ -309,9 +309,9 @@ ${t("disclaimer.note")}
                   <div className="space-y-2">
                     <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-2">Desglose de Licencias:</p>
                     {calculatedBOM.bom.map((item, idx) => (
-                      <div key={idx} className="flex justify-between items-center text-sm py-1 border-b border-muted last:border-0">
+                      <div key={idx} className="flex justify-between items-center text-sm py-2 bg-muted/20 px-3 rounded-md mb-2 border border-primary/5">
                         <span className="text-muted-foreground font-medium">{item.name} <span className="text-[10px] font-mono opacity-50 ml-1">({item.id})</span></span>
-                        <span className="font-bold">x{item.qty}</span>
+                        <span className="font-bold bg-primary text-white px-3 py-0.5 rounded-full text-xs">x{item.qty}</span>
                       </div>
                     ))}
                   </div>
@@ -320,7 +320,7 @@ ${t("disclaimer.note")}
 
               {/* Opción Alternativa */}
               {calculatedBOM.alternative && (
-                <div className="border-2 border-[#0047FF]/20 rounded-xl overflow-hidden bg-white shadow-sm">
+                <div className="border-2 border-[#0047FF]/20 rounded-xl overflow-hidden bg-white shadow-sm self-start">
                   <div className="bg-[#0047FF]/5 p-4 border-b border-[#0047FF]/10">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-[#0047FF]/10 flex items-center justify-center">
@@ -353,9 +353,9 @@ ${t("disclaimer.note")}
                     <div className="space-y-2">
                       <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-2">Desglose de Licencias:</p>
                       {calculatedBOM.alternative.bom.map((item, idx) => (
-                        <div key={idx} className="flex justify-between items-center text-sm py-1 border-b border-muted last:border-0">
+                        <div key={idx} className="flex justify-between items-center text-sm py-2 bg-muted/10 px-3 rounded-md mb-2">
                           <span className="text-muted-foreground font-medium">{item.name} <span className="text-[10px] font-mono opacity-50 ml-1">({item.id})</span></span>
-                          <span className="font-bold">x{item.qty}</span>
+                          <span className="font-bold bg-muted-foreground/20 text-foreground px-3 py-0.5 rounded-full text-xs">x{item.qty}</span>
                         </div>
                       ))}
                     </div>
