@@ -19,9 +19,15 @@ export function needsAdvancedPackage(features: FeatureFlags): boolean {
 
 export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): CalculatedBOM {
   const reqD = inputs.doors;
-  const reqU = inputs.users;
   const reqO = inputs.operators;
   const needsAdvPkg = needsAdvancedPackage(features);
+
+  // Requirement: If T&A is active, the effective user count must be the MAX of total users and T&A users
+  const effectiveUsers = features.tna 
+    ? Math.max(inputs.users, inputs.tnaUsers || 0)
+    : inputs.users;
+
+  const reqU = effectiveUsers;
 
   function getBomForTier(selectedTier: LicenseTier): BomItem[] {
     const bom: BomItem[] = [];
