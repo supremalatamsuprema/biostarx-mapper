@@ -38,36 +38,33 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
         "overflow-hidden transition-all duration-300",
         tierChanged && "ring-2 ring-[#A12944] ring-offset-2 scale-[1.02]"
       )}>
-        <div className={cn(
-          "bg-gradient-to-br from-[#00C2FF] via-[#0047FF] to-[#FF00E5] p-6 sm:p-8 transition-all duration-300",
-          tierChanged && "animate-pulse"
-        )}>
+        <div className="bg-[#0047FF]/10 p-6 border-b border-[#0047FF]/20 transition-all duration-300">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-              <Package className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <Package className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <p className="text-[9px] font-bold uppercase tracking-widest text-white/70">
+              <p className="text-[9px] font-black uppercase tracking-widest text-primary">
                 {t("bom.originalTitle")}
               </p>
-              <h3 className="text-xl sm:text-2xl font-heading font-black text-white">
+              <h3 className="text-xl sm:text-2xl font-heading font-black text-foreground">
                 BioStar X {selected.name}
               </h3>
             </div>
           </div>
           
           <div className="grid grid-cols-3 gap-3 mt-4">
-            <div className="bg-white/10 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-white/60 uppercase tracking-wider">{t("bom.doors")}</p>
-              <p className="text-lg font-black text-white">{selected.maxDoors}</p>
+            <div className="bg-muted/50 rounded-md p-3 text-center">
+              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.doors")}</p>
+              <p className="text-lg font-black text-foreground">{selected.maxDoors}</p>
             </div>
-            <div className="bg-white/10 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-white/60 uppercase tracking-wider">{t("bom.users")}</p>
-              <p className="text-lg font-black text-white">{selected.maxUsers.toLocaleString()}</p>
+            <div className="bg-muted/50 rounded-md p-3 text-center">
+              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.users")}</p>
+              <p className="text-lg font-black text-foreground">{selected.maxUsers.toLocaleString()}</p>
             </div>
-            <div className="bg-white/10 rounded-md p-3 text-center">
-              <p className="text-[8px] font-bold text-white/60 uppercase tracking-wider">{t("bom.ops")}</p>
-              <p className="text-lg font-black text-white">{selected.maxOperators}</p>
+            <div className="bg-muted/50 rounded-md p-3 text-center">
+              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.ops")}</p>
+              <p className="text-lg font-black text-foreground">{selected.maxOperators}</p>
             </div>
           </div>
         </div>
@@ -130,22 +127,42 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
       {/* Opción Alternativa */}
       {alternative && (
         <GlassCard className="overflow-hidden border-[#0047FF]/30 border-2">
-          <div className="bg-[#0047FF]/10 p-4 border-b border-[#0047FF]/20">
-            <div className="flex items-center gap-2">
-              <Package className="w-4 h-4 text-[#0047FF]" />
-              <p className="text-[10px] font-black uppercase tracking-widest text-[#0047FF]">
-                {t("bom.alternativeTitle")}
-              </p>
+          <div className="bg-[#0047FF]/10 p-6 border-b border-[#0047FF]/20">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Package className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-widest text-primary">
+                  {t("bom.alternativeTitle")}
+                </p>
+                <h3 className="text-xl font-heading font-black text-foreground">
+                  BioStar X {alternative.selected.name}
+                </h3>
+              </div>
             </div>
-            <h3 className="text-lg font-heading font-black text-foreground mt-1">
-              BioStar X {alternative.selected.name}
-            </h3>
-            <p className="text-[9px] text-muted-foreground mt-1 font-medium italic">
+            
+            <p className="text-[9px] text-muted-foreground mt-1 font-medium italic mb-4">
               * {alternative.reason}
             </p>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div className="bg-muted/50 rounded-md p-3 text-center">
+                <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.doors")}</p>
+                <p className="text-lg font-black text-foreground">{alternative.selected.maxDoors}</p>
+              </div>
+              <div className="bg-muted/50 rounded-md p-3 text-center">
+                <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.users")}</p>
+                <p className="text-lg font-black text-foreground">{alternative.selected.maxUsers.toLocaleString()}</p>
+              </div>
+              <div className="bg-muted/50 rounded-md p-3 text-center">
+                <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">{t("bom.ops")}</p>
+                <p className="text-lg font-black text-foreground">{alternative.selected.maxOperators}</p>
+              </div>
+            </div>
           </div>
           
-          <div className="p-4 space-y-4">
+          <div className="p-6 sm:p-8 space-y-4">
             <div className="space-y-2 max-h-32 overflow-y-auto custom-scrollbar pr-2">
               {alternative.bom.map((item, index) => (
                 <div 
