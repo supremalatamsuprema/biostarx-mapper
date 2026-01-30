@@ -81,7 +81,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
               >
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-bold text-foreground truncate">{item.name}</p>
-                  <p className="text-[9px] font-mono text-muted-foreground">{item.id}</p>
+                  <p className="font-mono text-muted-foreground text-[14px] font-normal">{item.id}</p>
                 </div>
                 <div className="ml-3 px-3 py-1 bg-foreground text-background rounded-full text-xs font-black">
                   x{item.qty}
@@ -102,7 +102,6 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
           </div>
         </div>
       </GlassCard>
-
       {/* Opción Alternativa */}
       {alternative && (
         <GlassCard className="overflow-hidden border-[#0047FF]/30 border-2">
@@ -161,7 +160,6 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
           </div>
         </GlassCard>
       )}
-
       <p className="text-[8px] text-muted-foreground leading-relaxed text-center px-4 italic">
         {t("disclaimer.note")}
       </p>
