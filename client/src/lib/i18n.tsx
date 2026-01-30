@@ -117,7 +117,7 @@ export const translations: Record<Language, Record<string, string>> = {
     
     "disclaimer.title": "Aviso Legal",
     "disclaimer.text": "Esta herramienta es una guía de ayuda para preventa. Los resultados son estimaciones basadas en los datos ingresados y requieren validación oficial de Suprema antes de cualquier proceso de compra.",
-    "disclaimer.note": "El software se entrega \"tal cual\" sin garantías de ningún tipo. Suprema no se hace responsable por decisiones de compra basadas únicamente en estos resultados.",
+    "disclaimer.note": "Suprema no se hace responsable por decisiones de compra basadas únicamente en estos resultados. Por favor pongase en contacto con su canal de distribución para la respectiva cotización.",
     "disclaimer.accept": "Aceptar y Continuar",
     
     "validation.required": "Campo requerido",
