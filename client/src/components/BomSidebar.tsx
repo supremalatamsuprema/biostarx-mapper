@@ -73,7 +73,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
             {t("bom.title")}
           </h4>
           
-          <div className="space-y-2 max-h-48 overflow-y-auto custom-scrollbar pr-2">
+          <div className="space-y-2">
             {bom.map((item, index) => (
               <div 
                 key={`${item.id}-${index}`}
@@ -141,7 +141,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
           </div>
           
           <div className="p-6 sm:p-8 space-y-4">
-            <div className="space-y-2 max-h-32 overflow-y-auto custom-scrollbar pr-2">
+            <div className="space-y-2">
               {alternative.bom.map((item, index) => (
                 <div 
                   key={`alt-${item.id}-${index}`}
