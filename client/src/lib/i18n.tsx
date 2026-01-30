@@ -150,7 +150,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "migration.hardwareConfirmation": "Confirmación de Compatibilidad de Hardware",
     "migration.hardwareConfirmDesc": "Confirmo que he revisado mis equipos y no cuento con equipos de 1ra Generación.",
     
-    "capacity.sectionTitle": "02. Dimensionamiento y Capacidad",
+    "capacity.sectionTitle": "Dimensionamiento y Capacidad",
     "capacity.totalUsers": "Usuarios Totales",
     "capacity.totalDoors": "Total Puertas",
     "capacity.totalDevices": "Total Dispositivos",
@@ -170,7 +170,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "features.remoteAccess": "Remote Access (Anual)",
     "features.eventApi": "Event API License",
     
-    "devices.sectionTitle": "04. Licencias de Dispositivos",
+    "devices.sectionTitle": "Licencias de Dispositivos",
     "devices.videoChannels": "Canales de Video",
     "devices.qrCameras": "Cámaras QR",
     "devices.wirelessLocks": "Cerraduras Inalámbricas",
@@ -330,7 +330,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "migration.hardwareConfirmation": "Hardware Compatibility Confirmation",
     "migration.hardwareConfirmDesc": "I confirm that I have reviewed my equipment and do not have 1st Generation devices.",
     
-    "capacity.sectionTitle": "02. Sizing and Capacity",
+    "capacity.sectionTitle": "Sizing and Capacity",
     "capacity.totalUsers": "Total Users",
     "capacity.totalDoors": "Total Doors",
     "capacity.totalDevices": "Total Devices",
@@ -350,7 +350,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "features.remoteAccess": "Remote Access (Annual)",
     "features.eventApi": "Event API License",
     
-    "devices.sectionTitle": "04. Device Licenses",
+    "devices.sectionTitle": "Device Licenses",
     "devices.videoChannels": "Video Channels",
     "devices.qrCameras": "QR Cameras",
     "devices.wirelessLocks": "Wireless Locks",
