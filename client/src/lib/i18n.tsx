@@ -135,7 +135,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "projectMeta.lastName": "Apellido",
     "projectMeta.email": "Correo Electrónico",
     "projectMeta.phone": "Teléfono",
-    "projectMeta.dataAuth": "Autorización de Tratamiento de Datos (Opcional)",
+    "projectMeta.dataAuth": "Autorización de Tratamiento de Datos",
     "projectMeta.optional": "(Opcional)",
     "projectMeta.dataAuthDesc": "Acepto el tratamiento de mis datos personales según la política de privacidad de Suprema Inc.",
     
