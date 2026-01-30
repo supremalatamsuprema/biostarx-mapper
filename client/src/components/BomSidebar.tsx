@@ -148,7 +148,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
                   className="flex items-center justify-between p-2 bg-muted/20 rounded-md"
                 >
                   <div className="flex-1 min-w-0">
-                    <p className="text-[10px] font-bold text-foreground truncate">{item.name}</p>
+                    <p className="font-bold text-foreground truncate text-[12px]">{item.name}</p>
                     <p className="font-mono text-muted-foreground text-[14px] font-normal">{item.id}</p>
                   </div>
                   <div className="ml-2 px-2 py-0.5 bg-foreground/80 text-background rounded-full text-[10px] font-black">
