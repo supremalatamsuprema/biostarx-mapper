@@ -136,7 +136,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "projectMeta.email": "Correo Electrónico",
     "projectMeta.phone": "Teléfono",
     "projectMeta.dataAuth": "Autorización de Tratamiento de Datos",
-    "projectMeta.optional": "(Opcional)",
+    "projectMeta.optional": "",
     "projectMeta.dataAuthDesc": "Acepto el tratamiento de mis datos personales según la política de privacidad de Suprema Inc.",
     
     "migration.sectionTitle": "Validación de Migración BioStar 2",
