@@ -27,11 +27,10 @@ export function FeaturesSection({
   return (
     <GlassCard className="p-8 sm:p-12">
       <div className="flex justify-between items-start mb-8 sm:mb-10 pb-4 border-b border-border">
-        <h3 className="text-xl sm:text-2xl font-heading font-black text-foreground">
+        <h3 className="sm:text-2xl font-heading text-foreground text-[18px] font-normal">
           {t("features.sectionTitle")}
         </h3>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
         <div className="space-y-4 sm:space-y-6">
           <h4 className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#A12944]">
