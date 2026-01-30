@@ -20,7 +20,6 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
         <ThemeToggle />
       </div>
       <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-[#00C2FF] via-[#0047FF] to-[#FF00E5] blur-[200px] opacity-10 rounded-full pointer-events-none" />
-
       <div className="max-w-5xl w-full relative z-10 space-y-12 sm:space-y-16 animate-fadeIn">
         <div className="text-left space-y-4 sm:space-y-6 max-w-3xl">
           <img 
@@ -28,7 +27,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
             alt="Suprema Logo"
             className="h-6 sm:h-8 mb-4 object-contain" 
           />
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-black text-[#A12944] tracking-tight leading-none">
+          <h1 className="sm:text-5xl lg:text-6xl font-heading font-black text-[#A12944] tracking-tight text-[54px]">
             {t("app.welcome")}<br />{t("app.title")}
           </h1>
           <p className="text-muted-foreground text-base sm:text-lg font-medium leading-relaxed">
