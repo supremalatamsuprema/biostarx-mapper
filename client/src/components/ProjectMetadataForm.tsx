@@ -20,7 +20,6 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
         <span className="opacity-20 text-xs sm:text-sm">01.</span>
         {t("projectMeta.title")}
       </h3>
-      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 sm:gap-x-12 gap-y-6 sm:gap-y-8">
         {/* Project Details */}
         <div className="space-y-5 sm:space-y-6">
@@ -61,7 +60,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
               />
             </div>
             
-            <div className="flex flex-col border-b-2 border-muted focus-within:border-[#A12944] transition-all">
+            <div className="flex flex-col border-b-2 border-muted focus-within:border-[#A12944] transition-all text-[12px]">
               <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
                 {t("projectMeta.clientType")} {t("projectMeta.optional")}
               </label>
@@ -135,7 +134,6 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
           </div>
         </div>
       </div>
-
       <div className="mt-8 sm:mt-10 p-4 sm:p-5 bg-muted/30 rounded-md border border-border">
         <label className="flex items-center gap-3 sm:gap-4 cursor-pointer group">
           <Checkbox
