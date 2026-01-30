@@ -39,11 +39,18 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
   return (
     <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 sm:mb-10 print:hidden">
       <div className="flex items-center gap-4 sm:gap-8">
-        <img 
-          src={logoImg} 
-          alt="Suprema Logo"
-          className="h-5 sm:h-6 object-contain" 
-        />
+        <a 
+          href="https://supremainc.com/en/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="hover:opacity-80 transition-opacity"
+        >
+          <img 
+            src={logoImg} 
+            alt="Suprema Logo"
+            className="h-5 sm:h-6 object-contain" 
+          />
+        </a>
         <div className="h-6 sm:h-8 w-px bg-border hidden sm:block" />
         <h2 className="text-lg sm:text-xl font-heading font-black uppercase tracking-tighter">
           Calculador BioStar <span className="text-[#A12944] italic">X</span>
