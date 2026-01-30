@@ -1,6 +1,7 @@
 import type { LicenseTier, Addon } from "@/types/license";
 
 export const LICENSE_TIERS: LicenseTier[] = [
+  { id: 'BIOSTARX-DVM', name: 'Device Manager', maxDoors: 0, maxUsers: 200, maxOperators: 1, desc: 'Gestión de dispositivos.' },
   { id: 'BIOSTARX-STR', name: 'Starter', maxDoors: 5, maxUsers: 100, maxOperators: 1, desc: 'Pequeños sitios.' },
   { id: 'BIOSTARX-ESS', name: 'Essential', maxDoors: 32, maxUsers: 1000, maxOperators: 10, desc: 'PyMEs con expansión.' },
   { id: 'BIOSTARX-ADV', name: 'Advanced', maxDoors: 128, maxUsers: 50000, maxOperators: 20, desc: 'Profesional & Mapas.' },

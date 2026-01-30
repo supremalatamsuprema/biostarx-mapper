@@ -97,8 +97,13 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
   }
 
   // Option 1: Natural tier for capacity
-  let selected = candidates.find(t => reqU <= (t as any).maxUsers && reqO <= (t as any).maxOperators && reqD <= (t as any).maxDoors) || 
-                 candidates[candidates.length - 1];
+  let selected = candidates.find(t => {
+    // Device Manager special case: Only if doors is exactly 0
+    if (t.id === 'BIOSTARX-DVM') {
+      return reqD === 0 && reqU <= t.maxUsers && reqO <= t.maxOperators;
+    }
+    return reqU <= (t as any).maxUsers && reqO <= (t as any).maxOperators && reqD <= (t as any).maxDoors;
+  }) || candidates[candidates.length - 1];
 
   // If migration scenario, force the equivalent base license if it exists
   if (inputs.scenario === 'migration' && inputs.activationCode && (MIGRATION_MAPPING.AC as any)[inputs.activationCode]) {
@@ -112,12 +117,12 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
   // Option 2: Cheaper tier with upgrades (if applicable)
   let alternative: CalculatedBOM['alternative'] | undefined;
   
-  if (selected.id !== 'BIOSTARX-STR') {
+  if (selected.id !== 'BIOSTARX-STR' && selected.id !== 'BIOSTARX-DVM') {
     const currentIndex = candidates.findIndex(t => t.id === selected.id);
     if (currentIndex > 0) {
       const lowerTier = candidates[currentIndex - 1];
       // Check if lower tier is actually lower than what we would get with just doors
-      const isUpgradable = lowerTier.id !== 'BIOSTARX-STR';
+      const isUpgradable = lowerTier.id !== 'BIOSTARX-STR' && lowerTier.id !== 'BIOSTARX-DVM';
       if (isUpgradable) {
         alternative = {
           selected: lowerTier,
