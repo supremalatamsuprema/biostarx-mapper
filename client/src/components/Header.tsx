@@ -1,4 +1,4 @@
-import { RefreshCcw, Download, FileText, ChevronDown, LifeBuoy } from "lucide-react";
+import { RefreshCcw, Download, FileText, ChevronDown, LifeBuoy, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
@@ -102,6 +102,20 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
           <a href="https://support.supremainc.com/en/support/home" target="_blank" rel="noopener noreferrer">
             <LifeBuoy className="w-3.5 h-3.5 mr-2" />
             Soporte
+          </a>
+        </Button>
+
+        <div className="h-6 w-px bg-border mx-1" />
+
+        <Button
+          variant="ghost"
+          size="sm"
+          asChild
+          className="rounded-full text-[10px] font-bold tracking-widest text-muted-foreground hover:text-primary"
+        >
+          <a href="https://docs.supremainc.com/en/platform/biostar_x/licensing" target="_blank" rel="noopener noreferrer">
+            <BookOpen className="w-3.5 h-3.5 mr-2" />
+            Licencias
           </a>
         </Button>
 
