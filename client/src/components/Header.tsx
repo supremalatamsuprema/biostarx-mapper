@@ -1,4 +1,4 @@
-import { RefreshCcw, Download, FileText, ChevronDown, LifeBuoy, BookOpen } from "lucide-react";
+import { RefreshCcw, Download, FileText, ChevronDown, Headset, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
@@ -107,7 +107,7 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
           className="rounded-full text-[10px] font-bold tracking-widest text-muted-foreground hover:text-primary"
         >
           <a href="https://support.supremainc.com/en/support/home" target="_blank" rel="noopener noreferrer">
-            <LifeBuoy className="w-3.5 h-3.5 mr-2" />
+            <Headset className="w-3.5 h-3.5 mr-2" />
             Soporte
           </a>
         </Button>
