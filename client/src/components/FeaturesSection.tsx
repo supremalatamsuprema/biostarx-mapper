@@ -56,7 +56,7 @@ export function FeaturesSection({
             ))}
           </div>
           
-          <p className="text-[8px] font-bold text-muted-foreground italic">
+          <p className="font-bold text-muted-foreground italic text-[12px]">
             {t("features.advancedNote")}
           </p>
         </div>
