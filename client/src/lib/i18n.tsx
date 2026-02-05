@@ -16,7 +16,7 @@ export const translations: Record<Language, Record<string, string>> = {
   es: {
     "app.title": "BioStar X",
     "app.welcome": "Calculador",
-    "app.description": "BioStar X Mapper es una herramienta diseñada para facilitar el cálculo y la selección correcta del licenciamiento de BioStar X. A través de este tool, es posible identificar de manera rápida y precisa las licencias necesarias según el tamaño, alcance y configuración de cada proyecto.",
+    "app.description": "El Calculador de BioStar X es una herramienta diseñada para facilitar el cálculo y la selección correcta del licenciamiento de BioStar X. A través de esta herramienta, es posible identificar de manera rápida y precisa las licencias necesarias según el tamaño, alcance y configuración de cada proyecto.",
     
     "scenario.new": "Proyecto Nuevo",
     "scenario.new.desc": "Implementación desde cero (Greenfield) diseñada nativamente para BioStar X.",
