@@ -35,7 +35,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
             <img 
               src={bxLogo} 
               alt="BioStar X Logo"
-              className="h-10 sm:h-14 lg:h-16 object-contain" 
+              className="h-[1em] sm:h-[1em] lg:h-[1em] w-auto object-contain self-center" 
             />
           </div>
           <p className="text-muted-foreground text-base sm:text-lg font-medium leading-relaxed">
