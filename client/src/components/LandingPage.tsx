@@ -4,6 +4,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { useI18n } from "@/lib/i18n";
 import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
+import bxLogo from "@assets/image_1769726762875.png"; // Assuming this is BioStar X logo based on previous turn logic
 import type { ProjectInputs } from "@/types/license";
 
 interface LandingPageProps {
@@ -27,9 +28,16 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
             alt="Suprema Logo"
             className="h-6 sm:h-8 mb-4 object-contain" 
           />
-          <h1 className="sm:text-5xl lg:text-6xl font-heading font-black text-[#A12944] tracking-tight text-[54px]">
-            {t("app.welcome")}<br />{t("app.title")}
-          </h1>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-x-4 gap-y-2 mb-4">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-semibold text-foreground tracking-tight">
+              {t("app.welcome")}
+            </h1>
+            <img 
+              src={bxLogo} 
+              alt="BioStar X Logo"
+              className="h-10 sm:h-14 lg:h-16 object-contain" 
+            />
+          </div>
           <p className="text-muted-foreground text-base sm:text-lg font-medium leading-relaxed">
             {t("app.description")}
           </p>
