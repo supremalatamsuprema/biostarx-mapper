@@ -4,7 +4,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { useI18n } from "@/lib/i18n";
 import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
-import bxLogo from "@assets/image_1769726762875.png"; // Assuming this is BioStar X logo based on previous turn logic
+import bxLogo from "@assets/image_1769729817600.png";
 import type { ProjectInputs } from "@/types/license";
 
 interface LandingPageProps {
