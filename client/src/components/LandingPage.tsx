@@ -26,9 +26,9 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
       </div>
       <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-[#00C2FF] via-[#0047FF] to-[#FF00E5] blur-[200px] opacity-10 rounded-full pointer-events-none" />
       <div className="max-w-5xl w-full relative z-10 space-y-12 sm:space-y-16 animate-fadeIn">
-        <div className="text-left space-y-4 sm:space-y-6">
+        <div className="text-left space-y-4 sm:space-y-6 max-w-3xl">
           <div className="flex flex-col sm:flex-row sm:items-center gap-x-4 gap-y-2 mb-6">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-heading font-semibold text-foreground tracking-tight">
+            <h1 className="sm:text-5xl lg:text-7xl font-heading font-semibold text-foreground tracking-tight text-[67px]">
               {t("app.welcome")}
             </h1>
             <img 
@@ -37,7 +37,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
               className="h-[4em] sm:h-[4.4em] lg:h-[4.8em] w-auto object-contain" 
             />
           </div>
-          <p className="text-muted-foreground text-base sm:text-lg font-medium leading-relaxed max-w-3xl">
+          <p className="text-muted-foreground text-base sm:text-lg font-medium leading-relaxed">
             {t("app.description")}
           </p>
         </div>
