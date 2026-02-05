@@ -51,9 +51,11 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
             onChange={e => handleTierChange(e.target.value)}
             data-testid="select-bs2-tier"
           >
-            <option value="">Selecciona tu licencia actual</option>
+            <option value="">{t("migration.selectLicense")}</option>
             {Object.keys(MIGRATION_MAPPING.AC).map(tier => (
-              <option key={tier} value={tier}>{tier.replace('BioStar2-', '')}</option>
+              <option key={tier} value={tier}>
+                {tier === 'BioStar2-Starter' ? 'Starter (Free)' : tier.replace('BioStar2-', '')}
+              </option>
             ))}
           </select>
         </div>

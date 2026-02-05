@@ -31,6 +31,7 @@ export const CLIENT_TYPES = ["Integrador", "Dealer", "Distribuidor", "Cliente Fi
 
 export const MIGRATION_MAPPING = {
   AC: {
+    'BioStar2-Starter': { base: 'BIOSTARX-STR', addons: [] },
     'BioStar2-Basic': { base: 'BIOSTARX-ESS', addons: [] },
     'BioStar2-Standard': { base: 'BIOSTARX-ESS', addons: ['DOOR_UP', 'ADV_AC'] },
     'BioStar2-Advanced': { base: 'BIOSTARX-ADV', addons: ['ADV_AC'] },
