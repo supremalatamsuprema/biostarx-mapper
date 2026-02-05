@@ -127,24 +127,26 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
 
       if (meta.activationCode) {
         const mapping = (MIGRATION_MAPPING.AC as any)[meta.activationCode];
-        if (mapping && mapping.addons.includes('ADV_AC')) {
-          newFeatures.globalApb = true;
-          newFeatures.fire = true;
-          newFeatures.elevator = true;
-          newFeatures.interlock = true;
-          newFeatures.intrusion = true;
-          newFeatures.mustering = true;
-          newFeatures.occupancy = true;
-        }
+        const hasZones = mapping && mapping.addons.includes('ADV_AC');
+        newFeatures.globalApb = hasZones;
+        newFeatures.fire = hasZones;
+        newFeatures.elevator = hasZones;
+        newFeatures.interlock = hasZones;
+        newFeatures.intrusion = hasZones;
+        newFeatures.mustering = hasZones;
+        newFeatures.occupancy = hasZones;
+      } else {
+        newFeatures.globalApb = false;
+        newFeatures.fire = false;
+        newFeatures.elevator = false;
+        newFeatures.interlock = false;
+        newFeatures.intrusion = false;
+        newFeatures.mustering = false;
+        newFeatures.occupancy = false;
       }
 
-      if (meta.bs2TaLicense) {
-        newFeatures.tna = true;
-      }
-
-      if (meta.bs2VisitorLicense) {
-        newFeatures.visitor = true;
-      }
+      newFeatures.tna = !!meta.bs2TaLicense;
+      newFeatures.visitor = !!meta.bs2VisitorLicense;
 
       setFeatures(newFeatures);
     }
