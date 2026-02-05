@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { CalculatedBOM, ProjectMeta, ProjectInputs } from "@/types/license";
+import BioStar_X_LOGO2 from "@assets/BioStar-X-LOGO2.png";
 
 interface HeaderProps {
   scenario: ProjectInputs['scenario'];
@@ -52,9 +52,16 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
           />
         </a>
         <div className="h-6 sm:h-8 w-px bg-border hidden sm:block" />
-        <h2 className="text-lg sm:text-xl font-heading font-semibold uppercase tracking-tighter">
-          Calculador BioStar <span className="text-[#B12944] italic">X</span>
-        </h2>
+        <div className="flex items-center gap-2">
+          <span className="text-lg sm:text-xl font-heading font-semibold uppercase tracking-tighter">
+            Calculador
+          </span>
+          <img 
+            src={BioStar_X_LOGO2} 
+            alt="BioStar X Logo"
+            className="h-6 sm:h-8 object-contain" 
+          />
+        </div>
       </div>
 
       <div className="flex gap-3 sm:gap-4 items-center flex-wrap">
