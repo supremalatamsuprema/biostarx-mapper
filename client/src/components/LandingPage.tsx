@@ -24,11 +24,9 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
         <LanguageSelector />
         <ThemeToggle />
       </div>
-      
       {/* Decorative background elements */}
       <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-[#00C2FF] via-[#0047FF] to-[#FF00E5] blur-[200px] opacity-5 rounded-full pointer-events-none" />
       <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-[#B12944] to-[#0047FF] blur-[200px] opacity-5 rounded-full pointer-events-none" />
-
       <div className="max-w-6xl w-full relative z-10 space-y-16 sm:space-y-24 animate-fadeIn">
         <div className="text-center space-y-6 max-w-4xl mx-auto">
           <div className="flex flex-col items-center justify-center gap-y-4 mb-8">
@@ -41,7 +39,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
               className="h-[3em] sm:h-[3.5em] lg:h-[4.2em] w-auto object-contain" 
             />
           </div>
-          <p className="text-muted-foreground text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto text-justify">
             {t("app.description")}
           </p>
         </div>
