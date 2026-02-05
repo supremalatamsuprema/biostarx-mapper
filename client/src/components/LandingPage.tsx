@@ -30,7 +30,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
       <div className="max-w-6xl w-full relative z-10 space-y-16 sm:space-y-24 animate-fadeIn">
         <div className="text-center space-y-6 max-w-4xl mx-auto">
           <div className="flex flex-col items-center justify-center gap-y-4 mb-8">
-            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-heading font-semibold text-foreground tracking-tight leading-none">
+            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-heading text-foreground tracking-tight leading-none font-normal">
               {t("app.welcome")}
             </h1>
             <img 
