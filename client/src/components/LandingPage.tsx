@@ -7,6 +7,8 @@ import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
 import bxLogo from "@assets/image_1769729328685.png";
 import type { ProjectInputs } from "@/types/license";
 
+import BioStar_X_LOGO from "@assets/BioStar-X-LOGO.png";
+
 interface LandingPageProps {
   onSelectScenario: (scenario: ProjectInputs['scenario']) => void;
 }
@@ -33,7 +35,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
               {t("app.welcome")}
             </h1>
             <img 
-              src={bxLogo} 
+              src={BioStar_X_LOGO} 
               alt="BioStar X Logo"
               className="h-[1em] sm:h-[1em] lg:h-[1em] w-auto object-contain self-center" 
             />
