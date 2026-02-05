@@ -4,7 +4,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { useI18n } from "@/lib/i18n";
 import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
-import bxLogo from "@assets/image_1769726762875.png";
+import bxLogo from "@assets/image_1769784693609.png";
 import type { ProjectInputs } from "@/types/license";
 
 interface LandingPageProps {
