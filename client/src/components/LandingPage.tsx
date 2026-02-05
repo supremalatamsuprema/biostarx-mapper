@@ -33,7 +33,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
             className="h-6 sm:h-8 mb-4 object-contain" 
           />
           <div className="flex flex-col sm:flex-row sm:items-center gap-x-4 gap-y-2 mb-6">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-heading font-semibold text-foreground tracking-tight">
+            <h1 className="sm:text-5xl lg:text-7xl font-heading font-semibold text-foreground tracking-tight text-[67px]">
               {t("app.welcome")}
             </h1>
             <img 
