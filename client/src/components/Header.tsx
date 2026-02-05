@@ -52,8 +52,8 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
           />
         </a>
         <div className="h-6 sm:h-8 w-px bg-border hidden sm:block" />
-        <h2 className="text-lg sm:text-xl font-heading font-black uppercase tracking-tighter">
-          Calculador BioStar <span className="text-[#A12944] italic">X</span>
+        <h2 className="text-lg sm:text-xl font-heading font-semibold uppercase tracking-tighter">
+          Calculador BioStar <span className="text-[#B12944] italic">X</span>
         </h2>
       </div>
 
@@ -64,7 +64,7 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
               <Button 
                 variant="default" 
                 size="sm" 
-                className="rounded-full bg-[#A12944] hover:bg-[#A12944]/90 text-white font-bold text-[10px] tracking-widest uppercase"
+                className="rounded-full bg-[#B12944] hover:bg-[#B12944]/90 text-white font-semibold text-[10px] tracking-widest uppercase"
                 data-testid="button-export-all"
               >
                 <Download className="w-3.5 h-3.5 mr-2" />
