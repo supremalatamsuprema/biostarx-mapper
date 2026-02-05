@@ -19,7 +19,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
   const { t } = useI18n();
   
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col items-center justify-center p-4 sm:p-8">
+    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col items-center justify-start pt-20 sm:pt-32 p-4 sm:p-8">
       <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
         <LanguageSelector />
         <ThemeToggle />
