@@ -30,6 +30,8 @@ export interface ProjectMeta {
   authorized: boolean;
   bs2Version: string;
   activationCode: string;
+  bs2TaLicense: string;
+  bs2VisitorLicense: boolean;
   dashboardFile: string;
   versionFile: string;
   licenseFile: string;

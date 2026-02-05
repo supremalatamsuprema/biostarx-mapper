@@ -73,6 +73,8 @@ const sendEmailSchema = z.object({
     authorized: z.boolean().optional().default(false),
     bs2Version: z.string().max(50).optional().default(""),
     activationCode: z.string().max(100).optional().default(""),
+    bs2TaLicense: z.string().max(100).optional().default(""),
+    bs2VisitorLicense: z.boolean().optional().default(false),
     dashboardFile: z.string().max(500).optional().default(""),
     versionFile: z.string().max(500).optional().default(""),
     licenseFile: z.string().max(500).optional().default(""),

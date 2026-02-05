@@ -17,12 +17,20 @@ export function needsAdvancedPackage(features: FeatureFlags): boolean {
          features.occupancy;
 }
 
+const BS2_DOOR_LIMITS: Record<string, number> = {
+  'BioStar2-Starter': 5,
+  'BioStar2-Basic': 20,
+  'BioStar2-Standard': 50,
+  'BioStar2-Advanced': 100,
+  'BioStar2-Professional': 300,
+  'BioStar2-Enterprise': 1000,
+};
+
 export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): CalculatedBOM {
   const reqD = inputs.doors;
   const reqO = inputs.operators;
   const needsAdvPkg = needsAdvancedPackage(features);
 
-  // Requirement: If T&A is active, the effective user count must be the MAX of total users and T&A users
   const effectiveUsers = features.tna 
     ? Math.max(inputs.users, inputs.tnaUsers || 0)
     : inputs.users;
@@ -38,28 +46,18 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
       bom.push({ ...ADDONS.USR_UP, qty: Math.ceil(uGap / 5000) });
     }
 
-    // Advanced tier user expansion logic
     if (selectedTier.id === 'BIOSTARX-ADV' && reqU > 50000) {
       const uGap = reqU - 50000;
       bom.push({ ...ADDONS.USR_UP, qty: Math.ceil(uGap / 50000) });
     }
 
-    const dGap = Math.max(0, reqD - selectedTier.maxDoors);
+    const effectiveDoors = inputs.scenario === 'migration' && inputs.activationCode
+      ? Math.max(reqD, BS2_DOOR_LIMITS[inputs.activationCode] || 0)
+      : reqD;
+
+    const dGap = Math.max(0, effectiveDoors - selectedTier.maxDoors);
     if (dGap > 0) {
       bom.push({ ...ADDONS.DOOR_UP, qty: Math.ceil(dGap / 32) });
-    }
-
-    // Migration specific addons
-    if (inputs.scenario === 'migration' && inputs.activationCode) {
-      const mapping = (MIGRATION_MAPPING.AC as any)[inputs.activationCode];
-      if (mapping && mapping.addons) {
-        mapping.addons.forEach((addonKey: string) => {
-          const addon = (ADDONS as any)[addonKey];
-          if (addon && !bom.find(b => b.id === addon.id)) {
-            bom.push({ ...addon, qty: 1 });
-          }
-        });
-      }
     }
 
     const oGap = Math.max(0, reqO - selectedTier.maxOperators);
@@ -68,13 +66,35 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
     }
 
     if (needsAdvPkg && selectedTier.id !== 'BIOSTARX-ENT' && selectedTier.id !== 'BIOSTARX-ELT') {
-      bom.push({ ...ADDONS.ADV_AC, qty: 1 });
+      if (!bom.find(b => b.id === ADDONS.ADV_AC.id)) {
+        bom.push({ ...ADDONS.ADV_AC, qty: 1 });
+      }
     }
 
-    if (features.visitor) bom.push({ ...ADDONS.VISITOR, qty: 1 });
+    if (inputs.scenario === 'migration' && inputs.activationCode) {
+      const mapping = (MIGRATION_MAPPING.AC as any)[inputs.activationCode];
+      if (mapping && mapping.addons) {
+        mapping.addons.forEach((addonKey: string) => {
+          if (addonKey === 'DOOR_UP') return;
+          const addon = (ADDONS as any)[addonKey];
+          if (addon && !bom.find(b => b.id === addon.id)) {
+            bom.push({ ...addon, qty: 1 });
+          }
+        });
+      }
+    }
+
+    if (features.visitor) {
+      if (!bom.find(b => b.id === ADDONS.VISITOR.id)) {
+        bom.push({ ...ADDONS.VISITOR, qty: 1 });
+      }
+    }
     if (features.tna) {
       const tnaUsers = inputs.tnaUsers || reqU;
-      bom.push({ ...(tnaUsers > 500 ? ADDONS.TNA_ENT : ADDONS.TNA_STD), qty: 1 });
+      const tnaAddon = tnaUsers > 500 ? ADDONS.TNA_ENT : ADDONS.TNA_STD;
+      if (!bom.find(b => b.id === tnaAddon.id)) {
+        bom.push({ ...tnaAddon, qty: 1 });
+      }
     }
     if (features.mobile) bom.push({ ...ADDONS.MOBILE, qty: 1 });
     if (features.api) bom.push({ ...ADDONS.API, qty: 1 });
@@ -90,38 +110,37 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
 
   let candidates = [...LICENSE_TIERS];
   if (inputs.scenario === 'migration') {
-    candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR');
+    candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-DVM');
   }
   if (needsAdvPkg || features.maps) {
-    candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-ESS');
+    candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-ESS' && t.id !== 'BIOSTARX-DVM');
   }
 
-  // Option 1: Natural tier for capacity
   let selected = candidates.find(t => {
-    // Device Manager special case: Only if doors is exactly 0
     if (t.id === 'BIOSTARX-DVM') {
       return reqD === 0 && reqU <= t.maxUsers && reqO <= t.maxOperators;
     }
-    return reqU <= (t as any).maxUsers && reqO <= (t as any).maxOperators && reqD <= (t as any).maxDoors;
+    return reqU <= t.maxUsers && reqO <= t.maxOperators && reqD <= t.maxDoors;
   }) || candidates[candidates.length - 1];
 
-  // If migration scenario, force the equivalent base license if it exists
   if (inputs.scenario === 'migration' && inputs.activationCode && (MIGRATION_MAPPING.AC as any)[inputs.activationCode]) {
     const mapping = (MIGRATION_MAPPING.AC as any)[inputs.activationCode];
     const mappedTier = candidates.find(t => t.id === mapping.base);
     if (mappedTier) {
-      selected = mappedTier;
+      const mappedIndex = candidates.findIndex(t => t.id === mappedTier.id);
+      const selectedIndex = candidates.findIndex(t => t.id === selected.id);
+      if (mappedIndex > selectedIndex) {
+        selected = mappedTier;
+      }
     }
   }
 
-  // Option 2: Cheaper tier with upgrades (if applicable)
   let alternative: CalculatedBOM['alternative'] | undefined;
   
   if (selected.id !== 'BIOSTARX-STR' && selected.id !== 'BIOSTARX-DVM') {
     const currentIndex = candidates.findIndex(t => t.id === selected.id);
     if (currentIndex > 0) {
       const lowerTier = candidates[currentIndex - 1];
-      // Check if lower tier is actually lower than what we would get with just doors
       const isUpgradable = lowerTier.id !== 'BIOSTARX-STR' && lowerTier.id !== 'BIOSTARX-DVM';
       if (isUpgradable) {
         alternative = {

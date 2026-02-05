@@ -61,6 +61,8 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     authorized: false,
     bs2Version: '',
     activationCode: '',
+    bs2TaLicense: '',
+    bs2VisitorLicense: false,
     dashboardFile: '',
     versionFile: '',
     licenseFile: '',
@@ -116,17 +118,16 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
   }, [calculatedBOM.selected.id]);
 
   useEffect(() => {
-    if (inputs.scenario === 'migration' && meta.activationCode) {
-      // Sync activationCode to inputs for calculation
-      if (inputs.activationCode !== meta.activationCode) {
+    if (inputs.scenario === 'migration') {
+      if (meta.activationCode && inputs.activationCode !== meta.activationCode) {
         setInputs(prev => ({ ...prev, activationCode: meta.activationCode }));
       }
 
-      const mapping = (MIGRATION_MAPPING.AC as any)[meta.activationCode];
-      if (mapping) {
-        // Automatically set features based on BS2 license
-        const newFeatures = { ...features };
-        if (mapping.addons.includes('ADV_AC')) {
+      const newFeatures = { ...features };
+
+      if (meta.activationCode) {
+        const mapping = (MIGRATION_MAPPING.AC as any)[meta.activationCode];
+        if (mapping && mapping.addons.includes('ADV_AC')) {
           newFeatures.globalApb = true;
           newFeatures.fire = true;
           newFeatures.elevator = true;
@@ -135,10 +136,19 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
           newFeatures.mustering = true;
           newFeatures.occupancy = true;
         }
-        setFeatures(newFeatures);
       }
+
+      if (meta.bs2TaLicense) {
+        newFeatures.tna = true;
+      }
+
+      if (meta.bs2VisitorLicense) {
+        newFeatures.visitor = true;
+      }
+
+      setFeatures(newFeatures);
     }
-  }, [meta.activationCode, inputs.scenario]);
+  }, [meta.activationCode, meta.bs2TaLicense, meta.bs2VisitorLicense, inputs.scenario]);
 
   const handleGenerateReport = () => {
     if (!meta.projectName.trim()) {

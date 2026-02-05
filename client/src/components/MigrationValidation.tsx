@@ -18,7 +18,6 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
 
   const handleTierChange = (val: string) => {
     updateField('activationCode', val);
-    // Also trigger update on inputs if needed, though Calculator.tsx handles the effect
   };
 
   return (
@@ -58,6 +57,46 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
               </option>
             ))}
           </select>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mb-8 sm:mb-10">
+        <div className="space-y-1">
+          <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+            {t("migration.taLicense")}
+          </label>
+          <select 
+            className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#0047FF] outline-none transition-all cursor-pointer"
+            value={meta.bs2TaLicense}
+            onChange={e => updateField('bs2TaLicense', e.target.value)}
+            data-testid="select-bs2-ta"
+          >
+            <option value="">{t("migration.noLicense")}</option>
+            {Object.keys(MIGRATION_MAPPING.TA).map(tier => (
+              <option key={tier} value={tier}>
+                {tier === 'BioStar2-TA-Starter' ? 'Starter (Free)' : tier.replace('BioStar2-TA-', '')}
+              </option>
+            ))}
+          </select>
+        </div>
+        
+        <div className="space-y-1">
+          <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+            {t("migration.visitorLicense")}
+          </label>
+          <div className="pt-2">
+            <label className="flex items-center gap-3 cursor-pointer group">
+              <Checkbox
+                checked={meta.bs2VisitorLicense}
+                onCheckedChange={(checked) => updateField('bs2VisitorLicense', !!checked)}
+                className="w-5 h-5 data-[state=checked]:bg-[#0047FF] data-[state=checked]:border-[#0047FF]"
+                data-testid="checkbox-bs2-visitor"
+              />
+              <span className="text-sm font-bold text-foreground">
+                {t("migration.hasVisitorLicense")}
+              </span>
+            </label>
+          </div>
         </div>
       </div>
       

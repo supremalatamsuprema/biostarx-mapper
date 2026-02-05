@@ -39,6 +39,7 @@ export const MIGRATION_MAPPING = {
     'BioStar2-Enterprise': { base: 'BIOSTARX-ELT', addons: ['ADV_AC'] },
   },
   TA: {
+    'BioStar2-TA-Starter': ['TNA_STD'],
     'BioStar2-TA-Standard': ['TNA_STD'],
     'BioStar2-TA-Advanced': ['TNA_ENT'],
     'BioStar2-TA-Professional': ['TNA_ENT'],
