@@ -9,6 +9,7 @@ import { BomSidebar } from "@/components/BomSidebar";
 import { MobileBomSheet } from "@/components/MobileBomSheet";
 import { ReportModal } from "@/components/ReportModal";
 import { DisclaimerModal } from "@/components/DisclaimerModal";
+import { EmailDialog } from "@/components/EmailDialog";
 import { calculateBOM } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
 import { useToast } from "@/hooks/use-toast";
@@ -42,6 +43,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
   const { t } = useI18n();
   const [showReport, setShowReport] = useState(false);
   const [showExportDisclaimer, setShowExportDisclaimer] = useState(false);
+  const [showEmailDialog, setShowEmailDialog] = useState(false);
   const [tierChanged, setTierChanged] = useState(false);
   const prevTierRef = useRef<string>('');
   
@@ -204,6 +206,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
             onGenerateReport={handleGenerateReport}
             tierChanged={tierChanged}
             meta={meta}
+            onSendEmail={() => setShowEmailDialog(true)}
           />
         </div>
       </div>
@@ -225,6 +228,18 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
         inputs={inputs}
         features={features}
         calculatedBOM={calculatedBOM}
+        onSendEmail={() => {
+          setShowReport(false);
+          setShowEmailDialog(true);
+        }}
+      />
+
+      <EmailDialog
+        open={showEmailDialog}
+        onOpenChange={setShowEmailDialog}
+        calculatedBOM={calculatedBOM}
+        meta={meta}
+        inputs={inputs}
       />
     </div>
   );

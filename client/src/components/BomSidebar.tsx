@@ -1,7 +1,7 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { PillButton } from "@/components/ui/pill-button";
 import { Button } from "@/components/ui/button";
-import { FileText, Package, Download } from "lucide-react";
+import { FileText, Package, Download, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { downloadCSV, getTotalItems } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
@@ -12,9 +12,10 @@ interface BomSidebarProps {
   onGenerateReport: () => void;
   tierChanged?: boolean;
   meta: ProjectMeta;
+  onSendEmail?: () => void;
 }
 
-export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta }: BomSidebarProps) {
+export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta, onSendEmail }: BomSidebarProps) {
   const { bom, selected, alternative } = calculatedBOM;
   const totalItems = getTotalItems(bom);
   const { t } = useI18n();
@@ -160,6 +161,19 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
           </div>
         </GlassCard>
       )}
+      
+      {onSendEmail && (
+        <Button 
+          variant="outline" 
+          onClick={onSendEmail}
+          className="w-full gap-2"
+          data-testid="button-send-email-sidebar"
+        >
+          <Mail className="w-4 h-4" />
+          {t("email.send")}
+        </Button>
+      )}
+      
       <p className="text-[8px] text-muted-foreground leading-relaxed text-center px-4 italic">
         {t("disclaimer.note")}
       </p>

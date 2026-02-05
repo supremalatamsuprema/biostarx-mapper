@@ -50,9 +50,17 @@ Preferred communication style: Simple, everyday language.
 - **Multi-language support (i18n)**: Full translation support for Spanish, English, and Brazilian Portuguese
   - **Implementation**: React Context API with I18nProvider and useI18n hook (`client/src/lib/i18n.tsx`)
   - **Language selector**: Globe icon dropdown in header (LanguageSelector component)
-  - **Translation keys**: Organized by namespace (projectMeta.*, migration.*, capacity.*, features.*, devices.*, mobile.*, clientType.*, advancedFeature.*, bom.*, validation.*, disclaimer.*)
+  - **Translation keys**: Organized by namespace (projectMeta.*, migration.*, capacity.*, features.*, devices.*, mobile.*, clientType.*, advancedFeature.*, bom.*, validation.*, disclaimer.*, email.*)
   - **Persistence**: Language preference saved to localStorage key 'biostarx-language'
   - **Date formatting**: Respects selected language (es-ES, en-US, pt-BR)
+- **Email functionality**: Send BOM calculations via email
+  - **Component**: EmailDialog (`client/src/components/EmailDialog.tsx`)
+  - **Features**: Primary recipient, CC list, optional copy to Suprema LATAM (latam@supremainc.com), notes field
+  - **Privacy consent**: Required acceptance of Suprema privacy policy before sending
+  - **Backend**: `/api/send-email` endpoint with Gmail SMTP via nodemailer
+  - **Security**: Rate limiting (10 emails per 15 minutes), Zod schema validation, HTML escaping for all user content
+  - **Localization**: Email content translated based on selected language (es/en/pt)
+  - **Required secrets**: GMAIL_USER, GMAIL_APP_PASSWORD
 
 ## External Dependencies
 
@@ -66,6 +74,10 @@ Preferred communication style: Simple, everyday language.
 - TanStack React Query for data fetching and caching
 - React Hook Form with Zod resolvers for form validation
 - date-fns for date manipulation
+
+### Email
+- nodemailer for SMTP email sending via Gmail
+- express-rate-limit for API rate limiting
 
 ### Database
 - PostgreSQL via Drizzle ORM (requires DATABASE_URL environment variable)

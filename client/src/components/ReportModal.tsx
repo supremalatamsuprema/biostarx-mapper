@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { PillButton } from "@/components/ui/pill-button";
-import { Printer, Copy, X, CheckCircle, Download, Package } from "lucide-react";
+import { Printer, Copy, X, CheckCircle, Download, Package, Mail } from "lucide-react";
 import { useState } from "react";
 import { downloadCSV } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
@@ -21,6 +21,7 @@ interface ReportModalProps {
   inputs: ProjectInputs;
   features: FeatureFlags;
   calculatedBOM: CalculatedBOM;
+  onSendEmail?: () => void;
 }
 
 export function ReportModal({ 
@@ -29,7 +30,8 @@ export function ReportModal({
   meta, 
   inputs, 
   features,
-  calculatedBOM 
+  calculatedBOM,
+  onSendEmail
 }: ReportModalProps) {
   const [copied, setCopied] = useState(false);
   const { bom, selected } = calculatedBOM;
@@ -459,6 +461,12 @@ ${t("disclaimer.note")}
             <Button variant="outline" onClick={onClose} className="rounded-full">
               {t("report.close")}
             </Button>
+            {onSendEmail && (
+              <Button variant="outline" onClick={onSendEmail} className="rounded-full gap-2" data-testid="button-send-email-report">
+                <Mail className="w-4 h-4" />
+                {t("email.send")}
+              </Button>
+            )}
             <PillButton onClick={handlePrint}>
               <Printer className="w-4 h-4 mr-2" />
               {t("report.print")}
