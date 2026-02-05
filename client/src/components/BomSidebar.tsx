@@ -42,14 +42,14 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta 
             <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
               <Package className="w-5 h-5 text-white" />
             </div>
-            <div>
-              <p className="text-[9px] font-black uppercase tracking-widest text-white/90">
-                {t("bom.originalTitle")}
-              </p>
-              <h3 className="text-xl sm:text-2xl font-heading font-black text-white">
-                BioStar X {selected.name}
-              </h3>
-            </div>
+          <div>
+            <p className="text-[9px] font-semibold uppercase tracking-widest text-white/90">
+              {t("bom.originalTitle")}
+            </p>
+            <h3 className="text-xl sm:text-2xl font-heading font-semibold text-white">
+              BioStar X {selected.name}
+            </h3>
+          </div>
           </div>
           
           <div className="grid grid-cols-3 gap-3 mt-4">

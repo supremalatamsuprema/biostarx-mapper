@@ -105,7 +105,7 @@ ${t("disclaimer.note")}
         <div className="p-6 sm:p-8 print:p-4">
           <DialogHeader className="mb-6 print:mb-4">
             <div className="flex items-center justify-between">
-              <DialogTitle className="text-2xl sm:text-3xl font-heading font-black">
+              <DialogTitle className="text-2xl sm:text-3xl font-heading font-semibold">
                 {t("report.title")}
               </DialogTitle>
               <DialogDescription className="sr-only">
@@ -160,8 +160,8 @@ ${t("disclaimer.note")}
                 className="h-6" 
               />
               <div className="h-6 w-px bg-border" />
-              <span className="text-sm font-heading font-bold uppercase tracking-tight">
-                Calculador de BioStar <span className="text-[#A12944] italic">X</span>
+              <span className="text-sm font-heading font-semibold uppercase tracking-tight">
+                Calculador de BioStar <span className="text-[#B12944] italic">X</span>
               </span>
             </div>
 
@@ -241,33 +241,33 @@ ${t("disclaimer.note")}
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/30 rounded-md">
               <div className="text-center">
-                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">{t("capacity.users")}</p>
-                <p className="text-2xl font-heading font-black text-foreground">{inputs.users.toLocaleString()}</p>
+                <p className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wider">{t("capacity.users")}</p>
+                <p className="text-2xl font-heading font-semibold text-foreground">{inputs.users.toLocaleString()}</p>
               </div>
               <div className="text-center">
-                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">{t("capacity.doors")}</p>
-                <p className="text-2xl font-heading font-black text-foreground">{inputs.doors}</p>
+                <p className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wider">{t("capacity.doors")}</p>
+                <p className="text-2xl font-heading font-semibold text-foreground">{inputs.doors}</p>
               </div>
               <div className="text-center">
-                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">{t("capacity.devices")}</p>
-                <p className="text-2xl font-heading font-black text-foreground">{inputs.devices}</p>
+                <p className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wider">{t("capacity.devices")}</p>
+                <p className="text-2xl font-heading font-semibold text-foreground">{inputs.devices}</p>
               </div>
               <div className="text-center">
-                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">{t("capacity.operators")}</p>
-                <p className="text-2xl font-heading font-black text-foreground">{inputs.operators}</p>
+                <p className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wider">{t("capacity.operators")}</p>
+                <p className="text-2xl font-heading font-semibold text-foreground">{inputs.operators}</p>
               </div>
             </div>
 
             {activeFeatures.length > 0 && (
               <div className="space-y-2">
-                <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+                <h4 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   {t("report.selectedFeatures")}
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {activeFeatures.map(feature => (
                     <span 
                       key={feature}
-                      className="px-3 py-1 bg-[#A12944]/10 text-[#A12944] rounded-full text-[10px] font-bold uppercase tracking-wider"
+                      className="px-3 py-1 bg-[#B12944]/10 text-[#B12944] rounded-full text-[10px] font-semibold uppercase tracking-wider"
                     >
                       {feature}
                     </span>
@@ -286,28 +286,28 @@ ${t("disclaimer.note")}
                       <Package className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-white/90">OPCIÓN RECOMENDADA</p>
-                      <h4 className="text-xl font-heading font-black text-white leading-tight">BioStar X {calculatedBOM.selected.name}</h4>
+                      <p className="text-[10px] font-semibold uppercase tracking-widest text-white/90">OPCIÓN RECOMENDADA</p>
+                      <h4 className="text-xl font-heading font-semibold text-white leading-tight">BioStar X {calculatedBOM.selected.name}</h4>
                     </div>
                   </div>
                 </div>
                 <div className="p-5 space-y-4">
                   <div className="grid grid-cols-3 gap-2 py-3 border-b border-dashed">
                     <div className="text-center">
-                      <p className="text-[9px] font-bold text-muted-foreground uppercase">Puertas</p>
-                      <p className="text-base font-black">{calculatedBOM.selected.maxDoors}</p>
+                      <p className="text-[9px] font-semibold text-muted-foreground uppercase">Puertas</p>
+                      <p className="text-base font-semibold">{calculatedBOM.selected.maxDoors}</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-[9px] font-bold text-muted-foreground uppercase">Usuarios</p>
-                      <p className="text-base font-black">{calculatedBOM.selected.maxUsers.toLocaleString()}</p>
+                      <p className="text-[9px] font-semibold text-muted-foreground uppercase">Usuarios</p>
+                      <p className="text-base font-semibold">{calculatedBOM.selected.maxUsers.toLocaleString()}</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-[9px] font-bold text-muted-foreground uppercase">Operadores</p>
-                      <p className="text-base font-black">{calculatedBOM.selected.maxOperators}</p>
+                      <p className="text-[9px] font-semibold text-muted-foreground uppercase">Operadores</p>
+                      <p className="text-base font-semibold">{calculatedBOM.selected.maxOperators}</p>
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-2">Desglose de Licencias:</p>
+                    <p className="text-[10px] font-semibold uppercase text-muted-foreground tracking-wider mb-2">Desglose de Licencias:</p>
                     {calculatedBOM.bom.map((item, idx) => (
                       <div key={idx} className="flex justify-between items-center text-sm py-2 bg-muted/20 px-3 rounded-md mb-2 border border-primary/5">
                         <span className="text-muted-foreground font-medium">{item.name} <span className="text-[10px] font-mono opacity-50 ml-1">({item.id})</span></span>
@@ -373,10 +373,10 @@ ${t("disclaimer.note")}
                   {t("report.contactNote")}{' '}
                   <a href="mailto:latam@supremainc.com" className="text-[#0047FF] font-bold hover:underline">latam@supremainc.com</a>, {t("report.supportNote")}
                 </p>
-                <p className="text-xs text-foreground leading-relaxed mt-3 font-bold">
+                <p className="text-xs text-foreground leading-relaxed mt-3 font-semibold">
                   {t("report.closingNote")}
                 </p>
-                <p className="text-sm text-[#A12944] font-black mt-2 uppercase tracking-tighter">
+                <p className="text-sm text-[#B12944] font-semibold mt-2 uppercase tracking-tighter">
                   Suprema LATAM — latam@supremainc.com
                 </p>
               </div>
@@ -389,7 +389,7 @@ ${t("disclaimer.note")}
               <div className="space-y-8">
                 {/* Tabla Opción Recomendada */}
                 <div>
-                  <h5 className="text-[10px] font-black text-primary uppercase tracking-widest mb-3">
+                  <h5 className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-3">
                     BOM - Opción Recomendada (BioStar X {calculatedBOM.selected.name})
                   </h5>
                   <div className="overflow-x-auto">
@@ -417,7 +417,7 @@ ${t("disclaimer.note")}
                 {/* Tabla Opción Alternativa */}
                 {calculatedBOM.alternative && (
                   <div>
-                    <h5 className="text-[10px] font-black text-[#0047FF] uppercase tracking-widest mb-3">
+                    <h5 className="text-[10px] font-semibold text-[#0047FF] uppercase tracking-widest mb-3">
                       BOM - Opción Optimizada (BioStar X {calculatedBOM.alternative.selected.name})
                     </h5>
                     <div className="overflow-x-auto">
