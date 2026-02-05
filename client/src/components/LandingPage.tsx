@@ -30,14 +30,14 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
             alt="Suprema Logo"
             className="h-6 sm:h-8 mb-4 object-contain" 
           />
-          <div className="flex flex-col sm:flex-row sm:items-center gap-x-4 gap-y-2 mb-4">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-semibold text-foreground tracking-tight">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-x-4 gap-y-2 mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-heading font-semibold text-foreground tracking-tight">
               {t("app.welcome")}
             </h1>
             <img 
               src={BioStar_X_LOGO} 
               alt="BioStar X Logo"
-              className="h-48 sm:h-64 lg:h-80 w-auto object-contain self-center" 
+              className="h-[1em] sm:h-[1.1em] lg:h-[1.2em] w-auto object-contain" 
             />
           </div>
           <p className="text-muted-foreground text-base sm:text-lg font-medium leading-relaxed">
