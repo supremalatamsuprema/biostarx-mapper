@@ -13,6 +13,7 @@ interface FeaturesSectionProps {
   onInputsChange: (inputs: ProjectInputs) => void;
   onFeaturesChange: (features: FeatureFlags) => void;
   bs2VisitorLocked?: boolean;
+  bs2TnaLocked?: boolean;
 }
 
 export function FeaturesSection({ 
@@ -20,7 +21,8 @@ export function FeaturesSection({
   features, 
   onInputsChange, 
   onFeaturesChange,
-  bs2VisitorLocked = false
+  bs2VisitorLocked = false,
+  bs2TnaLocked = false
 }: FeaturesSectionProps) {
   const { t } = useI18n();
   const { toast } = useToast();
@@ -29,6 +31,14 @@ export function FeaturesSection({
       toast({
         title: t("validation.cannotUncheck"),
         description: t("validation.visitorLockedByMigration"),
+        variant: "destructive"
+      });
+      return;
+    }
+    if (field === 'tna' && !value && bs2TnaLocked) {
+      toast({
+        title: t("validation.cannotUncheck"),
+        description: t("validation.tnaLockedByMigration"),
         variant: "destructive"
       });
       return;
