@@ -55,13 +55,15 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
       bom.push({ ...ADDONS.USR_UP, qty: Math.ceil(uGap / 50000) });
     }
 
-    const effectiveDoors = inputs.scenario === 'migration' && inputs.activationCode
-      ? Math.max(reqD, BS2_DOOR_LIMITS[inputs.activationCode] || 0)
-      : reqD;
+    if (selectedTier.id !== 'BIOSTARX-DVM') {
+      const effectiveDoors = inputs.scenario === 'migration' && inputs.activationCode
+        ? Math.max(reqD, BS2_DOOR_LIMITS[inputs.activationCode] || 0)
+        : reqD;
 
-    const dGap = Math.max(0, effectiveDoors - selectedTier.maxDoors);
-    if (dGap > 0) {
-      bom.push({ ...ADDONS.DOOR_UP, qty: Math.ceil(dGap / 32) });
+      const dGap = Math.max(0, effectiveDoors - selectedTier.maxDoors);
+      if (dGap > 0) {
+        bom.push({ ...ADDONS.DOOR_UP, qty: Math.ceil(dGap / 32) });
+      }
     }
 
     const oGap = Math.max(0, reqO - selectedTier.maxOperators);
