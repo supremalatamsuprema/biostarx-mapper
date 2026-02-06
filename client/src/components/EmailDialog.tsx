@@ -151,7 +151,7 @@ export function EmailDialog({ open, onOpenChange, calculatedBOM, meta, inputs }:
               )}
             </div>
             
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <Label htmlFor="email-cc">{t("email.cc")}</Label>
               <Input
                 id="email-cc"
@@ -161,6 +161,7 @@ export function EmailDialog({ open, onOpenChange, calculatedBOM, meta, inputs }:
                 onChange={(e) => setCc(e.target.value)}
                 data-testid="input-email-cc"
               />
+              <p className="text-xs text-muted-foreground">{t("email.ccHint")}</p>
             </div>
             
             {language !== 'en' && (
