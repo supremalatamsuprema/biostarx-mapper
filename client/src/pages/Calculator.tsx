@@ -223,7 +223,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
           <DeviceLicenses inputs={inputs} onChange={setInputs} />
         </div>
 
-        <div className="hidden xl:block w-[32%] self-start">
+        <div className="hidden xl:block w-[32%] self-start sticky top-4 z-40 max-h-[calc(100vh-2rem)] overflow-y-auto">
           <BomSidebar 
             calculatedBOM={calculatedBOM}
             onGenerateReport={handleGenerateReport}
