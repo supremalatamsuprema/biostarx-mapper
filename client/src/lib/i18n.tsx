@@ -224,7 +224,7 @@ export const translations: Record<Language, Record<string, string>> = {
   en: {
     "app.title": "BioStar X Mapper",
     "app.welcome": "Welcome to",
-    "app.description": "BioStar X Mapper is a tool designed to facilitate the calculation and correct selection of BioStar X licensing. Through this tool, it is possible to quickly and accurately identify the necessary licenses according to the size, scope, and configuration of each project.",
+    "app.description": "BioStar X Calculator is a tool designed to facilitate the calculation and correct selection of BioStar X licensing. Through this tool, it is possible to quickly and accurately identify the necessary licenses according to the size, scope, and configuration of each project.",
     
     "scenario.new": "New Project",
     "scenario.new.desc": "Greenfield implementation designed natively for BioStar X.",
@@ -431,7 +431,7 @@ export const translations: Record<Language, Record<string, string>> = {
   pt: {
     "app.title": "BioStar X Mapper",
     "app.welcome": "Bem-vindo ao",
-    "app.description": "BioStar X Mapper é uma ferramenta projetada para facilitar o cálculo e a seleção correta do licenciamento BioStar X. Através desta ferramenta, é possível identificar de forma rápida e precisa as licenças necessárias de acordo com o tamanho, escopo e configuração de cada projeto.",
+    "app.description": "BioStar X Calculator é uma ferramenta projetada para facilitar o cálculo e a seleção correta do licenciamento BioStar X. Através desta ferramenta, é possível identificar de forma rápida e precisa as licenças necessárias de acordo com o tamanho, escopo e configuração de cada projeto.",
     
     "scenario.new": "Novo Projeto",
     "scenario.new.desc": "Implementação do zero (Greenfield) projetada nativamente para BioStar X.",
