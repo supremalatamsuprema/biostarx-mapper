@@ -104,6 +104,8 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }, [meta, inputs, features]);
 
+  const hasCapacityData = inputs.users > 0 || inputs.doors > 0 || inputs.devices > 0 || inputs.operators > 0;
+
   const calculatedBOM = useMemo<CalculatedBOM>(() => {
     return calculateBOM(inputs, features);
   }, [inputs, features]);
@@ -198,6 +200,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
         calculatedBOM={calculatedBOM}
         meta={meta}
         onGenerateReport={handleGenerateReport}
+        hasCapacityData={hasCapacityData}
       />
 
       <div className="flex flex-col xl:flex-row gap-8 xl:gap-12 items-start">
@@ -227,6 +230,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
             tierChanged={tierChanged}
             meta={meta}
             onSendEmail={() => setShowEmailDialog(true)}
+            hasCapacityData={hasCapacityData}
           />
         </div>
       </div>
@@ -234,6 +238,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
       <MobileBomSheet 
         calculatedBOM={calculatedBOM}
         onGenerateReport={handleGenerateReport}
+        hasCapacityData={hasCapacityData}
       />
 
       <DisclaimerModal

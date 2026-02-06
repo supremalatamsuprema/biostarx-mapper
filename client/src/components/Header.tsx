@@ -20,13 +20,15 @@ interface HeaderProps {
   calculatedBOM: CalculatedBOM;
   meta: ProjectMeta;
   onGenerateReport: () => void;
+  hasCapacityData?: boolean;
 }
 
-export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateReport }: HeaderProps) {
+export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateReport, hasCapacityData = true }: HeaderProps) {
   const { t } = useI18n();
   const { bom, selected, alternative } = calculatedBOM;
 
   const handleExportCSV = () => {
+    if (!hasCapacityData) return;
     downloadCSV({
       projectName: meta.projectName,
       client: meta.client,
@@ -35,6 +37,11 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
       alternative: alternative?.bom,
       alternativeTierName: alternative?.selected.name
     });
+  };
+
+  const handleGenerateReport = () => {
+    if (!hasCapacityData) return;
+    onGenerateReport();
   };
   
   return (
@@ -74,6 +81,7 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
                 size="sm" 
                 className="rounded-full bg-[#B12944] hover:bg-[#B12944]/90 text-white font-semibold text-[10px] tracking-widest uppercase"
                 data-testid="button-export-all"
+                disabled={!hasCapacityData}
               >
                 <Download className="w-3.5 h-3.5 mr-2" />
                 Exportar
@@ -84,7 +92,7 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
               <div className="px-2 py-1.5 mb-1">
                 <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Formatos Disponibles</p>
               </div>
-              <DropdownMenuItem onClick={onGenerateReport} className="cursor-pointer rounded-md focus:bg-primary/5 focus:text-primary py-2.5">
+              <DropdownMenuItem onClick={handleGenerateReport} className="cursor-pointer rounded-md focus:bg-primary/5 focus:text-primary py-2.5">
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3">
                   <FileText className="w-4 h-4 text-primary" />
                 </div>

@@ -1,7 +1,7 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { PillButton } from "@/components/ui/pill-button";
 import { Button } from "@/components/ui/button";
-import { FileText, Package, Download, Mail } from "lucide-react";
+import { FileText, Package, Download, Mail, ClipboardList } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { downloadCSV, getTotalItems } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
@@ -13,9 +13,10 @@ interface BomSidebarProps {
   tierChanged?: boolean;
   meta: ProjectMeta;
   onSendEmail?: () => void;
+  hasCapacityData?: boolean;
 }
 
-export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta, onSendEmail }: BomSidebarProps) {
+export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta, onSendEmail, hasCapacityData = true }: BomSidebarProps) {
   const { bom, selected, alternative } = calculatedBOM;
   const totalItems = getTotalItems(bom);
   const { t } = useI18n();
@@ -30,6 +31,28 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
       alternativeTierName: alternative?.selected.name
     });
   };
+
+  if (!hasCapacityData) {
+    return (
+      <div className="sticky top-10 z-50 print:hidden space-y-6 max-h-[calc(100vh-5rem)] overflow-y-auto custom-scrollbar pr-1">
+        <GlassCard className="p-8 sm:p-12 text-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-14 h-14 rounded-full bg-muted/50 flex items-center justify-center">
+              <ClipboardList className="w-7 h-7 text-muted-foreground" />
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-heading font-semibold text-foreground">
+                {t("bom.noDataTitle")}
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {t("bom.noDataDescription")}
+              </p>
+            </div>
+          </div>
+        </GlassCard>
+      </div>
+    );
+  }
 
   return (
     <div className="sticky top-10 z-50 print:hidden space-y-6 max-h-[calc(100vh-5rem)] overflow-y-auto custom-scrollbar pr-1">

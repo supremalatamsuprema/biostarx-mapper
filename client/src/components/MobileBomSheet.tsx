@@ -9,13 +9,16 @@ import type { CalculatedBOM } from "@/types/license";
 interface MobileBomSheetProps {
   calculatedBOM: CalculatedBOM;
   onGenerateReport: () => void;
+  hasCapacityData?: boolean;
 }
 
-export function MobileBomSheet({ calculatedBOM, onGenerateReport }: MobileBomSheetProps) {
+export function MobileBomSheet({ calculatedBOM, onGenerateReport, hasCapacityData = true }: MobileBomSheetProps) {
   const [open, setOpen] = useState(false);
   const { bom, selected, alternative } = calculatedBOM;
   const totalItems = bom.reduce((acc, item) => acc + item.qty, 0);
   const { t } = useI18n();
+
+  if (!hasCapacityData) return null;
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
