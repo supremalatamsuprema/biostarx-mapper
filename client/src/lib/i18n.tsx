@@ -408,7 +408,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "email.title": "Send by Email",
     "email.recipient": "Primary Email",
     "email.recipientPlaceholder": "example@email.com",
-    "email.cc": "Carbon Copy (CC)",
+    "email.cc": "Copy (CC)",
     "email.ccPlaceholder": "email1@example.com, email2@example.com",
     "email.ccHint": "You can include multiple emails separated by comma",
     "email.sendToSuprema": "Send copy to Suprema LATAM",
