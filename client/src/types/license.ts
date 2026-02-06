@@ -16,6 +16,7 @@ export interface BomItem {
   id: string;
   name: string;
   qty: number;
+  foc?: boolean;
 }
 
 export interface ProjectMeta {
