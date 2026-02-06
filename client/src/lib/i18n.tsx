@@ -123,6 +123,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "validation.required": "Campo requerido",
     "validation.projectName": "Por favor ingresa el nombre del proyecto",
     "validation.client": "Por favor ingresa el nombre del cliente",
+    "validation.capacity": "Por favor completa al menos un campo de dimensionamiento (usuarios, puertas, dispositivos u operadores)",
     
     "projectMeta.title": "Identificación del Proyecto",
     "projectMeta.details": "Detalles del Proyecto",
@@ -331,6 +332,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "validation.required": "Required field",
     "validation.projectName": "Please enter the project name",
     "validation.client": "Please enter the client name",
+    "validation.capacity": "Please fill in at least one capacity field (users, doors, devices, or operators)",
     
     "projectMeta.title": "Project Identification",
     "projectMeta.details": "Project Details",
@@ -538,6 +540,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "validation.required": "Campo obrigatório",
     "validation.projectName": "Por favor, insira o nome do projeto",
     "validation.client": "Por favor, insira o nome do cliente",
+    "validation.capacity": "Por favor, preencha pelo menos um campo de dimensionamento (usuários, portas, dispositivos ou operadores)",
     
     "projectMeta.title": "Identificação do Projeto",
     "projectMeta.details": "Detalhes do Projeto",

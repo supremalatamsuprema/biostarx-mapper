@@ -74,7 +74,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     users: 0,
     doors: 0,
     devices: 0,
-    operators: 1,
+    operators: 0,
     video: 0,
     qr: 0,
     wireless: 0,
@@ -165,6 +165,14 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
       toast({
         title: t("validation.required"), 
         description: t("validation.client"),
+        variant: "destructive"
+      });
+      return;
+    }
+    if (inputs.users === 0 && inputs.doors === 0 && inputs.devices === 0 && inputs.operators === 0) {
+      toast({
+        title: t("validation.required"),
+        description: t("validation.capacity"),
         variant: "destructive"
       });
       return;

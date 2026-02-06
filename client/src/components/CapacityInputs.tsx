@@ -41,7 +41,6 @@ export function CapacityInputs({ inputs, onChange }: CapacityInputsProps) {
           label={t("capacity.simultOperators")} 
           value={inputs.operators} 
           onChange={v => updateField('operators', v)}
-          min={1}
         />
       </div>
     </GlassCard>
