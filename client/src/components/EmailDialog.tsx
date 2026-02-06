@@ -163,22 +163,24 @@ export function EmailDialog({ open, onOpenChange, calculatedBOM, meta, inputs }:
               />
             </div>
             
-            <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-md">
-              <Checkbox
-                id="send-suprema"
-                checked={sendToSuprema}
-                onCheckedChange={(checked) => setSendToSuprema(checked === true)}
-                data-testid="checkbox-send-suprema"
-              />
-              <div className="flex-1">
-                <Label htmlFor="send-suprema" className="cursor-pointer font-medium">
-                  {t("email.sendToSuprema")}
-                </Label>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  {t("email.sendToSupremaDesc")}
-                </p>
+            {language !== 'en' && (
+              <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-md">
+                <Checkbox
+                  id="send-suprema"
+                  checked={sendToSuprema}
+                  onCheckedChange={(checked) => setSendToSuprema(checked === true)}
+                  data-testid="checkbox-send-suprema"
+                />
+                <div className="flex-1">
+                  <Label htmlFor="send-suprema" className="cursor-pointer font-medium">
+                    {t("email.sendToSuprema")}
+                  </Label>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {t("email.sendToSupremaDesc")}
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
             
             <div className="space-y-2">
               <Label htmlFor="email-note">{t("email.note")}</Label>
