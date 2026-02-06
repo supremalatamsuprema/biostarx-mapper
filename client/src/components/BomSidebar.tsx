@@ -2,7 +2,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { PillButton } from "@/components/ui/pill-button";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Package, Download, Mail, ClipboardList, Gift } from "lucide-react";
+import { FileText, Package, Download, Mail, ClipboardList, Gift, DollarSign } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { downloadCSV, getTotalItems } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
@@ -15,9 +15,10 @@ interface BomSidebarProps {
   meta: ProjectMeta;
   onSendEmail?: () => void;
   hasCapacityData?: boolean;
+  isMigration?: boolean;
 }
 
-export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta, onSendEmail, hasCapacityData = true }: BomSidebarProps) {
+export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta, onSendEmail, hasCapacityData = true, isMigration = false }: BomSidebarProps) {
   const { bom, selected, alternative } = calculatedBOM;
   const totalItems = getTotalItems(bom);
   const { t } = useI18n();
@@ -116,6 +117,12 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
                         {t("bom.foc")}
                       </Badge>
                     )}
+                    {!item.foc && isMigration && (
+                      <Badge variant="outline" className="no-default-hover-elevate no-default-active-elevate text-[8px] px-1.5 py-0 h-4 bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30 shrink-0">
+                        <DollarSign className="w-2.5 h-2.5 mr-0.5" />
+                        {t("bom.withCost")}
+                      </Badge>
+                    )}
                   </div>
                   <p className="font-mono text-muted-foreground text-[14px] font-normal">{item.id}</p>
                 </div>
@@ -193,6 +200,12 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
                         <Badge variant="outline" className="no-default-hover-elevate no-default-active-elevate text-[8px] px-1.5 py-0 h-4 bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 shrink-0">
                           <Gift className="w-2.5 h-2.5 mr-0.5" />
                           {t("bom.foc")}
+                        </Badge>
+                      )}
+                      {!item.foc && isMigration && (
+                        <Badge variant="outline" className="no-default-hover-elevate no-default-active-elevate text-[8px] px-1.5 py-0 h-4 bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30 shrink-0">
+                          <DollarSign className="w-2.5 h-2.5 mr-0.5" />
+                          {t("bom.withCost")}
                         </Badge>
                       )}
                     </div>

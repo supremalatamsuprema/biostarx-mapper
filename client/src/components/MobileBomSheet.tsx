@@ -3,7 +3,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescri
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PillButton } from "@/components/ui/pill-button";
-import { Package, ChevronUp, FileText, Gift } from "lucide-react";
+import { Package, ChevronUp, FileText, Gift, DollarSign } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import type { CalculatedBOM } from "@/types/license";
@@ -12,9 +12,10 @@ interface MobileBomSheetProps {
   calculatedBOM: CalculatedBOM;
   onGenerateReport: () => void;
   hasCapacityData?: boolean;
+  isMigration?: boolean;
 }
 
-export function MobileBomSheet({ calculatedBOM, onGenerateReport, hasCapacityData = true }: MobileBomSheetProps) {
+export function MobileBomSheet({ calculatedBOM, onGenerateReport, hasCapacityData = true, isMigration = false }: MobileBomSheetProps) {
   const [open, setOpen] = useState(false);
   const { bom, selected, alternative } = calculatedBOM;
   const totalItems = bom.reduce((acc, item) => acc + item.qty, 0);
@@ -101,6 +102,12 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport, hasCapacityDat
                           {t("bom.foc")}
                         </Badge>
                       )}
+                      {!item.foc && isMigration && (
+                        <Badge variant="outline" className="no-default-hover-elevate no-default-active-elevate text-[8px] px-1.5 py-0 h-4 bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30 shrink-0">
+                          <DollarSign className="w-2.5 h-2.5 mr-0.5" />
+                          {t("bom.withCost")}
+                        </Badge>
+                      )}
                     </div>
                     <p className="text-[9px] font-mono text-muted-foreground">{item.id}</p>
                   </div>
@@ -159,6 +166,12 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport, hasCapacityDat
                           <Badge variant="outline" className="no-default-hover-elevate no-default-active-elevate text-[8px] px-1.5 py-0 h-4 bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 shrink-0">
                             <Gift className="w-2.5 h-2.5 mr-0.5" />
                             {t("bom.foc")}
+                          </Badge>
+                        )}
+                        {!item.foc && isMigration && (
+                          <Badge variant="outline" className="no-default-hover-elevate no-default-active-elevate text-[8px] px-1.5 py-0 h-4 bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30 shrink-0">
+                            <DollarSign className="w-2.5 h-2.5 mr-0.5" />
+                            {t("bom.withCost")}
                           </Badge>
                         )}
                       </div>

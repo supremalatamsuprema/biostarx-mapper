@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { PillButton } from "@/components/ui/pill-button";
-import { Printer, Copy, X, CheckCircle, Download, Package, Mail, Gift } from "lucide-react";
+import { Printer, Copy, X, CheckCircle, Download, Package, Mail, Gift, DollarSign } from "lucide-react";
 import { useState } from "react";
 import { downloadCSV } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
@@ -36,6 +36,7 @@ export function ReportModal({
   const [copied, setCopied] = useState(false);
   const { bom, selected } = calculatedBOM;
   const { t, language } = useI18n();
+  const isMigration = inputs.scenario === 'migration';
   
   const handlePrint = () => {
     window.print();
@@ -320,6 +321,12 @@ ${t("disclaimer.note")}
                               {t("bom.focLong")}
                             </span>
                           )}
+                          {!item.foc && isMigration && (
+                            <span className="ml-2 inline-flex items-center gap-0.5 text-[9px] font-bold text-amber-700 bg-amber-500/15 px-1.5 py-0.5 rounded-full border border-amber-500/30">
+                              <DollarSign className="w-2.5 h-2.5" />
+                              {t("bom.withCostLong")}
+                            </span>
+                          )}
                         </span>
                         <span className="font-bold bg-primary text-white px-3 py-0.5 rounded-full text-xs">x{item.qty}</span>
                       </div>
@@ -370,6 +377,12 @@ ${t("disclaimer.note")}
                               <span className="ml-2 inline-flex items-center gap-0.5 text-[9px] font-bold text-emerald-700 bg-emerald-500/15 px-1.5 py-0.5 rounded-full border border-emerald-500/30">
                                 <Gift className="w-2.5 h-2.5" />
                                 {t("bom.focLong")}
+                              </span>
+                            )}
+                            {!item.foc && isMigration && (
+                              <span className="ml-2 inline-flex items-center gap-0.5 text-[9px] font-bold text-amber-700 bg-amber-500/15 px-1.5 py-0.5 rounded-full border border-amber-500/30">
+                                <DollarSign className="w-2.5 h-2.5" />
+                                {t("bom.withCostLong")}
                               </span>
                             )}
                           </span>
@@ -433,6 +446,12 @@ ${t("disclaimer.note")}
                                   {t("bom.focLong")}
                                 </span>
                               )}
+                              {!item.foc && isMigration && (
+                                <span className="inline-flex items-center gap-0.5 text-[8px] font-bold text-amber-700 bg-amber-500/15 px-1.5 py-0.5 rounded-full border border-amber-500/30">
+                                  <DollarSign className="w-2.5 h-2.5" />
+                                  {t("bom.withCostLong")}
+                                </span>
+                              )}
                             </td>
                           </tr>
                         ))}
@@ -468,6 +487,12 @@ ${t("disclaimer.note")}
                                   <span className="inline-flex items-center gap-0.5 text-[8px] font-bold text-emerald-700 bg-emerald-500/15 px-1.5 py-0.5 rounded-full border border-emerald-500/30">
                                     <Gift className="w-2.5 h-2.5" />
                                     {t("bom.focLong")}
+                                  </span>
+                                )}
+                                {!item.foc && isMigration && (
+                                  <span className="inline-flex items-center gap-0.5 text-[8px] font-bold text-amber-700 bg-amber-500/15 px-1.5 py-0.5 rounded-full border border-amber-500/30">
+                                    <DollarSign className="w-2.5 h-2.5" />
+                                    {t("bom.withCostLong")}
                                   </span>
                                 )}
                               </td>

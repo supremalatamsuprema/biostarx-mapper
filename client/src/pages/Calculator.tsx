@@ -231,6 +231,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
             meta={meta}
             onSendEmail={() => setShowEmailDialog(true)}
             hasCapacityData={hasCapacityData}
+            isMigration={inputs.scenario === 'migration'}
           />
         </div>
       </div>
@@ -239,6 +240,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
         calculatedBOM={calculatedBOM}
         onGenerateReport={handleGenerateReport}
         hasCapacityData={hasCapacityData}
+        isMigration={inputs.scenario === 'migration'}
       />
 
       <DisclaimerModal
