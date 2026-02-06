@@ -116,6 +116,10 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
     candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-ESS' && t.id !== 'BIOSTARX-DVM');
   }
 
+  if (features.visitor) {
+    candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-ESS' && t.id !== 'BIOSTARX-DVM');
+  }
+
   let selected = candidates.find(t => {
     if (t.id === 'BIOSTARX-DVM') {
       return reqD === 0 && reqU <= t.maxUsers && reqO <= t.maxOperators;
