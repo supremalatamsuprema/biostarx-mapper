@@ -1,7 +1,8 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { PillButton } from "@/components/ui/pill-button";
 import { Button } from "@/components/ui/button";
-import { FileText, Package, Download, Mail, ClipboardList } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { FileText, Package, Download, Mail, ClipboardList, Gift } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { downloadCSV, getTotalItems } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
@@ -101,10 +102,21 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
             {bom.map((item, index) => (
               <div 
                 key={`${item.id}-${index}`}
-                className="flex items-center justify-between p-3 bg-muted/30 rounded-md"
+                className={cn(
+                  "flex items-center justify-between p-3 rounded-md",
+                  item.foc ? "bg-emerald-500/10 border border-emerald-500/20" : "bg-muted/30"
+                )}
               >
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-bold text-foreground truncate">{item.name}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs font-bold text-foreground truncate">{item.name}</p>
+                    {item.foc && (
+                      <Badge variant="outline" className="no-default-hover-elevate no-default-active-elevate text-[8px] px-1.5 py-0 h-4 bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 shrink-0">
+                        <Gift className="w-2.5 h-2.5 mr-0.5" />
+                        {t("bom.foc")}
+                      </Badge>
+                    )}
+                  </div>
                   <p className="font-mono text-muted-foreground text-[14px] font-normal">{item.id}</p>
                 </div>
                 <div className="ml-3 px-3 py-1 bg-foreground text-background rounded-full text-xs font-black">
@@ -169,10 +181,21 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
               {alternative.bom.map((item, index) => (
                 <div 
                   key={`alt-${item.id}-${index}`}
-                  className="flex items-center justify-between p-2 bg-muted/20 rounded-md"
+                  className={cn(
+                    "flex items-center justify-between p-2 rounded-md",
+                    item.foc ? "bg-emerald-500/10 border border-emerald-500/20" : "bg-muted/20"
+                  )}
                 >
                   <div className="flex-1 min-w-0">
-                    <p className="font-bold text-foreground truncate text-[12px]">{item.name}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="font-bold text-foreground truncate text-[12px]">{item.name}</p>
+                      {item.foc && (
+                        <Badge variant="outline" className="no-default-hover-elevate no-default-active-elevate text-[8px] px-1.5 py-0 h-4 bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 shrink-0">
+                          <Gift className="w-2.5 h-2.5 mr-0.5" />
+                          {t("bom.foc")}
+                        </Badge>
+                      )}
+                    </div>
                     <p className="font-mono text-muted-foreground text-[14px] font-normal">{item.id}</p>
                   </div>
                   <div className="ml-2 px-2 py-0.5 bg-foreground/80 text-background rounded-full text-[10px] font-black">

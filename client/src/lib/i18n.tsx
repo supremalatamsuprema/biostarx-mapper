@@ -81,6 +81,8 @@ export const translations: Record<Language, Record<string, string>> = {
     "bom.export": "Exportar CSV",
     "bom.noDataTitle": "Sin datos de dimensionamiento",
     "bom.noDataDescription": "Completa los campos de dimensionamiento y capacidad (usuarios, puertas, dispositivos u operadores) para generar el cálculo de licenciamiento.",
+    "bom.foc": "Sin Costo",
+    "bom.focLong": "Free of Charge",
     
     "report.title": "Reporte Maestro",
     "report.projectInfo": "Información del Proyecto",
@@ -292,6 +294,8 @@ export const translations: Record<Language, Record<string, string>> = {
     "bom.export": "Export CSV",
     "bom.noDataTitle": "No dimensioning data",
     "bom.noDataDescription": "Fill in the capacity and dimensioning fields (users, doors, devices, or operators) to generate the licensing calculation.",
+    "bom.foc": "FOC",
+    "bom.focLong": "Free of Charge",
     
     "report.title": "Master Report",
     "report.projectInfo": "Project Information",
@@ -502,6 +506,8 @@ export const translations: Record<Language, Record<string, string>> = {
     "bom.export": "Exportar CSV",
     "bom.noDataTitle": "Sem dados de dimensionamento",
     "bom.noDataDescription": "Preencha os campos de dimensionamento e capacidade (usuários, portas, dispositivos ou operadores) para gerar o cálculo de licenciamento.",
+    "bom.foc": "Sem Custo",
+    "bom.focLong": "Free of Charge",
     
     "report.title": "Relatório Mestre",
     "report.projectInfo": "Informações do Projeto",

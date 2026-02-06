@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { PillButton } from "@/components/ui/pill-button";
-import { Printer, Copy, X, CheckCircle, Download, Package, Mail } from "lucide-react";
+import { Printer, Copy, X, CheckCircle, Download, Package, Mail, Gift } from "lucide-react";
 import { useState } from "react";
 import { downloadCSV } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
@@ -42,7 +42,7 @@ export function ReportModal({
   };
 
   const handleCopy = () => {
-    const bomText = bom.map(item => `${item.id} - ${item.name} x${item.qty}`).join('\n');
+    const bomText = bom.map(item => `${item.id} - ${item.name} x${item.qty}${item.foc ? ' [FOC]' : ''}`).join('\n');
     const text = `
 ${t("report.title").toUpperCase()} - BioStar X Mapper
 ===================================
@@ -311,8 +311,16 @@ ${t("disclaimer.note")}
                   <div className="space-y-2">
                     <p className="text-[10px] font-semibold uppercase text-muted-foreground tracking-wider mb-2">Desglose de Licencias:</p>
                     {calculatedBOM.bom.map((item, idx) => (
-                      <div key={idx} className="flex justify-between items-center text-sm py-2 bg-muted/20 px-3 rounded-md mb-2 border border-primary/5">
-                        <span className="text-muted-foreground font-medium">{item.name} <span className="text-[10px] font-mono opacity-50 ml-1">({item.id})</span></span>
+                      <div key={idx} className={`flex justify-between items-center text-sm py-2 px-3 rounded-md mb-2 ${item.foc ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-muted/20 border border-primary/5'}`}>
+                        <span className="text-muted-foreground font-medium">
+                          {item.name} <span className="text-[10px] font-mono opacity-50 ml-1">({item.id})</span>
+                          {item.foc && (
+                            <span className="ml-2 inline-flex items-center gap-0.5 text-[9px] font-bold text-emerald-700 bg-emerald-500/15 px-1.5 py-0.5 rounded-full border border-emerald-500/30">
+                              <Gift className="w-2.5 h-2.5" />
+                              {t("bom.focLong")}
+                            </span>
+                          )}
+                        </span>
                         <span className="font-bold bg-primary text-white px-3 py-0.5 rounded-full text-xs">x{item.qty}</span>
                       </div>
                     ))}
@@ -355,8 +363,16 @@ ${t("disclaimer.note")}
                     <div className="space-y-2">
                       <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-2">Desglose de Licencias:</p>
                       {calculatedBOM.alternative.bom.map((item, idx) => (
-                        <div key={idx} className="flex justify-between items-center text-sm py-2 bg-muted/10 px-3 rounded-md mb-2">
-                          <span className="text-muted-foreground font-medium">{item.name} <span className="text-[10px] font-mono opacity-50 ml-1">({item.id})</span></span>
+                        <div key={idx} className={`flex justify-between items-center text-sm py-2 px-3 rounded-md mb-2 ${item.foc ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-muted/10'}`}>
+                          <span className="text-muted-foreground font-medium">
+                            {item.name} <span className="text-[10px] font-mono opacity-50 ml-1">({item.id})</span>
+                            {item.foc && (
+                              <span className="ml-2 inline-flex items-center gap-0.5 text-[9px] font-bold text-emerald-700 bg-emerald-500/15 px-1.5 py-0.5 rounded-full border border-emerald-500/30">
+                                <Gift className="w-2.5 h-2.5" />
+                                {t("bom.focLong")}
+                              </span>
+                            )}
+                          </span>
                           <span className="font-bold bg-muted-foreground/20 text-foreground px-3 py-0.5 rounded-full text-xs">x{item.qty}</span>
                         </div>
                       ))}
@@ -401,14 +417,23 @@ ${t("disclaimer.note")}
                           <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.partNumber")}</th>
                           <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.description")}</th>
                           <th className="text-right py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.quantity")}</th>
+                          <th className="text-right py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground"></th>
                         </tr>
                       </thead>
                       <tbody>
                         {calculatedBOM.bom.map((item, index) => (
-                          <tr key={`rec-${item.id}-${index}`} className="border-b border-border/50">
+                          <tr key={`rec-${item.id}-${index}`} className={`border-b border-border/50 ${item.foc ? 'bg-emerald-500/5' : ''}`}>
                             <td className="py-3 text-xs font-mono font-bold">{item.id}</td>
                             <td className="py-3 text-xs">{item.name}</td>
                             <td className="py-3 text-xs font-bold text-right">{item.qty}</td>
+                            <td className="py-3 text-right">
+                              {item.foc && (
+                                <span className="inline-flex items-center gap-0.5 text-[8px] font-bold text-emerald-700 bg-emerald-500/15 px-1.5 py-0.5 rounded-full border border-emerald-500/30">
+                                  <Gift className="w-2.5 h-2.5" />
+                                  {t("bom.focLong")}
+                                </span>
+                              )}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
@@ -429,14 +454,23 @@ ${t("disclaimer.note")}
                             <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.partNumber")}</th>
                             <th className="text-left py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.description")}</th>
                             <th className="text-right py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{t("report.quantity")}</th>
+                            <th className="text-right py-2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground"></th>
                           </tr>
                         </thead>
                         <tbody>
                           {calculatedBOM.alternative.bom.map((item, index) => (
-                            <tr key={`alt-table-${item.id}-${index}`} className="border-b border-border/50">
+                            <tr key={`alt-table-${item.id}-${index}`} className={`border-b border-border/50 ${item.foc ? 'bg-emerald-500/5' : ''}`}>
                               <td className="py-3 text-xs font-mono font-bold">{item.id}</td>
                               <td className="py-3 text-xs">{item.name}</td>
                               <td className="py-3 text-xs font-bold text-right">{item.qty}</td>
+                              <td className="py-3 text-right">
+                                {item.foc && (
+                                  <span className="inline-flex items-center gap-0.5 text-[8px] font-bold text-emerald-700 bg-emerald-500/15 px-1.5 py-0.5 rounded-full border border-emerald-500/30">
+                                    <Gift className="w-2.5 h-2.5" />
+                                    {t("bom.focLong")}
+                                  </span>
+                                )}
+                              </td>
                             </tr>
                           ))}
                         </tbody>

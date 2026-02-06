@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { PillButton } from "@/components/ui/pill-button";
-import { Package, ChevronUp, FileText } from "lucide-react";
+import { Package, ChevronUp, FileText, Gift } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import type { CalculatedBOM } from "@/types/license";
 
@@ -85,10 +87,21 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport, hasCapacityDat
               {bom.map((item, index) => (
                 <div 
                   key={`rec-${item.id}-${index}`}
-                  className="flex items-center justify-between p-3 bg-muted/30 rounded-md"
+                  className={cn(
+                    "flex items-center justify-between p-3 rounded-md",
+                    item.foc ? "bg-emerald-500/10 border border-emerald-500/20" : "bg-muted/30"
+                  )}
                 >
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-bold text-foreground truncate">{item.name}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs font-bold text-foreground truncate">{item.name}</p>
+                      {item.foc && (
+                        <Badge variant="outline" className="no-default-hover-elevate no-default-active-elevate text-[8px] px-1.5 py-0 h-4 bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 shrink-0">
+                          <Gift className="w-2.5 h-2.5 mr-0.5" />
+                          {t("bom.foc")}
+                        </Badge>
+                      )}
+                    </div>
                     <p className="text-[9px] font-mono text-muted-foreground">{item.id}</p>
                   </div>
                   <div className="ml-3 px-3 py-1 bg-foreground text-background rounded-full text-xs font-black">
@@ -134,10 +147,21 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport, hasCapacityDat
                 {alternative.bom.map((item, index) => (
                   <div 
                     key={`alt-${item.id}-${index}`}
-                    className="flex items-center justify-between p-3 bg-muted/30 rounded-md"
+                    className={cn(
+                      "flex items-center justify-between p-3 rounded-md",
+                      item.foc ? "bg-emerald-500/10 border border-emerald-500/20" : "bg-muted/30"
+                    )}
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-bold text-foreground truncate">{item.name}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-xs font-bold text-foreground truncate">{item.name}</p>
+                        {item.foc && (
+                          <Badge variant="outline" className="no-default-hover-elevate no-default-active-elevate text-[8px] px-1.5 py-0 h-4 bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 shrink-0">
+                            <Gift className="w-2.5 h-2.5 mr-0.5" />
+                            {t("bom.foc")}
+                          </Badge>
+                        )}
+                      </div>
                       <p className="text-[9px] font-mono text-muted-foreground">{item.id}</p>
                     </div>
                     <div className="ml-3 px-3 py-1 bg-foreground text-background rounded-full text-xs font-black">

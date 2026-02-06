@@ -37,9 +37,13 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
 
   const reqU = effectiveUsers;
 
+  const isBS2Starter = inputs.scenario === 'migration' && inputs.activationCode === 'BioStar2-Starter';
+
   function getBomForTier(selectedTier: LicenseTier): BomItem[] {
     const bom: BomItem[] = [];
-    bom.push({ id: selectedTier.id, name: `BioStar X ${selectedTier.name}`, qty: 1 });
+
+    const tierIsFoc = isBS2Starter && selectedTier.id === 'BIOSTARX-DVM';
+    bom.push({ id: selectedTier.id, name: `BioStar X ${selectedTier.name}`, qty: 1, foc: tierIsFoc || undefined });
 
     if (selectedTier.id === 'BIOSTARX-ESS' && reqU > 1000) {
       const uGap = reqU - 1000;
@@ -86,7 +90,8 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
 
     if (features.visitor) {
       if (!bom.find(b => b.id === ADDONS.VISITOR.id)) {
-        bom.push({ ...ADDONS.VISITOR, qty: 1 });
+        const visitorFoc = isBS2Starter ? true : undefined;
+        bom.push({ ...ADDONS.VISITOR, qty: 1, foc: visitorFoc });
       }
     }
     if (features.tna) {
@@ -110,7 +115,11 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
 
   let candidates = [...LICENSE_TIERS];
   if (inputs.scenario === 'migration') {
-    candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-DVM');
+    if (isBS2Starter) {
+      candidates = candidates.filter(t => t.id !== 'BIOSTARX-DVM' || (reqD === 0));
+    } else {
+      candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-DVM');
+    }
   }
   if (needsAdvPkg || features.maps) {
     candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-ESS' && t.id !== 'BIOSTARX-DVM');
@@ -128,13 +137,15 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
   }) || candidates[candidates.length - 1];
 
   if (inputs.scenario === 'migration' && inputs.activationCode && (MIGRATION_MAPPING.AC as any)[inputs.activationCode]) {
-    const mapping = (MIGRATION_MAPPING.AC as any)[inputs.activationCode];
-    const mappedTier = candidates.find(t => t.id === mapping.base);
-    if (mappedTier) {
-      const mappedIndex = candidates.findIndex(t => t.id === mappedTier.id);
-      const selectedIndex = candidates.findIndex(t => t.id === selected.id);
-      if (mappedIndex > selectedIndex) {
-        selected = mappedTier;
+    if (!(isBS2Starter && selected.id === 'BIOSTARX-DVM')) {
+      const mapping = (MIGRATION_MAPPING.AC as any)[inputs.activationCode];
+      const mappedTier = candidates.find(t => t.id === mapping.base);
+      if (mappedTier) {
+        const mappedIndex = candidates.findIndex(t => t.id === mappedTier.id);
+        const selectedIndex = candidates.findIndex(t => t.id === selected.id);
+        if (mappedIndex > selectedIndex) {
+          selected = mappedTier;
+        }
       }
     }
   }
@@ -174,7 +185,7 @@ export interface CSVExportOptions {
 
 export function generateCSVContent(options: CSVExportOptions): string {
   const { projectName, client, tierName, bom, alternative, alternativeTierName } = options;
-  const headers = ['Part Number', 'Descripcion', 'Cantidad'];
+  const headers = ['Part Number', 'Descripcion', 'Cantidad', 'Nota'];
   
   const content = [
     `# Proyecto: ${projectName?.trim() || 'Sin nombre'}`,
@@ -184,7 +195,7 @@ export function generateCSVContent(options: CSVExportOptions): string {
     '',
     '### OPCIÓN RECOMENDADA ###',
     headers.join(','),
-    ...bom.map(item => [item.id, item.name, item.qty.toString()].map(cell => `"${cell}"`).join(',')),
+    ...bom.map(item => [item.id, item.name, item.qty.toString(), item.foc ? 'Free of Charge' : ''].map(cell => `"${cell}"`).join(',')),
   ];
 
   if (alternative && alternativeTierName) {
@@ -194,7 +205,7 @@ export function generateCSVContent(options: CSVExportOptions): string {
       `# Tier: BioStar X ${alternativeTierName}`,
       `# Nota: Esta es una opción de costo optimizado basada en paquetes de expansión.`,
       headers.join(','),
-      ...alternative.map(item => [item.id, item.name, item.qty.toString()].map(cell => `"${cell}"`).join(','))
+      ...alternative.map(item => [item.id, item.name, item.qty.toString(), item.foc ? 'Free of Charge' : ''].map(cell => `"${cell}"`).join(','))
     );
   }
 
