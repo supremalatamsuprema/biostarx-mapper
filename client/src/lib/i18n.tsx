@@ -160,7 +160,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "migration.licenseFile": "Archivo Licencia (.lic)",
     "migration.hardwareConfirmation": "Confirmación de Compatibilidad de Hardware",
     "migration.hardwareConfirmDesc": "Confirmo que he revisado mis equipos y no cuento con equipos de 1ra Generación.",
-    "migration.basicVisitorUpgradeWarning": "Su licencia BioStar 2 Basic le otorga BioStar X Essential y Visitantes sin costo. Sin embargo, la licencia de Visitantes requiere obligatoriamente BioStar X Advanced o superior. Deberá adquirir el upgrade a Advanced (con costo) para poder utilizar la funcionalidad de Visitantes.",
+    "migration.basicVisitorUpgradeWarning": "Su licencia BioStar 2 Basic le otorga BioStar X Essential sin costo y su licencia BioStar 2 Visitors le otorga BioStar X Visitor sin costo. Sin embargo, la licencia de Visitantes de BioStar X requiere obligatoriamente que su licencia base de BioStar X este en un nivel Advanced o superior. Deberá adquirir el upgrade de Essential a Advanced (con costo) para poder utilizar la licencia de BioStar X Visitor.",
     
     "capacity.sectionTitle": "Dimensionamiento y Capacidad",
     "capacity.totalUsers": "Usuarios Totales",
@@ -376,7 +376,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "migration.licenseFile": "License File (.lic)",
     "migration.hardwareConfirmation": "Hardware Compatibility Confirmation",
     "migration.hardwareConfirmDesc": "I confirm that I have reviewed my equipment and do not have 1st Generation devices.",
-    "migration.basicVisitorUpgradeWarning": "Your BioStar 2 Basic license grants you BioStar X Essential and Visitor Management at no cost. However, the Visitor license requires BioStar X Advanced or higher. You must purchase the upgrade to Advanced (with cost) to use the Visitor Management functionality.",
+    "migration.basicVisitorUpgradeWarning": "Your BioStar 2 Basic license grants you BioStar X Essential at no cost and your BioStar 2 Visitors license grants you BioStar X Visitor at no cost. However, the BioStar X Visitor license requires your BioStar X base license to be at Advanced level or higher. You must purchase the upgrade from Essential to Advanced (with cost) to use the BioStar X Visitor license.",
     
     "capacity.sectionTitle": "Sizing and Capacity",
     "capacity.totalUsers": "Total Users",
@@ -591,7 +591,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "migration.licenseFile": "Arquivo de Licença (.lic)",
     "migration.hardwareConfirmation": "Confirmação de Compatibilidade de Hardware",
     "migration.hardwareConfirmDesc": "Confirmo que revisei meus equipamentos e não tenho dispositivos de 1ª Geração.",
-    "migration.basicVisitorUpgradeWarning": "Sua licença BioStar 2 Basic concede BioStar X Essential e Visitantes sem custo. Porém, a licença de Visitantes requer obrigatoriamente BioStar X Advanced ou superior. Será necessário adquirir o upgrade para Advanced (com custo) para utilizar a funcionalidade de Visitantes.",
+    "migration.basicVisitorUpgradeWarning": "Sua licença BioStar 2 Basic concede BioStar X Essential sem custo e sua licença BioStar 2 Visitors concede BioStar X Visitor sem custo. Porém, a licença de Visitantes do BioStar X requer obrigatoriamente que sua licença base do BioStar X esteja no nível Advanced ou superior. Será necessário adquirir o upgrade de Essential para Advanced (com custo) para utilizar a licença BioStar X Visitor.",
     
     "capacity.sectionTitle": "02. Dimensionamento e Capacidade",
     "capacity.totalUsers": "Usuários Totais",
