@@ -221,6 +221,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
             features={features}
             onInputsChange={setInputs}
             onFeaturesChange={setFeatures}
+            bs2VisitorLocked={inputs.scenario === 'migration' && !!meta.bs2VisitorLicense}
           />
           
           <DeviceLicenses inputs={inputs} onChange={setInputs} />

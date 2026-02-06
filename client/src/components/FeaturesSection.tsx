@@ -4,6 +4,7 @@ import { NumericInput } from "@/components/NumericInput";
 import { ADVANCED_AC_FEATURES } from "@/data/licenseData";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useI18n } from "@/lib/i18n";
+import { useToast } from "@/hooks/use-toast";
 import type { ProjectInputs, FeatureFlags } from "@/types/license";
 
 interface FeaturesSectionProps {
@@ -11,16 +12,27 @@ interface FeaturesSectionProps {
   features: FeatureFlags;
   onInputsChange: (inputs: ProjectInputs) => void;
   onFeaturesChange: (features: FeatureFlags) => void;
+  bs2VisitorLocked?: boolean;
 }
 
 export function FeaturesSection({ 
   inputs, 
   features, 
   onInputsChange, 
-  onFeaturesChange 
+  onFeaturesChange,
+  bs2VisitorLocked = false
 }: FeaturesSectionProps) {
   const { t } = useI18n();
+  const { toast } = useToast();
   const updateFeature = <K extends keyof FeatureFlags>(field: K, value: boolean) => {
+    if (field === 'visitor' && !value && bs2VisitorLocked) {
+      toast({
+        title: t("validation.cannotUncheck"),
+        description: t("validation.visitorLockedByMigration"),
+        variant: "destructive"
+      });
+      return;
+    }
     onFeaturesChange({ ...features, [field]: value });
   };
 

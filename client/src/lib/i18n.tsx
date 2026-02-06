@@ -127,6 +127,8 @@ export const translations: Record<Language, Record<string, string>> = {
     "disclaimer.accept": "Aceptar y Continuar",
     
     "validation.required": "Campo requerido",
+    "validation.cannotUncheck": "No se puede desmarcar",
+    "validation.visitorLockedByMigration": "Ha indicado que cuenta con una licencia de Visitantes de BioStar 2. Desmarque primero la casilla de \"Licencia de Visitantes (BioStar 2)\" en la sección de Migración para poder desactivar este módulo.",
     "validation.projectName": "Por favor ingresa el nombre del proyecto",
     "validation.client": "Por favor ingresa el nombre del cliente",
     "validation.capacity": "Por favor completa al menos un campo de dimensionamiento (usuarios, puertas, dispositivos u operadores)",
@@ -343,6 +345,8 @@ export const translations: Record<Language, Record<string, string>> = {
     "disclaimer.accept": "Accept and Continue",
     
     "validation.required": "Required field",
+    "validation.cannotUncheck": "Cannot uncheck",
+    "validation.visitorLockedByMigration": "You have indicated that you have a BioStar 2 Visitors license. Please uncheck the \"Visitors License (BioStar 2)\" checkbox in the Migration section first to disable this module.",
     "validation.projectName": "Please enter the project name",
     "validation.client": "Please enter the client name",
     "validation.capacity": "Please fill in at least one capacity field (users, doors, devices, or operators)",
@@ -558,6 +562,8 @@ export const translations: Record<Language, Record<string, string>> = {
     "disclaimer.accept": "Aceitar e Continuar",
     
     "validation.required": "Campo obrigatório",
+    "validation.cannotUncheck": "Não é possível desmarcar",
+    "validation.visitorLockedByMigration": "Você indicou que possui uma licença de Visitantes do BioStar 2. Desmarque primeiro a caixa de \"Licença de Visitantes (BioStar 2)\" na seção de Migração para poder desativar este módulo.",
     "validation.projectName": "Por favor, insira o nome do projeto",
     "validation.client": "Por favor, insira o nome do cliente",
     "validation.capacity": "Por favor, preencha pelo menos um campo de dimensionamento (usuários, portas, dispositivos ou operadores)",
