@@ -71,6 +71,11 @@ export interface FeatureFlags {
   eventApi: boolean;
 }
 
+export interface MigrationNote {
+  type: 'warning' | 'info';
+  messageKey: string;
+}
+
 export interface CalculatedBOM {
   bom: BomItem[];
   selected: LicenseTier;
@@ -79,4 +84,5 @@ export interface CalculatedBOM {
     selected: LicenseTier;
     reason: string;
   };
+  migrationNotes?: MigrationNote[];
 }

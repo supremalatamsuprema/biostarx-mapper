@@ -160,6 +160,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "migration.licenseFile": "Archivo Licencia (.lic)",
     "migration.hardwareConfirmation": "Confirmación de Compatibilidad de Hardware",
     "migration.hardwareConfirmDesc": "Confirmo que he revisado mis equipos y no cuento con equipos de 1ra Generación.",
+    "migration.basicVisitorUpgradeWarning": "Su licencia BioStar 2 Basic le otorga BioStar X Essential y Visitantes sin costo. Sin embargo, la licencia de Visitantes requiere obligatoriamente BioStar X Advanced o superior. Deberá adquirir el upgrade a Advanced (con costo) para poder utilizar la funcionalidad de Visitantes.",
     
     "capacity.sectionTitle": "Dimensionamiento y Capacidad",
     "capacity.totalUsers": "Usuarios Totales",
@@ -375,6 +376,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "migration.licenseFile": "License File (.lic)",
     "migration.hardwareConfirmation": "Hardware Compatibility Confirmation",
     "migration.hardwareConfirmDesc": "I confirm that I have reviewed my equipment and do not have 1st Generation devices.",
+    "migration.basicVisitorUpgradeWarning": "Your BioStar 2 Basic license grants you BioStar X Essential and Visitor Management at no cost. However, the Visitor license requires BioStar X Advanced or higher. You must purchase the upgrade to Advanced (with cost) to use the Visitor Management functionality.",
     
     "capacity.sectionTitle": "Sizing and Capacity",
     "capacity.totalUsers": "Total Users",
@@ -589,6 +591,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "migration.licenseFile": "Arquivo de Licença (.lic)",
     "migration.hardwareConfirmation": "Confirmação de Compatibilidade de Hardware",
     "migration.hardwareConfirmDesc": "Confirmo que revisei meus equipamentos e não tenho dispositivos de 1ª Geração.",
+    "migration.basicVisitorUpgradeWarning": "Sua licença BioStar 2 Basic concede BioStar X Essential e Visitantes sem custo. Porém, a licença de Visitantes requer obrigatoriamente BioStar X Advanced ou superior. Será necessário adquirir o upgrade para Advanced (com custo) para utilizar a funcionalidade de Visitantes.",
     
     "capacity.sectionTitle": "02. Dimensionamento e Capacidade",
     "capacity.totalUsers": "Usuários Totais",

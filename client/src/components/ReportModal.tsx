@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { PillButton } from "@/components/ui/pill-button";
-import { Printer, Copy, X, CheckCircle, Download, Package, Mail, Gift, DollarSign } from "lucide-react";
+import { Printer, Copy, X, CheckCircle, Download, Package, Mail, Gift, DollarSign, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { downloadCSV } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
@@ -334,6 +334,19 @@ ${t("disclaimer.note")}
                   </div>
                 </div>
               </div>
+
+              {calculatedBOM.migrationNotes && calculatedBOM.migrationNotes.length > 0 && (
+                <div className="col-span-full space-y-2">
+                  {calculatedBOM.migrationNotes.map((note, idx) => (
+                    <div key={idx} className="flex gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                      <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                      <p className="text-xs leading-relaxed text-amber-800 font-medium">
+                        {t(note.messageKey)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Opción Alternativa */}
               {calculatedBOM.alternative && (

@@ -4,7 +4,8 @@ import type {
   FeatureFlags, 
   CalculatedBOM, 
   BomItem,
-  LicenseTier
+  LicenseTier,
+  MigrationNote
 } from "@/types/license";
 
 export function getMigrationEquivalent(bs2Tier: string, type: 'AC' | 'TA' | 'VISITOR'): any {
@@ -38,11 +39,13 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
   const reqU = effectiveUsers;
 
   const isBS2Starter = inputs.scenario === 'migration' && inputs.activationCode === 'BioStar2-Starter';
+  const isBS2Basic = inputs.scenario === 'migration' && inputs.activationCode === 'BioStar2-Basic';
 
   function getBomForTier(selectedTier: LicenseTier): BomItem[] {
     const bom: BomItem[] = [];
 
-    const tierIsFoc = isBS2Starter && selectedTier.id === 'BIOSTARX-DVM';
+    const tierIsFoc = (isBS2Starter && selectedTier.id === 'BIOSTARX-DVM') ||
+                      (isBS2Basic && selectedTier.id === 'BIOSTARX-ESS');
     bom.push({ id: selectedTier.id, name: `BioStar X ${selectedTier.name}`, qty: 1, foc: tierIsFoc || undefined });
 
     if (selectedTier.id === 'BIOSTARX-ESS' && reqU > 1000) {
@@ -92,7 +95,7 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
 
     if (features.visitor) {
       if (!bom.find(b => b.id === ADDONS.VISITOR.id)) {
-        const visitorFoc = isBS2Starter ? true : undefined;
+        const visitorFoc = (isBS2Starter || isBS2Basic) ? true : undefined;
         bom.push({ ...ADDONS.VISITOR, qty: 1, foc: visitorFoc });
       }
     }
@@ -181,10 +184,20 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
     }
   }
 
+  const migrationNotes: MigrationNote[] = [];
+
+  if (isBS2Basic && features.visitor) {
+    migrationNotes.push({
+      type: 'warning',
+      messageKey: 'migration.basicVisitorUpgradeWarning'
+    });
+  }
+
   return { 
     bom: getBomForTier(selected), 
     selected,
-    alternative
+    alternative,
+    ...(migrationNotes.length > 0 ? { migrationNotes } : {})
   };
 }
 

@@ -2,7 +2,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { PillButton } from "@/components/ui/pill-button";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Package, Download, Mail, ClipboardList, Gift, DollarSign } from "lucide-react";
+import { FileText, Package, Download, Mail, ClipboardList, Gift, DollarSign, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { downloadCSV, getTotalItems } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
@@ -132,6 +132,19 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
               </div>
             ))}
           </div>
+
+          {calculatedBOM.migrationNotes && calculatedBOM.migrationNotes.length > 0 && (
+            <div className="mt-4 space-y-2">
+              {calculatedBOM.migrationNotes.map((note, idx) => (
+                <div key={idx} className="flex gap-2 p-3 rounded-md bg-amber-500/10 border border-amber-500/30" data-testid={`migration-note-${idx}`}>
+                  <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                  <p className="text-[10px] leading-relaxed text-amber-800 dark:text-amber-300 font-medium">
+                    {t(note.messageKey)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
           
           <div className="mt-6 pt-4 border-t border-border">
             <div className="flex justify-between items-center mb-0">

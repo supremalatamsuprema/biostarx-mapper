@@ -3,7 +3,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescri
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PillButton } from "@/components/ui/pill-button";
-import { Package, ChevronUp, FileText, Gift, DollarSign } from "lucide-react";
+import { Package, ChevronUp, FileText, Gift, DollarSign, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import type { CalculatedBOM } from "@/types/license";
@@ -117,6 +117,19 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport, hasCapacityDat
                 </div>
               ))}
             </div>
+
+            {calculatedBOM.migrationNotes && calculatedBOM.migrationNotes.length > 0 && (
+              <div className="mt-4 space-y-2">
+                {calculatedBOM.migrationNotes.map((note, idx) => (
+                  <div key={idx} className="flex gap-2 p-3 rounded-md bg-amber-500/10 border border-amber-500/30">
+                    <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                    <p className="text-[10px] leading-relaxed text-amber-800 dark:text-amber-300 font-medium">
+                      {t(note.messageKey)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Opción Alternativa */}
