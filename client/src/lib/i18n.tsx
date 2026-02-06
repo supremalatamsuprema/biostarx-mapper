@@ -223,7 +223,7 @@ export const translations: Record<Language, Record<string, string>> = {
   },
   en: {
     "app.title": "BioStar X Mapper",
-    "app.welcome": "Welcome to",
+    "app.welcome": "Calculator",
     "app.description": "BioStar X Calculator is a tool designed to facilitate the calculation and correct selection of BioStar X licensing. Through this tool, it is possible to quickly and accurately identify the necessary licenses according to the size, scope, and configuration of each project.",
     
     "scenario.new": "New Project",
