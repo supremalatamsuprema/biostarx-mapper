@@ -97,10 +97,22 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
       }
     }
     if (features.tna) {
-      const tnaUsers = inputs.tnaUsers || reqU;
-      const tnaAddon = tnaUsers > 500 ? ADDONS.TNA_ENT : ADDONS.TNA_STD;
-      if (!bom.find(b => b.id === tnaAddon.id)) {
-        bom.push({ ...tnaAddon, qty: 1 });
+      if (inputs.scenario === 'migration' && inputs.bs2TaLicense) {
+        const taMapping = (MIGRATION_MAPPING.TA as any)[inputs.bs2TaLicense];
+        if (taMapping) {
+          const addonKey = taMapping[0];
+          const addon = (ADDONS as any)[addonKey];
+          if (addon && !bom.find(b => b.id === addon.id)) {
+            const isFoc = inputs.bs2TaLicense !== 'BioStar2-TA-Starter';
+            bom.push({ ...addon, qty: 1, foc: isFoc || undefined });
+          }
+        }
+      } else {
+        const tnaUsers = inputs.tnaUsers || reqU;
+        const tnaAddon = tnaUsers > 500 ? ADDONS.TNA_ENT : ADDONS.TNA_STD;
+        if (!bom.find(b => b.id === tnaAddon.id)) {
+          bom.push({ ...tnaAddon, qty: 1 });
+        }
       }
     }
     if (features.mobile) bom.push({ ...ADDONS.MOBILE, qty: 1 });

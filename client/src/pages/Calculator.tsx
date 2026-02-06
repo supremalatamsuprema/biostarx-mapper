@@ -124,6 +124,9 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
       if (meta.activationCode && inputs.activationCode !== meta.activationCode) {
         setInputs(prev => ({ ...prev, activationCode: meta.activationCode }));
       }
+      if (meta.bs2TaLicense !== inputs.bs2TaLicense) {
+        setInputs(prev => ({ ...prev, bs2TaLicense: meta.bs2TaLicense || undefined }));
+      }
 
       const newFeatures = { ...features };
 
@@ -152,7 +155,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
 
       setFeatures(newFeatures);
     }
-  }, [meta.activationCode, meta.bs2TaLicense, meta.bs2VisitorLicense, inputs.scenario]);
+  }, [meta.activationCode, meta.bs2TaLicense, meta.bs2VisitorLicense, inputs.scenario, inputs.activationCode, inputs.bs2TaLicense]);
 
   const handleGenerateReport = () => {
     if (!meta.projectName.trim()) {
