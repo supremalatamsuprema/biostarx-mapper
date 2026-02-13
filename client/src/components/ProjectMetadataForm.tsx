@@ -65,7 +65,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
                 {t("projectMeta.clientType")}
               </label>
               <select 
-                className="bg-transparent p-2 font-medium font-['Noto_Sans_KR'] text-[12px] outline-none cursor-pointer"
+                className="bg-transparent p-2 font-medium font-['Noto_Sans_KR'] text-[14px] outline-none cursor-pointer"
                 value={meta.clientType}
                 onChange={e => updateField('clientType', e.target.value)}
                 data-testid="select-client-type"
