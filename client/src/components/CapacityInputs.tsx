@@ -17,7 +17,7 @@ export function CapacityInputs({ inputs, onChange }: CapacityInputsProps) {
   return (
     <GlassCard className="p-8 sm:p-12">
       <h3 className="text-base sm:text-lg font-medium font-['Noto_Sans_KR'] text-[#A12944] mb-8 sm:mb-10 flex items-center gap-2">
-        <span className="opacity-20 text-xs sm:text-sm">02.</span>
+        <span>02.</span>
         {t("capacity.sectionTitle")}
       </h3>
       

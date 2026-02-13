@@ -17,7 +17,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
   return (
     <GlassCard className="p-8 sm:p-10">
       <h3 className="text-base sm:text-lg font-medium font-['Noto_Sans_KR'] text-[#A12944] mb-6 sm:mb-8 flex items-center gap-2">
-        <span className="opacity-20 text-xs sm:text-sm">01.</span>
+        <span>01.</span>
         {t("projectMeta.title")}
       </h3>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 sm:gap-x-12 gap-y-6 sm:gap-y-8">
