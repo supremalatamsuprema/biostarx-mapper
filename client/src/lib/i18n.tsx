@@ -19,7 +19,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "app.description": "El Calculador de BioStar X es una herramienta diseñada para facilitar el cálculo y la selección correcta del licenciamiento de BioStar X. A través de esta herramienta, es posible identificar de manera rápida y precisa las licencias necesarias según el tamaño, alcance y configuración de cada proyecto.",
     
     "scenario.new": "Proyecto Nuevo",
-    "scenario.new.desc": "Implementación desde cero (Greenfield) diseñada nativamente para BioStar X.",
+    "scenario.new.desc": "Implementación desde cero, diseñada nativamente para BioStar X.",
     "scenario.new.button": "Iniciar Configuración",
     "scenario.migration": "Migración BioStar 2",
     "scenario.migration.desc": "Actualización de un sistema existente (Legacy) a la nueva plataforma.",
