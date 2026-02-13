@@ -196,7 +196,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
   };
 
   return (
-    <div className="min-h-screen p-4 lg:p-10 max-w-[1680px] mx-auto animate-fadeIn pb-24 xl:pb-10">
+    <div className="min-h-screen p-4 lg:p-10 max-w-[1680px] mx-auto animate-fadeIn pb-24 xl:pb-10" style={{ fontFamily: "'Noto Sans KR', sans-serif", fontWeight: 400 }}>
       <Header 
         scenario={inputs.scenario} 
         onReset={handleReset} 
