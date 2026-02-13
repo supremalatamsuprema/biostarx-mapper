@@ -43,7 +43,7 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
         
         <div className="space-y-1">
           <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-            {t("migration.currentActivation")} (BioStar 2 Tier)
+            Licencia actual de AC activada en BioStar 2
           </label>
           <select 
             className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#0047FF] outline-none transition-all cursor-pointer"
