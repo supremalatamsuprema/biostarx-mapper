@@ -60,7 +60,7 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mb-8 sm:mb-10">
         <div className="space-y-1">
           <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-            {t("migration.taLicense")}
+            Licencia Tiempo y Asistencia activada (BioStar 2)
           </label>
           <select 
             className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#0047FF] outline-none transition-all cursor-pointer"
