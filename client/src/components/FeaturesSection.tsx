@@ -71,7 +71,7 @@ export function FeaturesSection({
                   className="w-4 h-4 data-[state=checked]:bg-[#A12944] data-[state=checked]:border-[#A12944]"
                   data-testid={`checkbox-${f.id}`}
                 />
-                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                <span className="text-[12px] font-bold text-muted-foreground uppercase tracking-wider">
                   {t(`advancedFeature.${f.id}`)}
                 </span>
               </label>

@@ -41,7 +41,7 @@ export function FeatureToggle({
       />
       <div className="flex flex-col">
         <span className={cn(
-          "text-[10px] uppercase tracking-wider font-bold",
+          "text-[12px] uppercase tracking-wider font-bold",
           checked ? "text-foreground" : "text-muted-foreground"
         )}>
           {label}
