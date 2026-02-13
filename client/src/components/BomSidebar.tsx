@@ -96,7 +96,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
         
         <div className="p-6 sm:p-8 bg-white/50 dark:bg-card/50">
           <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary mb-4 pb-2 border-b border-primary/10">
-            {t("bom.title")}
+            Lista de Referencias Requeridas
           </h4>
           
           <div className="space-y-2">
