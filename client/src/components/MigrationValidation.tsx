@@ -26,7 +26,6 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
         <span>02.</span>
         {t("migration.sectionTitle")}
       </h3>
-      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mb-8 sm:mb-10">
         <div className="space-y-1">
           <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
@@ -42,9 +41,7 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
         </div>
         
         <div className="space-y-1">
-          <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-            Licencia actual de AC activada en BioStar 2
-          </label>
+          <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Licencia actual de AC activada (BioStar 2)</label>
           <select 
             className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#0047FF] outline-none transition-all cursor-pointer"
             value={meta.activationCode}
@@ -60,7 +57,6 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
           </select>
         </div>
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mb-8 sm:mb-10">
         <div className="space-y-1">
           <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
@@ -100,7 +96,6 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
           </div>
         </div>
       </div>
-      
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <FileUpload 
           label={t("migration.dashCapture")} 
@@ -121,7 +116,6 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
           accept=".lic"
         />
       </div>
-      
       <div className="p-4 sm:p-6 bg-[#0047FF]/5 rounded-md border border-[#0047FF]/20">
         <label className="flex items-start gap-3 sm:gap-4 cursor-pointer group">
           <Checkbox
