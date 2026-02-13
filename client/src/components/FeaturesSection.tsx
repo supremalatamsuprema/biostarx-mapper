@@ -84,7 +84,7 @@ export function FeaturesSection({
         </div>
 
         <div className="space-y-4 sm:space-y-6">
-          <h4 className="text-[11px] font-bold uppercase tracking-[0.3em] text-foreground">
+          <h4 className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#a12944] bg-[transparent]">
             {t("features.modulesAddons")}
           </h4>
           
