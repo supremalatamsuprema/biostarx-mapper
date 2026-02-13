@@ -143,7 +143,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
             data-testid="checkbox-authorization"
           />
           <div className="flex flex-col">
-            <span className="text-sm font-bold text-foreground">
+            <span className="text-sm text-foreground font-medium">
               {t("projectMeta.dataAuth")}
             </span>
             <p className="text-[10px] text-muted-foreground mt-0.5 leading-relaxed">
