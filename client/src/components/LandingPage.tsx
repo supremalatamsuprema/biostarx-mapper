@@ -35,7 +35,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
       <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-[#00C2FF] via-[#0047FF] to-[#FF00E5] blur-[200px] opacity-5 rounded-full pointer-events-none" />
       <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-[#B12944] to-[#0047FF] blur-[200px] opacity-5 rounded-full pointer-events-none" />
       <div className="max-w-6xl w-full relative z-10 space-y-8 sm:space-y-12 animate-fadeIn">
-        <div className="text-center space-y-4 max-w-4xl mx-auto">
+        <div className="text-center space-y-4 max-w-4xl mx-auto" style={{ fontFamily: "'Noto Sans KR', sans-serif", fontWeight: 300 }}>
           <div className="flex flex-col items-center justify-center gap-y-3 mb-4">
             <h1 className="text-4xl sm:text-5xl lg:text-7xl text-foreground tracking-tight leading-none" style={{ fontFamily: "'Noto Sans KR', sans-serif", fontWeight: 700 }}>
               {t("app.welcome")}
