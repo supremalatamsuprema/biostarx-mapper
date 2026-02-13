@@ -36,7 +36,7 @@ export function NumericInput({
 
   return (
     <div className={cn("flex flex-col gap-1.5 group", className)}>
-      <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+      <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
         {label}
       </label>
       <div className="flex items-center transition-transform duration-200 group-focus-within:scale-[1.02]">

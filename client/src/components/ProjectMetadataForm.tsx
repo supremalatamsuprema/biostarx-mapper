@@ -24,7 +24,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
         {/* Project Details */}
         <div className="space-y-5 sm:space-y-6">
           <div className="space-y-1">
-            <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+            <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
               {t("projectMeta.projectName")}
             </label>
             <input 
@@ -36,7 +36,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
           </div>
           
           <div className="space-y-1">
-            <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+            <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
               {t("projectMeta.client")}
             </label>
             <input 
@@ -49,7 +49,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
           
           <div className="grid grid-cols-2 gap-4 sm:gap-6">
             <div className="space-y-1">
-              <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+              <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
                 {t("projectMeta.country")}
               </label>
               <input 
@@ -61,7 +61,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
             </div>
             
             <div className="flex flex-col border-b-2 border-muted focus-within:border-[#A12944] transition-all text-[12px]">
-              <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+              <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
                 {t("projectMeta.clientType")}
               </label>
               <select 
@@ -83,7 +83,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
         <div className="space-y-5 sm:space-y-6">
           <div className="grid grid-cols-2 gap-4 sm:gap-6">
             <div className="space-y-1">
-              <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+              <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
                 {t("projectMeta.firstName")}
               </label>
               <input 
@@ -95,7 +95,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
             </div>
             
             <div className="space-y-1">
-              <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+              <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
                 {t("projectMeta.lastName")}
               </label>
               <input 
@@ -108,7 +108,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
           </div>
           
           <div className="space-y-1">
-            <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+            <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
               {t("projectMeta.email")}
             </label>
             <input 
@@ -121,7 +121,7 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
           </div>
           
           <div className="space-y-1">
-            <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+            <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
               {t("projectMeta.phone")}
             </label>
             <input 

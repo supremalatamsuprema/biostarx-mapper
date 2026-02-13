@@ -28,7 +28,7 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mb-8 sm:mb-10">
         <div className="space-y-1">
-          <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+          <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
             {t("migration.currentVersion")}
           </label>
           <input 
@@ -41,7 +41,7 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
         </div>
         
         <div className="space-y-1">
-          <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+          <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
             {t("migration.currentActivation")} (BioStar 2 Tier)
           </label>
           <select 
@@ -62,7 +62,7 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mb-8 sm:mb-10">
         <div className="space-y-1">
-          <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+          <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
             {t("migration.taLicense")}
           </label>
           <select 
@@ -81,7 +81,7 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
         </div>
         
         <div className="space-y-1">
-          <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+          <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
             {t("migration.visitorLicense")}
           </label>
           <div className="pt-2">

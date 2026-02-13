@@ -28,7 +28,7 @@ export function FileUpload({
       "p-4 bg-white/50 dark:bg-card/50 border border-muted rounded-md flex flex-col gap-2",
       className
     )}>
-      <label className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest block">
+      <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest block">
         {label}
       </label>
       <div className="flex items-center gap-2">
