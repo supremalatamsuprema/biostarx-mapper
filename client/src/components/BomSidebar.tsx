@@ -43,7 +43,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
               <ClipboardList className="w-7 h-7 text-muted-foreground" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-sm font-heading font-semibold text-foreground">
+              <h3 className="text-sm font-medium font-['Noto_Sans_KR'] text-foreground">
                 {t("bom.noDataTitle")}
               </h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -72,7 +72,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
             <p className="text-[9px] font-semibold uppercase tracking-widest text-white/90">
               {t("bom.originalTitle")}
             </p>
-            <h3 className="text-xl sm:text-2xl font-heading font-semibold text-white">
+            <h3 className="text-xl sm:text-2xl font-medium font-['Noto_Sans_KR'] text-white">
               BioStar X {selected.name}
             </h3>
           </div>
@@ -170,7 +170,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
                 <p className="text-[9px] font-black uppercase tracking-widest text-primary">
                   {t("bom.alternativeTitle")}
                 </p>
-                <h3 className="text-xl font-heading font-black text-foreground">
+                <h3 className="text-xl font-medium font-['Noto_Sans_KR'] text-foreground">
                   BioStar X {alternative.selected.name}
                 </h3>
               </div>

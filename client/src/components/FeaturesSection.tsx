@@ -49,7 +49,7 @@ export function FeaturesSection({
   return (
     <GlassCard className="p-8 sm:p-12">
       <div className="flex justify-between items-start mb-8 sm:mb-10 pb-4 border-b border-border">
-        <h3 className="sm:text-2xl font-heading text-foreground text-[18px] font-normal">
+        <h3 className="sm:text-2xl text-foreground text-[18px] font-medium font-['Noto_Sans_KR']">
           {t("features.sectionTitle")}
         </h3>
       </div>

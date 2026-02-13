@@ -61,7 +61,7 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport, hasCapacityDat
           {/* Opción Recomendada */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-black uppercase tracking-widest text-primary">
+              <h3 className="text-sm font-medium font-['Noto_Sans_KR'] uppercase tracking-widest text-primary">
                 {t("mobile.recommended")}
               </h3>
               <span className="text-xs font-bold px-2 py-1 bg-primary/10 text-primary rounded-full">
@@ -136,7 +136,7 @@ export function MobileBomSheet({ calculatedBOM, onGenerateReport, hasCapacityDat
           {alternative && (
             <div className="space-y-4 pt-4 border-t border-border">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-black uppercase tracking-widest text-primary">
+                <h3 className="text-sm font-medium font-['Noto_Sans_KR'] uppercase tracking-widest text-primary">
                   {t("mobile.alternative")}
                 </h3>
                 <span className="text-xs font-bold px-2 py-1 bg-primary/10 text-primary rounded-full">
