@@ -43,7 +43,7 @@ export function DisclaimerModal({ open, onAccept }: DisclaimerModalProps) {
                 </p>
               </div>
               
-              <DialogDescription className="text-sm text-muted-foreground leading-relaxed text-center">
+              <DialogDescription className="text-sm text-muted-foreground leading-relaxed text-center font-medium font-['Noto_Sans_KR']">
                 {t("disclaimer.note")}
               </DialogDescription>
             </div>
