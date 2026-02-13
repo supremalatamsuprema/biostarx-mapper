@@ -79,7 +79,7 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
               <Button 
                 variant="default" 
                 size="sm" 
-                className="rounded-full bg-[#B12944] hover:bg-[#B12944]/90 text-white font-semibold text-[10px] tracking-widest uppercase"
+                className="rounded-full bg-[#542051] hover:bg-[#B12944]/90 text-white font-semibold text-[10px] tracking-widest uppercase"
                 data-testid="button-export-all"
                 disabled={!hasCapacityData}
               >
