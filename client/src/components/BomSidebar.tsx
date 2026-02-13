@@ -168,7 +168,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
               </div>
               <div>
                 <p className="text-[9px] font-black uppercase tracking-widest text-primary">
-                  {t("bom.alternativeTitle")}
+                  BOM ALTERNATIVO
                 </p>
                 <h3 className="text-xl font-medium font-['Noto_Sans_KR'] text-foreground">
                   BioStar X {alternative.selected.name}
