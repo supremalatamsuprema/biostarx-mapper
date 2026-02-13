@@ -682,7 +682,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
         return saved as Language;
       }
     }
-    return "es";
+    return "en";
   });
 
   useEffect(() => {
