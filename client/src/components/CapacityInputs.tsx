@@ -6,9 +6,10 @@ import type { ProjectInputs } from "@/types/license";
 interface CapacityInputsProps {
   inputs: ProjectInputs;
   onChange: (inputs: ProjectInputs) => void;
+  sectionNumber?: number;
 }
 
-export function CapacityInputs({ inputs, onChange }: CapacityInputsProps) {
+export function CapacityInputs({ inputs, onChange, sectionNumber = 2 }: CapacityInputsProps) {
   const { t } = useI18n();
   const updateField = <K extends keyof ProjectInputs>(field: K, value: ProjectInputs[K]) => {
     onChange({ ...inputs, [field]: value });
@@ -17,7 +18,7 @@ export function CapacityInputs({ inputs, onChange }: CapacityInputsProps) {
   return (
     <GlassCard className="p-8 sm:p-12">
       <h3 className="text-base sm:text-lg font-medium font-['Noto_Sans_KR'] text-[#A12944] mb-8 sm:mb-10 flex items-center gap-2">
-        <span>02.</span>
+        <span>{String(sectionNumber).padStart(2, '0')}.</span>
         {t("capacity.sectionTitle")}
       </h3>
       

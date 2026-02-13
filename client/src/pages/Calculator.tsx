@@ -214,7 +214,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
             <MigrationValidation meta={meta} onChange={setMeta} />
           )}
           
-          <CapacityInputs inputs={inputs} onChange={setInputs} />
+          <CapacityInputs inputs={inputs} onChange={setInputs} sectionNumber={inputs.scenario === 'migration' ? 3 : 2} />
           
           <FeaturesSection 
             inputs={inputs}
