@@ -46,7 +46,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
               className="h-[2.5em] sm:h-[3em] lg:h-[3.5em] w-auto object-contain" 
             />
           </div>
-          <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-2xl mx-auto text-justify" style={{ fontWeight: 300 }}>
+          <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-5xl mx-auto text-justify" style={{ fontWeight: 300 }}>
             {t("app.description")}
           </p>
         </div>
