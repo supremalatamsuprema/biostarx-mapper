@@ -233,6 +233,17 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
                 </div>
               ))}
             </div>
+
+            <div className="mt-6 pt-4 border-t border-border">
+              <div className="flex justify-between items-center mb-0">
+                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                  {t("bom.totalItems")}
+                </span>
+                <span className="text-lg font-heading font-black text-foreground">
+                  {alternative.bom.reduce((sum, item) => sum + item.qty, 0)}
+                </span>
+              </div>
+            </div>
           </div>
         </GlassCard>
       )}
