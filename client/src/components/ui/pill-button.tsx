@@ -25,7 +25,7 @@ export function PillButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "rounded-full font-heading font-bold text-xs tracking-widest uppercase",
+        "rounded-full font-medium font-['Noto_Sans_KR'] text-xs tracking-widest uppercase",
         className
       )}
     >
