@@ -30,7 +30,7 @@ export function DisclaimerModal({ open, onAccept }: DisclaimerModalProps) {
               <div className="mx-auto w-16 h-16 rounded-full bg-[#A12944]/10 flex items-center justify-center">
                 <Shield className="w-8 h-8 text-[#A12944]" />
               </div>
-              <DialogTitle className="text-2xl font-heading font-black text-center">
+              <DialogTitle className="text-2xl font-normal font-['Noto_Sans_KR'] text-center">
                 {t("disclaimer.title")}
               </DialogTitle>
             </DialogHeader>
