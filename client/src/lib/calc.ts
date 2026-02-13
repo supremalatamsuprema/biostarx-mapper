@@ -103,11 +103,21 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
       if (inputs.scenario === 'migration' && inputs.bs2TaLicense) {
         const taMapping = (MIGRATION_MAPPING.TA as any)[inputs.bs2TaLicense];
         if (taMapping) {
-          const addonKey = taMapping[0];
-          const addon = (ADDONS as any)[addonKey];
-          if (addon && !bom.find(b => b.id === addon.id)) {
-            const isFoc = inputs.bs2TaLicense !== 'BioStar2-TA-Starter';
-            bom.push({ ...addon, qty: 1, foc: isFoc || undefined });
+          const tnaUsers = inputs.tnaUsers || reqU;
+          const mappedAddonKey = taMapping[0];
+          const mappedIsStandard = mappedAddonKey === 'TNA_STD';
+          const needsUpgrade = mappedIsStandard && tnaUsers > 500;
+
+          if (needsUpgrade) {
+            if (!bom.find(b => b.id === ADDONS.TNA_ENT.id)) {
+              bom.push({ ...ADDONS.TNA_ENT, qty: 1 });
+            }
+          } else {
+            const addon = (ADDONS as any)[mappedAddonKey];
+            if (addon && !bom.find(b => b.id === addon.id)) {
+              const isFoc = inputs.bs2TaLicense !== 'BioStar2-TA-Starter';
+              bom.push({ ...addon, qty: 1, foc: isFoc || undefined });
+            }
           }
         }
       } else {
@@ -191,6 +201,20 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
       type: 'warning',
       messageKey: 'migration.basicVisitorUpgradeWarning'
     });
+  }
+
+  if (inputs.scenario === 'migration' && inputs.bs2TaLicense && features.tna) {
+    const taMapping = (MIGRATION_MAPPING.TA as any)[inputs.bs2TaLicense];
+    if (taMapping) {
+      const mappedAddonKey = taMapping[0];
+      const tnaUsers = inputs.tnaUsers || effectiveUsers;
+      if (mappedAddonKey === 'TNA_STD' && tnaUsers > 500) {
+        migrationNotes.push({
+          type: 'warning',
+          messageKey: 'migration.tnaStandardUpgradeWarning'
+        });
+      }
+    }
   }
 
   return { 
