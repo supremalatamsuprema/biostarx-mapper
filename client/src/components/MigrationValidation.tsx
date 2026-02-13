@@ -79,7 +79,7 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
         
         <div className="space-y-1">
           <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-            {t("migration.visitorLicense")}
+            Licencia de Visitantes activada (BioStar 2)
           </label>
           <div className="pt-2">
             <label className="flex items-center gap-3 cursor-pointer group">
