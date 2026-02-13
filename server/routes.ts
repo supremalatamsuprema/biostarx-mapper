@@ -35,7 +35,8 @@ const emailLimiter = rateLimit({
 const bomItemSchema = z.object({
   id: z.string().max(100),
   name: z.string().max(200),
-  qty: z.number().int().min(0).max(9999)
+  qty: z.number().int().min(0).max(9999),
+  foc: z.boolean().optional()
 });
 
 const licenseTierSchema = z.object({
@@ -117,6 +118,9 @@ const translations = {
     partNumber: "Part Number",
     description: "Descripción",
     quantity: "Cantidad",
+    note: "Nota",
+    foc: "Sin Costo (FOC)",
+    withCost: "Con Costo",
     alternativeOption: "Opción Alternativa",
     clientNote: "Nota del cliente",
     footer: "Este correo fue enviado desde el Calculador BioStar X de Suprema.",
@@ -146,6 +150,9 @@ const translations = {
     partNumber: "Part Number",
     description: "Description",
     quantity: "Quantity",
+    note: "Note",
+    foc: "Free of Charge (FOC)",
+    withCost: "With Cost",
     alternativeOption: "Alternative Option",
     clientNote: "Client note",
     footer: "This email was sent from the BioStar X Calculator by Suprema.",
@@ -175,6 +182,9 @@ const translations = {
     partNumber: "Part Number",
     description: "Descrição",
     quantity: "Quantidade",
+    note: "Nota",
+    foc: "Sem Custo (FOC)",
+    withCost: "Com Custo",
     alternativeOption: "Opção Alternativa",
     clientNote: "Nota do cliente",
     footer: "Este e-mail foi enviado do Calculador BioStar X da Suprema.",
@@ -205,23 +215,28 @@ export async function registerRoutes(
 
       const { bom, selected, alternative } = calculatedBOM;
 
-      const bomHtml = bom.map((item) => 
-        `<tr>
+      const isMigration = inputs.scenario === "migration";
+      const bomHtml = bom.map((item) => {
+        const noteLabel = isMigration ? (item.foc ? `<span style="color: #16a34a; font-weight: bold;">${t.foc}</span>` : `<span style="color: #d97706; font-weight: bold;">${t.withCost}</span>`) : "";
+        return `<tr>
           <td style="padding: 8px; border: 1px solid #e5e5e5;">${escapeHtml(item.id)}</td>
           <td style="padding: 8px; border: 1px solid #e5e5e5;">${escapeHtml(item.name)}</td>
           <td style="padding: 8px; border: 1px solid #e5e5e5; text-align: center;">${item.qty}</td>
-        </tr>`
-      ).join("");
+          ${isMigration ? `<td style="padding: 8px; border: 1px solid #e5e5e5; text-align: center;">${noteLabel}</td>` : ""}
+        </tr>`;
+      }).join("");
 
       let alternativeHtml = "";
       if (alternative) {
-        const altBomHtml = alternative.bom.map((item) =>
-          `<tr>
+        const altBomHtml = alternative.bom.map((item) => {
+          const noteLabel = isMigration ? (item.foc ? `<span style="color: #16a34a; font-weight: bold;">${t.foc}</span>` : `<span style="color: #d97706; font-weight: bold;">${t.withCost}</span>`) : "";
+          return `<tr>
             <td style="padding: 8px; border: 1px solid #e5e5e5;">${escapeHtml(item.id)}</td>
             <td style="padding: 8px; border: 1px solid #e5e5e5;">${escapeHtml(item.name)}</td>
             <td style="padding: 8px; border: 1px solid #e5e5e5; text-align: center;">${item.qty}</td>
-          </tr>`
-        ).join("");
+            ${isMigration ? `<td style="padding: 8px; border: 1px solid #e5e5e5; text-align: center;">${noteLabel}</td>` : ""}
+          </tr>`;
+        }).join("");
 
         alternativeHtml = `
           <h3 style="color: #0047FF; margin-top: 30px;">${t.alternativeOption}: BioStar X ${escapeHtml(alternative.selected.name)}</h3>
@@ -232,6 +247,7 @@ export async function registerRoutes(
                 <th style="padding: 10px; border: 1px solid #e5e5e5; text-align: left;">${t.partNumber}</th>
                 <th style="padding: 10px; border: 1px solid #e5e5e5; text-align: left;">${t.description}</th>
                 <th style="padding: 10px; border: 1px solid #e5e5e5; text-align: center;">${t.quantity}</th>
+                ${isMigration ? `<th style="padding: 10px; border: 1px solid #e5e5e5; text-align: center;">${t.note}</th>` : ""}
               </tr>
             </thead>
             <tbody>
@@ -326,6 +342,7 @@ export async function registerRoutes(
                 <th style="padding: 10px; border: 1px solid #B12944; text-align: left;">${t.partNumber}</th>
                 <th style="padding: 10px; border: 1px solid #B12944; text-align: left;">${t.description}</th>
                 <th style="padding: 10px; border: 1px solid #B12944; text-align: center;">${t.quantity}</th>
+                ${isMigration ? `<th style="padding: 10px; border: 1px solid #B12944; text-align: center;">${t.note}</th>` : ""}
               </tr>
             </thead>
             <tbody>
