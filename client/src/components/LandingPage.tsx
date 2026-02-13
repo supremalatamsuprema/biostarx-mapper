@@ -24,7 +24,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
         <img 
           src={logoImg} 
           alt="Suprema Logo"
-          className="h-8 sm:h-10 object-contain opacity-90" 
+          className="h-5 sm:h-6 object-contain opacity-90" 
         />
       </div>
       <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
