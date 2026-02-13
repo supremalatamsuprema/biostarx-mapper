@@ -63,7 +63,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
         "overflow-hidden transition-all duration-300 border-2 border-primary shadow-lg ring-4 ring-primary/10",
         tierChanged && "scale-[1.02]"
       )}>
-        <div className="bg-primary p-6 border-b border-primary/20 transition-all duration-300">
+        <div className="p-6 border-b border-primary/20 transition-all duration-300 bg-[#a12944] text-[#171717]">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
               <Package className="w-5 h-5 text-white" />
@@ -233,7 +233,6 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
           </div>
         </GlassCard>
       )}
-      
       {onSendEmail && (
         <Button 
           variant="outline" 
@@ -245,7 +244,6 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
           {t("email.send")}
         </Button>
       )}
-      
       <p className="text-[8px] text-muted-foreground leading-relaxed text-center px-4 italic">
         {t("disclaimer.note")}
       </p>
