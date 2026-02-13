@@ -37,7 +37,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
       <div className="max-w-6xl w-full relative z-10 space-y-8 sm:space-y-12 animate-fadeIn" style={{ fontFamily: "'Noto Sans KR', sans-serif", fontWeight: 400 }}>
         <div className="text-center space-y-4 max-w-4xl mx-auto">
           <div className="flex flex-col items-center justify-center gap-y-3 mb-4">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl text-foreground tracking-tight leading-none" style={{ fontFamily: "'Noto Sans KR', sans-serif", fontWeight: 700 }}>
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl text-foreground tracking-tight leading-none" style={{ fontFamily: "'Noto Sans KR', sans-serif", fontWeight: 500 }}>
               {t("app.welcome")}
             </h1>
             <img 
