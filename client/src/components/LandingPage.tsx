@@ -53,7 +53,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto">
           <div 
-            className="group bg-card/50 backdrop-blur-sm p-6 sm:p-8 rounded-xl border border-border/50 cursor-pointer flex flex-col items-center text-center hover-elevate transition-all duration-300 hover:border-primary/20"
+            className="group backdrop-blur-sm p-6 sm:p-8 rounded-xl border border-border/50 cursor-pointer flex flex-col items-center text-center hover-elevate transition-all duration-300 hover:border-primary/20 text-[#171717] bg-[#efefef]"
             onClick={() => onSelectScenario('new')}
             data-testid="card-new-project"
           >
