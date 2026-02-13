@@ -197,6 +197,9 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
           </div>
           
           <div className="p-6 sm:p-8 space-y-4">
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary mb-4 pb-2 border-b border-primary/10">
+              Lista de Referencias Requeridas
+            </h4>
             <div className="space-y-2">
               {alternative.bom.map((item, index) => (
                 <div 
