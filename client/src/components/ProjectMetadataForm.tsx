@@ -70,10 +70,10 @@ export function ProjectMetadataForm({ meta, onChange }: ProjectMetadataFormProps
                 onChange={e => updateField('clientType', e.target.value)}
                 data-testid="select-client-type"
               >
-                <option value="Integrador">{t("clientType.integrator")}</option>
-                <option value="Dealer">{t("clientType.dealer")}</option>
-                <option value="Distribuidor">{t("clientType.distributor")}</option>
-                <option value="Cliente Final">{t("clientType.endClient")}</option>
+                <option value="Integrador" className="text-black bg-white">{t("clientType.integrator")}</option>
+                <option value="Dealer" className="text-black bg-white">{t("clientType.dealer")}</option>
+                <option value="Distribuidor" className="text-black bg-white">{t("clientType.distributor")}</option>
+                <option value="Cliente Final" className="text-black bg-white">{t("clientType.endClient")}</option>
               </select>
             </div>
           </div>
