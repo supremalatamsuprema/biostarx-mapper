@@ -49,6 +49,7 @@ export interface ProjectInputs {
   qr: number;
   wireless: number;
   tnaUsers: number;
+  mcsServers: number;
   activationCode?: string;
   bs2TaLicense?: string;
 }
@@ -65,10 +66,13 @@ export interface FeatureFlags {
   tna: boolean;
   visitor: boolean;
   mobile: boolean;
-  api: boolean;
   directory: boolean;
   remote: boolean;
   eventApi: boolean;
+  gis: boolean;
+  serverMatching: boolean;
+  rollCall: boolean;
+  plugin: boolean;
 }
 
 export interface MigrationNote {

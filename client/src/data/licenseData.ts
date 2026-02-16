@@ -1,7 +1,7 @@
 import type { LicenseTier, Addon } from "@/types/license";
 
 export const LICENSE_TIERS: LicenseTier[] = [
-  { id: 'BIOSTARX-DVM', name: 'Device Manager', maxDoors: 0, maxUsers: 200, maxOperators: 1, desc: 'Gestión de dispositivos.' },
+  { id: 'BIOSTARX-DEV', name: 'Device Manager', maxDoors: 0, maxUsers: 200, maxOperators: 1, desc: 'Gestión de dispositivos.' },
   { id: 'BIOSTARX-STR', name: 'Starter', maxDoors: 5, maxUsers: 100, maxOperators: 1, desc: 'Pequeños sitios.' },
   { id: 'BIOSTARX-ESS', name: 'Essential', maxDoors: 32, maxUsers: 1000, maxOperators: 10, desc: 'PyMEs con expansión.' },
   { id: 'BIOSTARX-ADV', name: 'Advanced', maxDoors: 128, maxUsers: 50000, maxOperators: 20, desc: 'Profesional & Mapas.' },
@@ -10,21 +10,26 @@ export const LICENSE_TIERS: LicenseTier[] = [
 ];
 
 export const ADDONS: Record<string, Addon> = {
-  VISITOR: { id: 'BIOSTARX-ADD-VIS', name: 'Visitor Management' },
+  VISITOR: { id: 'BIOSTARX-ADD-VST', name: 'Visitor' },
   TNA_STD: { id: 'BIOSTARX-ADD-TNA-STD', name: 'T&A Standard' },
   TNA_ENT: { id: 'BIOSTARX-ADD-TNA-ENT', name: 'T&A Enterprise' },
-  MOBILE: { id: 'BIOSTARX-ADD-MOB', name: 'Mobile App Support' },
-  VIDEO: { id: 'BIOSTARX-ADD-VID', name: 'Video Channel' },
-  API: { id: 'BIOSTARX-ADD-API', name: 'API Tech Support' },
-  DIR: { id: 'BIOSTARX-ADD-DIR', name: 'Directory (AD/LDAP)' },
+  MOBILE: { id: 'BIOSTARX-ADD-MOB', name: 'Mobile App' },
+  VIDEO: { id: 'BIOSTARX-ADD-VID', name: 'Video' },
+  DIR: { id: 'BIOSTARX-ADD-DIR', name: 'Directory Integration' },
   RAC: { id: 'BIOSTARX-ADD-RAC', name: 'Remote Access (Annual)' },
   ADV_AC: { id: 'BIOSTARX-PKG-AAC', name: 'Advanced AC Package' },
   DOOR_UP: { id: 'BIOSTARX-UP-DOR', name: 'Upgr: +32 Doors' },
   OP_UP: { id: 'BIOSTARX-UP-OPR', name: 'Upgr: +10 Ops' },
-  USR_UP: { id: 'BIOSTARX-UP-USR', name: 'Upgr: 5k Users (Ess)' },
-  DEV_QR: { id: 'QR-LICENSE', name: 'Camera QR license' },
-  DEV_WL: { id: 'WL-LICENSE', name: 'Wireless Lock' },
-  EVT_API: { id: 'BIOSTARX-ADD-EVT', name: 'Event API License' }
+  USR_UP: { id: 'BIOSTARX-UP-USR', name: 'Upgr: +5k Users' },
+  DEV_QR: { id: 'QR-LICENSE', name: 'Camera QR License' },
+  DEV_WL: { id: 'WLOCK-LICENSE', name: 'Wireless Lock License' },
+  EVT_API: { id: 'BIOSTARX-ADD-EVTAPI', name: 'Event Log API' },
+  MCS_BAS: { id: 'BIOSTARX-ADD-MCS-BAS', name: 'Multi Comm Server Init' },
+  MCS_ADD: { id: 'BIOSTARX-ADD-MCS-ADD', name: 'Multi Comm Server Add-on' },
+  GIS: { id: 'BIOSTARX-ADD-GIS', name: 'GIS Map' },
+  SVM: { id: 'BIOSTARX-ADD-SVM', name: 'Server Matching' },
+  RCL: { id: 'BIOSTARX-ADD-RCL', name: 'Roll Call' },
+  PLG: { id: 'BIOSTARX-ADD-PLG', name: 'Plugin' }
 };
 
 export const CLIENT_TYPES = ["Integrador", "Dealer", "Distribuidor", "Cliente Final"];

@@ -123,11 +123,6 @@ export function FeaturesSection({
               onChange={v => updateFeature('mobile', v)}
             />
             <FeatureToggle 
-              label={t("features.apiSupport")} 
-              checked={features.api} 
-              onChange={v => updateFeature('api', v)}
-            />
-            <FeatureToggle 
               label={t("features.directory")} 
               checked={features.directory} 
               onChange={v => updateFeature('directory', v)}
@@ -142,6 +137,34 @@ export function FeaturesSection({
               checked={features.eventApi} 
               onChange={v => updateFeature('eventApi', v)}
             />
+            <FeatureToggle 
+              label={t("features.gisMap")} 
+              checked={features.gis} 
+              onChange={v => updateFeature('gis', v)}
+            />
+            <FeatureToggle 
+              label={t("features.serverMatching")} 
+              checked={features.serverMatching} 
+              onChange={v => updateFeature('serverMatching', v)}
+            />
+            <FeatureToggle 
+              label={t("features.rollCall")} 
+              checked={features.rollCall} 
+              onChange={v => updateFeature('rollCall', v)}
+            />
+            <FeatureToggle 
+              label={t("features.plugin")} 
+              checked={features.plugin} 
+              onChange={v => updateFeature('plugin', v)}
+            />
+
+            <div className="flex flex-col">
+              <NumericInput 
+                label={t("features.mcsServers")} 
+                value={inputs.mcsServers} 
+                onChange={v => onInputsChange({ ...inputs, mcsServers: v })}
+              />
+            </div>
           </div>
         </div>
       </div>

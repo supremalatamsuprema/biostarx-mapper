@@ -91,6 +91,7 @@ const sendEmailSchema = z.object({
     qr: z.number().int().min(0).max(10000),
     wireless: z.number().int().min(0).max(10000),
     tnaUsers: z.number().int().min(0).max(10000000),
+    mcsServers: z.number().int().min(0).max(100).optional(),
     activationCode: z.string().max(100).optional()
   })
 });

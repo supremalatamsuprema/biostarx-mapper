@@ -44,7 +44,7 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
   function getBomForTier(selectedTier: LicenseTier): BomItem[] {
     const bom: BomItem[] = [];
 
-    const tierIsFoc = (isBS2Starter && selectedTier.id === 'BIOSTARX-DVM') ||
+    const tierIsFoc = (isBS2Starter && selectedTier.id === 'BIOSTARX-DEV') ||
                       (isBS2Basic && selectedTier.id === 'BIOSTARX-ESS');
     bom.push({ id: selectedTier.id, name: `BioStar X ${selectedTier.name}`, qty: 1, foc: tierIsFoc || undefined });
 
@@ -58,7 +58,7 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
       bom.push({ ...ADDONS.USR_UP, qty: Math.ceil(uGap / 50000) });
     }
 
-    if (selectedTier.id !== 'BIOSTARX-DVM') {
+    if (selectedTier.id !== 'BIOSTARX-DEV') {
       const effectiveDoors = inputs.scenario === 'migration' && inputs.activationCode
         ? Math.max(reqD, BS2_DOOR_LIMITS[inputs.activationCode] || 0)
         : reqD;
@@ -129,10 +129,19 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
       }
     }
     if (features.mobile) bom.push({ ...ADDONS.MOBILE, qty: 1 });
-    if (features.api) bom.push({ ...ADDONS.API, qty: 1 });
     if (features.directory) bom.push({ ...ADDONS.DIR, qty: 1 });
     if (features.remote) bom.push({ ...ADDONS.RAC, qty: 1 });
     if (features.eventApi) bom.push({ ...ADDONS.EVT_API, qty: 1 });
+    if (features.gis) bom.push({ ...ADDONS.GIS, qty: 1 });
+    if (features.serverMatching) bom.push({ ...ADDONS.SVM, qty: 1 });
+    if (features.rollCall) bom.push({ ...ADDONS.RCL, qty: 1 });
+    if (features.plugin) bom.push({ ...ADDONS.PLG, qty: 1 });
+    if (inputs.mcsServers > 0) {
+      bom.push({ ...ADDONS.MCS_BAS, qty: 1 });
+      if (inputs.mcsServers > 1) {
+        bom.push({ ...ADDONS.MCS_ADD, qty: inputs.mcsServers - 1 });
+      }
+    }
     if (inputs.video > 0) bom.push({ ...ADDONS.VIDEO, qty: inputs.video });
     if (inputs.qr > 0) bom.push({ ...ADDONS.DEV_QR, qty: inputs.qr });
     if (inputs.wireless > 0) bom.push({ ...ADDONS.DEV_WL, qty: inputs.wireless });
@@ -143,28 +152,27 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
   let candidates = [...LICENSE_TIERS];
   if (inputs.scenario === 'migration') {
     if (isBS2Starter) {
-      candidates = candidates.filter(t => t.id !== 'BIOSTARX-DVM' || (reqD === 0));
+      candidates = candidates.filter(t => t.id !== 'BIOSTARX-DEV' || (reqD === 0));
     } else {
-      candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-DVM');
+      candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-DEV');
     }
   }
-  if (needsAdvPkg || features.maps) {
-    candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-ESS' && t.id !== 'BIOSTARX-DVM');
-  }
-
-  if (features.visitor) {
-    candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-ESS' && t.id !== 'BIOSTARX-DVM');
+  const needsAdvancedPlus = needsAdvPkg || features.maps || features.visitor || 
+    features.gis || features.serverMatching || features.rollCall || features.directory ||
+    inputs.mcsServers > 0 || inputs.video > 0;
+  if (needsAdvancedPlus) {
+    candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-ESS' && t.id !== 'BIOSTARX-DEV');
   }
 
   let selected = candidates.find(t => {
-    if (t.id === 'BIOSTARX-DVM') {
+    if (t.id === 'BIOSTARX-DEV') {
       return reqD === 0 && reqU <= t.maxUsers && reqO <= t.maxOperators;
     }
     return reqU <= t.maxUsers && reqO <= t.maxOperators && reqD <= t.maxDoors;
   }) || candidates[candidates.length - 1];
 
   if (inputs.scenario === 'migration' && inputs.activationCode && (MIGRATION_MAPPING.AC as any)[inputs.activationCode]) {
-    if (!(isBS2Starter && selected.id === 'BIOSTARX-DVM')) {
+    if (!(isBS2Starter && selected.id === 'BIOSTARX-DEV')) {
       const mapping = (MIGRATION_MAPPING.AC as any)[inputs.activationCode];
       const mappedTier = candidates.find(t => t.id === mapping.base);
       if (mappedTier) {
@@ -179,11 +187,11 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
 
   let alternative: CalculatedBOM['alternative'] | undefined;
   
-  if (selected.id !== 'BIOSTARX-STR' && selected.id !== 'BIOSTARX-DVM') {
+  if (selected.id !== 'BIOSTARX-STR' && selected.id !== 'BIOSTARX-DEV') {
     const currentIndex = candidates.findIndex(t => t.id === selected.id);
     if (currentIndex > 0) {
       const lowerTier = candidates[currentIndex - 1];
-      const isUpgradable = lowerTier.id !== 'BIOSTARX-STR' && lowerTier.id !== 'BIOSTARX-DVM';
+      const isUpgradable = lowerTier.id !== 'BIOSTARX-STR' && lowerTier.id !== 'BIOSTARX-DEV';
       if (isUpgradable) {
         alternative = {
           selected: lowerTier,

@@ -78,7 +78,8 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     video: 0,
     qr: 0,
     wireless: 0,
-    tnaUsers: 0
+    tnaUsers: 0,
+    mcsServers: 0
   });
 
   const [features, setFeatures] = useState<FeatureFlags>(draft?.features || {
@@ -93,10 +94,13 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     tna: false,
     visitor: false,
     mobile: false,
-    api: false,
     directory: false,
     remote: false,
-    eventApi: false
+    eventApi: false,
+    gis: false,
+    serverMatching: false,
+    rollCall: false,
+    plugin: false
   });
 
   useEffect(() => {
