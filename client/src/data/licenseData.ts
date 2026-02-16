@@ -20,7 +20,7 @@ export const ADDONS: Record<string, Addon> = {
   RAC: { id: 'BIOSTARX-ADD-RAC', name: 'Remote Access (Annual)' },
   ADV_AC: { id: 'BIOSTARX-PKG-AAC', name: 'Advanced AC Package' },
   DOOR_UP: { id: 'BIOSTARX-UP-DOR', name: 'Upgr: +32 Doors' },
-  OP_UP: { id: 'BIOSTARX-UP-OPR', name: 'Upgr: +5 Ops' },
+  OP_UP: { id: 'BIOSTARX-UP-OPR', name: 'Upgr: +10 Ops' },
   USR_UP: { id: 'BIOSTARX-UP-USR', name: 'Upgr: 5k Users (Ess)' },
   DEV_QR: { id: 'QR-LICENSE', name: 'Camera QR license' },
   DEV_WL: { id: 'WL-LICENSE', name: 'Wireless Lock' },

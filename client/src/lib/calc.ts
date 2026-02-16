@@ -71,7 +71,7 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
 
     const oGap = Math.max(0, reqO - selectedTier.maxOperators);
     if (oGap > 0) {
-      bom.push({ ...ADDONS.OP_UP, qty: Math.ceil(oGap / 5) });
+      bom.push({ ...ADDONS.OP_UP, qty: Math.ceil(oGap / 10) });
     }
 
     if (needsAdvPkg && selectedTier.id !== 'BIOSTARX-ENT' && selectedTier.id !== 'BIOSTARX-ELT') {
