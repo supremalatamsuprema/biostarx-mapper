@@ -70,7 +70,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
             </div>
           <div>
             <p className="text-[9px] font-semibold uppercase tracking-widest text-white/90">
-              BOM ORIGINAL
+              {t("bom.original")}
             </p>
             <h3 className="text-xl sm:text-2xl font-medium font-['Noto_Sans_KR'] text-white">
               BioStar X {selected.name}
@@ -96,7 +96,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
         
         <div className="p-6 sm:p-8 bg-white/50 dark:bg-card/50">
           <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary mb-4 pb-2 border-b border-primary/10">
-            Lista de Referencias Requeridas
+            {t("bom.referenceList")}
           </h4>
           
           <div className="space-y-2">
@@ -168,7 +168,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
               </div>
               <div>
                 <p className="text-[9px] font-black uppercase tracking-widest text-primary">
-                  BOM ALTERNATIVO
+                  {t("bom.alternative")}
                 </p>
                 <h3 className="text-xl font-medium font-['Noto_Sans_KR'] text-foreground">
                   BioStar X {alternative.selected.name}
@@ -198,7 +198,7 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
           
           <div className="p-6 sm:p-8 space-y-4">
             <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary mb-4 pb-2 border-b border-primary/10">
-              Lista de Referencias Requeridas
+              {t("bom.referenceList")}
             </h4>
             <div className="space-y-2">
               {alternative.bom.map((item, index) => (

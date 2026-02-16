@@ -62,7 +62,7 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
         <div className="h-6 sm:h-8 w-px bg-border hidden sm:block" />
         <div className="flex items-center gap-2">
           <span className="text-lg sm:text-xl font-heading font-semibold uppercase tracking-tighter">
-            Calculador
+            {t("header.calculador")}
           </span>
           <img 
             src={BioStar_X_LOGO2} 
@@ -84,21 +84,21 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
                 disabled={!hasCapacityData}
               >
                 <Download className="w-3.5 h-3.5 mr-2" />
-                Exportar
+                {t("header.export")}
                 <ChevronDown className="w-3 h-3 ml-2 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 p-2">
               <div className="px-2 py-1.5 mb-1">
-                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Formatos Disponibles</p>
+                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("header.formatsAvailable")}</p>
               </div>
               <DropdownMenuItem onClick={handleGenerateReport} className="cursor-pointer rounded-md focus:bg-primary/5 focus:text-primary py-2.5">
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3">
                   <FileText className="w-4 h-4 text-primary" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-bold text-sm">Reporte PDF</span>
-                  <span className="text-[10px] text-muted-foreground">Documento profesional para cliente</span>
+                  <span className="font-bold text-sm">{t("header.pdfReport")}</span>
+                  <span className="text-[10px] text-muted-foreground">{t("header.pdfDesc")}</span>
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleExportCSV} className="cursor-pointer rounded-md focus:bg-[#0047FF]/5 focus:text-[#0047FF] py-2.5 mt-1">
@@ -106,8 +106,8 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
                   <Download className="w-4 h-4 text-[#0047FF]" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-bold text-sm">Archivo CSV</span>
-                  <span className="text-[10px] text-muted-foreground">Listado BOM para Excel</span>
+                  <span className="font-bold text-sm">{t("header.csvFile")}</span>
+                  <span className="text-[10px] text-muted-foreground">{t("header.csvDesc")}</span>
                 </div>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -124,7 +124,7 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
         >
           <a href="https://support.supremainc.com/en/support/home" target="_blank" rel="noopener noreferrer">
             <Headset className="w-3.5 h-3.5 mr-2" />
-            Soporte
+            {t("header.support")}
           </a>
         </Button>
 
@@ -138,7 +138,7 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
         >
           <a href="https://docs.supremainc.com/en/platform/biostar_x/licensing" target="_blank" rel="noopener noreferrer">
             <BookOpen className="w-3.5 h-3.5 mr-2" />
-            Licencias
+            {t("header.licenses")}
           </a>
         </Button>
 

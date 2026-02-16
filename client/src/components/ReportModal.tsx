@@ -164,7 +164,7 @@ ${t("disclaimer.note")}
               />
               <div className="h-6 w-px bg-border" />
               <span className="text-sm font-heading font-semibold uppercase tracking-tight">
-                Calculador de BioStar <span className="text-[#B12944] italic">X</span>
+                {t("header.calculador")} de BioStar <span className="text-[#B12944] italic">X</span>
               </span>
             </div>
 
@@ -289,7 +289,7 @@ ${t("disclaimer.note")}
                       <Package className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-widest text-white/90">OPCIÓN RECOMENDADA</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-widest text-white/90">{t("report.recommendedOption")}</p>
                       <h4 className="text-xl font-heading font-semibold text-white leading-tight">BioStar X {calculatedBOM.selected.name}</h4>
                     </div>
                   </div>
@@ -297,20 +297,20 @@ ${t("disclaimer.note")}
                 <div className="p-5 space-y-4">
                   <div className="grid grid-cols-3 gap-2 py-3 border-b border-dashed">
                     <div className="text-center">
-                      <p className="text-[9px] font-semibold text-muted-foreground uppercase">Puertas</p>
+                      <p className="text-[9px] font-semibold text-muted-foreground uppercase">{t("report.doors")}</p>
                       <p className="text-base font-semibold">{calculatedBOM.selected.maxDoors}</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-[9px] font-semibold text-muted-foreground uppercase">Usuarios</p>
+                      <p className="text-[9px] font-semibold text-muted-foreground uppercase">{t("report.users")}</p>
                       <p className="text-base font-semibold">{calculatedBOM.selected.maxUsers.toLocaleString()}</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-[9px] font-semibold text-muted-foreground uppercase">Operadores</p>
+                      <p className="text-[9px] font-semibold text-muted-foreground uppercase">{t("report.operators")}</p>
                       <p className="text-base font-semibold">{calculatedBOM.selected.maxOperators}</p>
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <p className="text-[10px] font-semibold uppercase text-muted-foreground tracking-wider mb-2">Desglose de Licencias:</p>
+                    <p className="text-[10px] font-semibold uppercase text-muted-foreground tracking-wider mb-2">{t("report.licenseBreakdown")}</p>
                     {calculatedBOM.bom.map((item, idx) => (
                       <div key={idx} className={`flex justify-between items-center text-sm py-2 px-3 rounded-md mb-2 ${item.foc ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-muted/20 border border-primary/5'}`}>
                         <span className="text-muted-foreground font-medium">
@@ -357,7 +357,7 @@ ${t("disclaimer.note")}
                         <Package className="w-4 h-4 text-[#0047FF]" />
                       </div>
                       <div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-[#0047FF]">OPCIÓN OPTIMIZADA</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-[#0047FF]">{t("report.optimizedOption")}</p>
                         <h4 className="text-xl font-heading font-black text-foreground leading-tight">BioStar X {calculatedBOM.alternative.selected.name}</h4>
                       </div>
                     </div>
@@ -368,20 +368,20 @@ ${t("disclaimer.note")}
                     </p>
                     <div className="grid grid-cols-3 gap-2 py-3 border-b border-dashed">
                       <div className="text-center">
-                        <p className="text-[9px] font-bold text-muted-foreground uppercase">Puertas</p>
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase">{t("report.doors")}</p>
                         <p className="text-base font-black">{calculatedBOM.alternative.selected.maxDoors}</p>
                       </div>
                       <div className="text-center">
-                        <p className="text-[9px] font-bold text-muted-foreground uppercase">Usuarios</p>
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase">{t("report.users")}</p>
                         <p className="text-base font-black">{calculatedBOM.alternative.selected.maxUsers.toLocaleString()}</p>
                       </div>
                       <div className="text-center">
-                        <p className="text-[9px] font-bold text-muted-foreground uppercase">Operadores</p>
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase">{t("report.operators")}</p>
                         <p className="text-base font-black">{calculatedBOM.alternative.selected.maxOperators}</p>
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-2">Desglose de Licencias:</p>
+                      <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-2">{t("report.licenseBreakdown")}</p>
                       {calculatedBOM.alternative.bom.map((item, idx) => (
                         <div key={idx} className={`flex justify-between items-center text-sm py-2 px-3 rounded-md mb-2 ${item.foc ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-muted/10'}`}>
                           <span className="text-muted-foreground font-medium">
@@ -434,7 +434,7 @@ ${t("disclaimer.note")}
                 {/* Tabla Opción Recomendada */}
                 <div>
                   <h5 className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-3">
-                    BOM - Opción Recomendada (BioStar X {calculatedBOM.selected.name})
+                    {t("report.bomRecommended")} (BioStar X {calculatedBOM.selected.name})
                   </h5>
                   <div className="overflow-x-auto">
                     <table className="w-full">
@@ -477,7 +477,7 @@ ${t("disclaimer.note")}
                 {calculatedBOM.alternative && (
                   <div>
                     <h5 className="text-[10px] font-semibold text-[#0047FF] uppercase tracking-widest mb-3">
-                      BOM - Opción Optimizada (BioStar X {calculatedBOM.alternative.selected.name})
+                      {t("report.bomOptimized")} (BioStar X {calculatedBOM.alternative.selected.name})
                     </h5>
                     <div className="overflow-x-auto">
                       <table className="w-full">
