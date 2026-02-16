@@ -2,7 +2,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { PillButton } from "@/components/ui/pill-button";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Package, Download, Mail, ClipboardList, Gift, DollarSign, AlertTriangle } from "lucide-react";
+import { FileText, Package, Download, Mail, ClipboardList, Gift, DollarSign, AlertTriangle, Link2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { downloadCSV, getTotalItems } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
@@ -14,11 +14,12 @@ interface BomSidebarProps {
   tierChanged?: boolean;
   meta: ProjectMeta;
   onSendEmail?: () => void;
+  onShareLink?: () => void;
   hasCapacityData?: boolean;
   isMigration?: boolean;
 }
 
-export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta, onSendEmail, hasCapacityData = true, isMigration = false }: BomSidebarProps) {
+export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta, onSendEmail, onShareLink, hasCapacityData = true, isMigration = false }: BomSidebarProps) {
   const { bom, selected, alternative } = calculatedBOM;
   const totalItems = getTotalItems(bom);
   const { t } = useI18n();
@@ -247,17 +248,30 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
           </div>
         </GlassCard>
       )}
-      {onSendEmail && (
-        <Button 
-          variant="outline" 
-          onClick={onSendEmail}
-          className="w-full gap-2"
-          data-testid="button-send-email-sidebar"
-        >
-          <Mail className="w-4 h-4" />
-          {t("email.send")}
-        </Button>
-      )}
+      <div className="flex gap-2">
+        {onSendEmail && (
+          <Button 
+            variant="outline" 
+            onClick={onSendEmail}
+            className="flex-1 gap-2"
+            data-testid="button-send-email-sidebar"
+          >
+            <Mail className="w-4 h-4" />
+            {t("email.send")}
+          </Button>
+        )}
+        {onShareLink && (
+          <Button 
+            variant="outline" 
+            onClick={onShareLink}
+            className="flex-1 gap-2"
+            data-testid="button-share-link"
+          >
+            <Link2 className="w-4 h-4" />
+            {t("share.copyLink")}
+          </Button>
+        )}
+      </div>
       <p className="text-[8px] text-muted-foreground leading-relaxed text-center px-4 italic">
         {t("disclaimer.note")}
       </p>

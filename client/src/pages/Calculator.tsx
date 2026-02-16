@@ -11,6 +11,7 @@ import { ReportModal } from "@/components/ReportModal";
 import { DisclaimerModal } from "@/components/DisclaimerModal";
 import { EmailDialog } from "@/components/EmailDialog";
 import { calculateBOM } from "@/lib/calc";
+import { generateShareURL } from "@/lib/share";
 import { useI18n } from "@/lib/i18n";
 import { useToast } from "@/hooks/use-toast";
 import { MIGRATION_MAPPING } from "@/data/licenseData";
@@ -19,6 +20,11 @@ import type { ProjectMeta, ProjectInputs, FeatureFlags, CalculatedBOM } from "@/
 interface CalculatorProps {
   scenario: ProjectInputs['scenario'];
   onReset: () => void;
+  sharedState?: {
+    meta: Partial<ProjectMeta>;
+    inputs: Partial<ProjectInputs>;
+    features: FeatureFlags;
+  } | null;
 }
 
 const STORAGE_KEY = 'biostarx-draft';
@@ -38,7 +44,7 @@ function loadDraft(scenario: ProjectInputs['scenario']) {
   return null;
 }
 
-export function Calculator({ scenario, onReset }: CalculatorProps) {
+export function Calculator({ scenario, onReset, sharedState }: CalculatorProps) {
   const { toast } = useToast();
   const { t } = useI18n();
   const [showReport, setShowReport] = useState(false);
@@ -47,9 +53,9 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
   const [tierChanged, setTierChanged] = useState(false);
   const prevTierRef = useRef<string>('');
   
-  const draft = loadDraft(scenario);
+  const draft = sharedState ? null : loadDraft(scenario);
   
-  const [meta, setMeta] = useState<ProjectMeta>(draft?.meta || {
+  const defaultMeta: ProjectMeta = {
     projectName: '',
     client: '',
     clientType: 'Integrador',
@@ -67,9 +73,9 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     versionFile: '',
     licenseFile: '',
     hardwareChecked: false
-  });
+  };
 
-  const [inputs, setInputs] = useState<ProjectInputs>(draft?.inputs || {
+  const defaultInputs: ProjectInputs = {
     scenario,
     users: 0,
     doors: 0,
@@ -80,9 +86,9 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     wireless: 0,
     tnaUsers: 0,
     mcsServers: 0
-  });
+  };
 
-  const [features, setFeatures] = useState<FeatureFlags>(draft?.features || {
+  const defaultFeatures: FeatureFlags = {
     globalApb: false,
     fire: false,
     elevator: false,
@@ -101,7 +107,22 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     serverMatching: false,
     rollCall: false,
     plugin: false
-  });
+  };
+
+  const [meta, setMeta] = useState<ProjectMeta>(
+    sharedState ? { ...defaultMeta, ...sharedState.meta } :
+    draft?.meta || defaultMeta
+  );
+
+  const [inputs, setInputs] = useState<ProjectInputs>(
+    sharedState ? { ...defaultInputs, ...sharedState.inputs } :
+    draft?.inputs || defaultInputs
+  );
+
+  const [features, setFeatures] = useState<FeatureFlags>(
+    sharedState ? sharedState.features :
+    draft?.features || defaultFeatures
+  );
 
   useEffect(() => {
     const data = { meta, inputs, features };
@@ -194,6 +215,29 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     setShowReport(true);
   };
 
+  const handleShareLink = () => {
+    const url = generateShareURL(meta, inputs, features);
+    navigator.clipboard.writeText(url).then(() => {
+      toast({
+        title: t("share.copied"),
+        description: t("share.copiedDesc"),
+      });
+    }).catch(() => {
+      const textArea = document.createElement('textarea');
+      textArea.value = url;
+      textArea.style.position = 'fixed';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      toast({
+        title: t("share.copied"),
+        description: t("share.copiedDesc"),
+      });
+    });
+  };
+
   const handleReset = () => {
     localStorage.removeItem(STORAGE_KEY);
     onReset();
@@ -239,6 +283,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
             tierChanged={tierChanged}
             meta={meta}
             onSendEmail={() => setShowEmailDialog(true)}
+            onShareLink={handleShareLink}
             hasCapacityData={hasCapacityData}
             isMigration={inputs.scenario === 'migration'}
           />
