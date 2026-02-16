@@ -22,7 +22,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "scenario.new.desc": "Implementación desde cero, diseñada nativamente para BioStar X.",
     "scenario.new.button": "Iniciar Configuración",
     "scenario.migration": "Migración BioStar 2",
-    "scenario.migration.desc": "Actualización de un sistema existente (Legacy) a la nueva plataforma.",
+    "scenario.migration.desc": "Actualización de un sistema BioStar 2 existente a la nueva plataforma BioStar X.",
     "scenario.migration.button": "Gestionar Upgrade",
     
     "header.scenario": "Escenario",
@@ -246,7 +246,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "scenario.new.desc": "Greenfield implementation designed natively for BioStar X.",
     "scenario.new.button": "Start Configuration",
     "scenario.migration": "BioStar 2 Migration",
-    "scenario.migration.desc": "Upgrade from an existing (Legacy) system to the new platform.",
+    "scenario.migration.desc": "Upgrade from an existing BioStar 2 system to the new BioStar X platform.",
     "scenario.migration.button": "Manage Upgrade",
     
     "header.scenario": "Scenario",
@@ -469,7 +469,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "scenario.new.desc": "Implementação do zero (Greenfield) projetada nativamente para BioStar X.",
     "scenario.new.button": "Iniciar Configuração",
     "scenario.migration": "Migração BioStar 2",
-    "scenario.migration.desc": "Atualização de um sistema existente (Legacy) para a nova plataforma.",
+    "scenario.migration.desc": "Atualização de um sistema BioStar 2 existente para a nova plataforma BioStar X.",
     "scenario.migration.button": "Gerenciar Upgrade",
     
     "header.scenario": "Cenário",
