@@ -19,7 +19,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "app.description": "El Calculador de BioStar X es una herramienta diseñada para facilitar el cálculo y la selección correcta del licenciamiento de BioStar X. A través de esta herramienta, es posible identificar de manera rápida y precisa las licencias necesarias según el tamaño, alcance y configuración de cada proyecto.",
     
     "scenario.new": "Proyecto Nuevo",
-    "scenario.new.desc": "Implementación desde cero, diseñada nativamente para BioStar X.",
+    "scenario.new.desc": "Implementación desde cero para BioStar X.",
     "scenario.new.button": "Iniciar Configuración",
     "scenario.migration": "Migración BioStar 2",
     "scenario.migration.desc": "Actualización de un sistema BioStar 2 existente a la nueva plataforma BioStar X.",
@@ -243,7 +243,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "app.description": "BioStar X Calculator is a tool designed to facilitate the calculation and correct selection of BioStar X licensing. Through this tool, it is possible to quickly and accurately identify the necessary licenses according to the size, scope, and configuration of each project.",
     
     "scenario.new": "New Project",
-    "scenario.new.desc": "Greenfield implementation designed natively for BioStar X.",
+    "scenario.new.desc": "Greenfield implementation for BioStar X.",
     "scenario.new.button": "Start Configuration",
     "scenario.migration": "BioStar 2 Migration",
     "scenario.migration.desc": "Upgrade from an existing BioStar 2 system to the new BioStar X platform.",
@@ -466,7 +466,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "app.description": "BioStar X Calculator é uma ferramenta projetada para facilitar o cálculo e a seleção correta do licenciamento BioStar X. Através desta ferramenta, é possível identificar de forma rápida e precisa as licenças necessárias de acordo com o tamanho, escopo e configuração de cada projeto.",
     
     "scenario.new": "Novo Projeto",
-    "scenario.new.desc": "Implementação do zero (Greenfield) projetada nativamente para BioStar X.",
+    "scenario.new.desc": "Implementação do zero para BioStar X.",
     "scenario.new.button": "Iniciar Configuração",
     "scenario.migration": "Migração BioStar 2",
     "scenario.migration.desc": "Atualização de um sistema BioStar 2 existente para a nova plataforma BioStar X.",
