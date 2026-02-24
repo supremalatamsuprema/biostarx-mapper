@@ -283,21 +283,32 @@ ${t("disclaimer.note")}
       const imgWidthMm = 210;
       const pageHeightMm = 297;
       const marginMm = 15;
+      const footerMm = 12;
       const contentWidthMm = imgWidthMm - marginMm * 2;
-      const totalImgHeightMm = (canvas.height * contentWidthMm) / canvas.width;
-      const pageContentHeightMm = pageHeightMm - marginMm * 2;
+      const pageContentHeightMm = pageHeightMm - marginMm * 2 - footerMm;
+      const overlapMm = 8;
+
+      const pxPerMm = canvas.width / contentWidthMm;
+      const pageContentHeightPx = pageContentHeightMm * pxPerMm;
+      const overlapPx = overlapMm * pxPerMm;
+      const stepPx = pageContentHeightPx - overlapPx;
+
+      const pages: { sourceY: number; sourceHeight: number }[] = [];
+      let y = 0;
+      while (y < canvas.height) {
+        const remaining = canvas.height - y;
+        const h = Math.min(pageContentHeightPx, remaining);
+        pages.push({ sourceY: y, sourceHeight: h });
+        y += stepPx;
+        if (remaining <= pageContentHeightPx) break;
+      }
 
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const totalPages = Math.ceil(totalImgHeightMm / pageContentHeightMm);
 
-      for (let page = 0; page < totalPages; page++) {
+      for (let page = 0; page < pages.length; page++) {
         if (page > 0) pdf.addPage();
 
-        const sourceY = (page * pageContentHeightMm / totalImgHeightMm) * canvas.height;
-        const sourceHeight = Math.min(
-          (pageContentHeightMm / totalImgHeightMm) * canvas.height,
-          canvas.height - sourceY
-        );
+        const { sourceY, sourceHeight } = pages[page];
 
         const pageCanvas = document.createElement('canvas');
         pageCanvas.width = canvas.width;
@@ -310,13 +321,13 @@ ${t("disclaimer.note")}
         }
 
         const pageImgData = pageCanvas.toDataURL('image/png');
-        const sliceHeightMm = (sourceHeight * contentWidthMm) / canvas.width;
+        const sliceHeightMm = sourceHeight / pxPerMm;
         pdf.addImage(pageImgData, 'PNG', marginMm, marginMm, contentWidthMm, sliceHeightMm);
 
         pdf.setFontSize(7);
         pdf.setTextColor(136, 136, 136);
         pdf.text('www.supremainc.com', imgWidthMm - marginMm, pageHeightMm - 8, { align: 'right' });
-        pdf.text(`${page + 1}/${totalPages}`, imgWidthMm - marginMm, pageHeightMm - 4, { align: 'right' });
+        pdf.text(`${page + 1}/${pages.length}`, imgWidthMm - marginMm, pageHeightMm - 4, { align: 'right' });
       }
 
       const fileName = `BioStarX_${meta.projectName || 'Report'}_${new Date().toISOString().split('T')[0]}.pdf`;
