@@ -235,22 +235,37 @@ ${t("disclaimer.note")}
         const htmlEl = el as HTMLElement;
         const computed = window.getComputedStyle(htmlEl);
         const textContent = htmlEl.textContent?.trim() || '';
-        const color = computed.color;
 
         const replacement = document.createElement('span');
         replacement.textContent = textContent;
         replacement.style.cssText = `
-          color: ${color};
+          color: ${computed.color};
           font-size: ${computed.fontSize};
-          font-weight: 700;
+          font-weight: 600;
           white-space: nowrap;
           letter-spacing: ${computed.letterSpacing};
           text-transform: ${computed.textTransform};
+          margin: 0 4px;
         `;
 
         if (htmlEl.parentNode) {
           htmlEl.parentNode.replaceChild(replacement, htmlEl);
         }
+      });
+
+      clone.querySelectorAll('.qty-badge').forEach(el => {
+        const htmlEl = el as HTMLElement;
+        const computed = window.getComputedStyle(htmlEl);
+        htmlEl.style.display = 'inline-block';
+        htmlEl.style.borderRadius = '6px';
+        htmlEl.style.padding = '3px 10px';
+        htmlEl.style.textAlign = 'center';
+        htmlEl.style.lineHeight = '1.5';
+        htmlEl.style.fontSize = computed.fontSize;
+        htmlEl.style.fontWeight = '700';
+        htmlEl.style.whiteSpace = 'nowrap';
+        htmlEl.style.backgroundColor = computed.backgroundColor;
+        htmlEl.style.color = computed.color;
       });
 
       await new Promise(r => setTimeout(r, 200));
@@ -523,7 +538,7 @@ ${t("disclaimer.note")}
             )}
 
             {/* Comparativa de Opciones */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10 print:grid-cols-1 print:gap-6">
+            <div className="grid grid-cols-1 gap-6 mb-10">
               {/* Opción Principal - Resaltada */}
               <div className="border-2 border-primary rounded-xl overflow-hidden bg-white shadow-md ring-2 ring-primary/20 ring-offset-2 print:break-inside-avoid">
                 <div className="bg-primary p-4 border-b border-primary/10">
@@ -557,21 +572,21 @@ ${t("disclaimer.note")}
                     {calculatedBOM.bom.map((item, idx) => (
                       <div key={idx} className={`flex justify-between items-center text-sm py-2 px-3 rounded-md mb-2 ${item.foc ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-muted/20 border border-primary/5'}`}>
                         <span className="text-muted-foreground font-medium">
-                          {item.name} <span className="text-[10px] font-mono opacity-50 ml-1">({item.id})</span>
+                          {item.name} <span className="text-[10px] font-mono opacity-50 ml-1 whitespace-nowrap">({item.id})</span>
+                        </span>
+                        <div className="flex items-center gap-2 flex-shrink-0">
                           {item.foc && (
-                            <span className="ml-2 inline-flex items-center gap-1 text-[9px] font-bold text-emerald-700 bg-emerald-500/15 px-2 py-1 rounded-full border border-emerald-500/30 whitespace-nowrap leading-none">
-                              <Gift className="w-2.5 h-2.5 flex-shrink-0" />
+                            <span className="foc-label text-[9px] font-bold text-emerald-700 whitespace-nowrap">
                               {t("bom.focLong")}
                             </span>
                           )}
                           {!item.foc && isMigration && (
-                            <span className="ml-2 inline-flex items-center gap-1 text-[9px] font-bold text-amber-700 bg-amber-500/15 px-2 py-1 rounded-full border border-amber-500/30 whitespace-nowrap leading-none">
-                              <DollarSign className="w-2.5 h-2.5 flex-shrink-0" />
+                            <span className="cost-label text-[9px] font-bold text-amber-700 whitespace-nowrap">
                               {t("bom.withCostLong")}
                             </span>
                           )}
-                        </span>
-                        <span className="font-bold bg-[#a12944] text-white px-3 py-1 rounded-full text-xs whitespace-nowrap leading-none">x{item.qty}</span>
+                          <span className="qty-badge font-bold bg-[#a12944] text-white px-3 py-1 rounded-md text-xs whitespace-nowrap leading-none">x{item.qty}</span>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -628,21 +643,21 @@ ${t("disclaimer.note")}
                       {calculatedBOM.alternative.bom.map((item, idx) => (
                         <div key={idx} className={`flex justify-between items-center text-sm py-2 px-3 rounded-md mb-2 ${item.foc ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-muted/10'}`}>
                           <span className="text-muted-foreground font-medium">
-                            {item.name} <span className="text-[10px] font-mono opacity-50 ml-1">({item.id})</span>
+                            {item.name} <span className="text-[10px] font-mono opacity-50 ml-1 whitespace-nowrap">({item.id})</span>
+                          </span>
+                          <div className="flex items-center gap-2 flex-shrink-0">
                             {item.foc && (
-                              <span className="ml-2 inline-flex items-center gap-1 text-[9px] font-bold text-emerald-700 bg-emerald-500/15 px-2 py-1 rounded-full border border-emerald-500/30 whitespace-nowrap leading-none">
-                                <Gift className="w-2.5 h-2.5 flex-shrink-0" />
+                              <span className="foc-label text-[9px] font-bold text-emerald-700 whitespace-nowrap">
                                 {t("bom.focLong")}
                               </span>
                             )}
                             {!item.foc && isMigration && (
-                              <span className="ml-2 inline-flex items-center gap-1 text-[9px] font-bold text-amber-700 bg-amber-500/15 px-2 py-1 rounded-full border border-amber-500/30 whitespace-nowrap leading-none">
-                                <DollarSign className="w-2.5 h-2.5 flex-shrink-0" />
+                              <span className="cost-label text-[9px] font-bold text-amber-700 whitespace-nowrap">
                                 {t("bom.withCostLong")}
                               </span>
                             )}
-                          </span>
-                          <span className="font-bold bg-muted-foreground/20 text-foreground px-3 py-1 rounded-full text-xs whitespace-nowrap leading-none">x{item.qty}</span>
+                            <span className="qty-badge font-bold bg-muted-foreground/20 text-foreground px-3 py-1 rounded-md text-xs whitespace-nowrap leading-none">x{item.qty}</span>
+                          </div>
                         </div>
                       ))}
                     </div>
