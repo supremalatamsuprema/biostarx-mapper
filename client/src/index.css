@@ -234,7 +234,8 @@
     visibility: visible !important;
   }
 
-  [data-radix-portal] [role="dialog"] {
+  [data-radix-portal] [role="dialog"],
+  .report-dialog-content {
     position: static !important;
     transform: none !important;
     max-width: 100% !important;

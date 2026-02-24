@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PillButton } from "@/components/ui/pill-button";
 import { Printer, Copy, X, CheckCircle, Download, Package, Mail, Gift, DollarSign, AlertTriangle } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { downloadCSV } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
 import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
@@ -38,9 +38,28 @@ export function ReportModal({
   const { t, language } = useI18n();
   const isMigration = inputs.scenario === 'migration';
   
-  const handlePrint = () => {
-    window.print();
-  };
+  const dialogRef = useRef<HTMLDivElement>(null);
+  
+  const handlePrint = useCallback(() => {
+    const dialog = dialogRef.current;
+    if (dialog) {
+      const scrollParent = dialog.closest('[role="dialog"]') || dialog;
+      scrollParent.scrollTop = 0;
+      
+      const origMaxH = (scrollParent as HTMLElement).style.maxHeight;
+      const origOverflow = (scrollParent as HTMLElement).style.overflow;
+      (scrollParent as HTMLElement).style.maxHeight = 'none';
+      (scrollParent as HTMLElement).style.overflow = 'visible';
+      
+      requestAnimationFrame(() => {
+        window.print();
+        (scrollParent as HTMLElement).style.maxHeight = origMaxH;
+        (scrollParent as HTMLElement).style.overflow = origOverflow;
+      });
+    } else {
+      window.print();
+    }
+  }, []);
 
   const handleCopy = () => {
     const bomText = bom.map(item => `${item.id} - ${item.name} x${item.qty}${item.foc ? ' [FOC]' : ''}`).join('\n');
@@ -104,8 +123,8 @@ ${t("disclaimer.note")}
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto rounded-md p-0 print:max-w-none print:max-h-none print:h-auto print:overflow-visible">
-        <div className="p-6 sm:p-8 print:p-6 print:pt-2">
+      <DialogContent className="report-dialog-content max-w-4xl max-h-[90vh] overflow-y-auto rounded-md p-0">
+        <div ref={dialogRef} className="p-6 sm:p-8 print:p-6 print:pt-2">
           <DialogHeader className="mb-6 print:mb-4">
             <div className="flex items-center justify-between">
               <DialogTitle className="text-2xl sm:text-3xl font-heading font-semibold">
