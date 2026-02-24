@@ -9,8 +9,6 @@ import { Button } from "@/components/ui/button";
 import { PillButton } from "@/components/ui/pill-button";
 import { Printer, Copy, X, CheckCircle, Download, Package, Mail, Gift, DollarSign, AlertTriangle } from "lucide-react";
 import { useState, useRef, useCallback } from "react";
-import html2canvas from "html2canvas";
-import { jsPDF } from "jspdf";
 import { useI18n } from "@/lib/i18n";
 import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
 import logoDarkImg from "@assets/Suprema_logo_basic_1771952357115.png";
@@ -148,186 +146,8 @@ ${t("disclaimer.note")}
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const [generating, setGenerating] = useState(false);
-
-  const handleDownloadPDF = async () => {
-    if (!dialogRef.current || generating) return;
-    setGenerating(true);
-    try {
-      const element = dialogRef.current;
-
-      const clone = element.cloneNode(true) as HTMLElement;
-
-      clone.querySelectorAll('.print\\:hidden').forEach(el => (el as HTMLElement).remove());
-
-      clone.querySelectorAll('.hidden.print\\:block').forEach(el => {
-        (el as HTMLElement).classList.remove('hidden');
-        (el as HTMLElement).style.display = 'block';
-      });
-
-      clone.querySelectorAll('.dark\\:block').forEach(el => (el as HTMLElement).style.display = 'none');
-      clone.querySelectorAll('.dark\\:hidden').forEach(el => (el as HTMLElement).style.display = 'block');
-
-      clone.querySelectorAll('.tier-capacity-number').forEach(el => {
-        (el as HTMLElement).style.color = '#888';
-      });
-
-      const lightVars: Record<string, string> = {
-        '--background': '0 0% 100%',
-        '--foreground': '0 0% 9%',
-        '--border': '0 0% 93%',
-        '--card': '0 0% 98%',
-        '--card-foreground': '0 0% 9%',
-        '--card-border': '0 0% 95%',
-        '--popover': '0 0% 94%',
-        '--popover-foreground': '0 0% 9%',
-        '--primary': '348 63% 43%',
-        '--primary-foreground': '348 63% 98%',
-        '--secondary': '0 0% 47%',
-        '--secondary-foreground': '0 0% 100%',
-        '--muted': '0 0% 92%',
-        '--muted-foreground': '0 0% 35%',
-        '--accent': '222 100% 50%',
-        '--accent-foreground': '222 100% 98%',
-        '--destructive': '0 84% 35%',
-        '--destructive-foreground': '0 84% 98%',
-        '--input': '0 0% 75%',
-        '--ring': '348 63% 43%',
-      };
-
-      const a4WidthPx = 794;
-      const paddingPx = 57;
-
-      const wrapper = document.createElement('div');
-      wrapper.style.cssText = `
-        position: fixed;
-        left: -9999px;
-        top: 0;
-        width: ${a4WidthPx}px;
-        background: white;
-        color: hsl(0 0% 9%);
-        z-index: -1;
-        overflow: visible;
-      `;
-      Object.entries(lightVars).forEach(([k, v]) => wrapper.style.setProperty(k, v));
-
-      clone.style.padding = `${paddingPx}px`;
-      clone.style.background = 'white';
-      clone.style.color = 'hsl(0 0% 9%)';
-      clone.style.maxHeight = 'none';
-      clone.style.overflow = 'visible';
-
-      clone.querySelectorAll('*').forEach(el => {
-        const htmlEl = el as HTMLElement;
-        const computed = window.getComputedStyle(htmlEl);
-        if (computed.color === 'rgb(255, 255, 255)' || computed.color === 'rgba(255, 255, 255, 1)') {
-          const hasBg = computed.backgroundColor && computed.backgroundColor !== 'rgba(0, 0, 0, 0)' && computed.backgroundColor !== 'transparent';
-          if (!hasBg) {
-            htmlEl.style.color = 'hsl(0 0% 9%)';
-          }
-        }
-      });
-
-      const badgeFixStyle = document.createElement('style');
-      badgeFixStyle.textContent = `
-        .rounded-full {
-          border-radius: 9999px !important;
-          white-space: nowrap !important;
-          line-height: 1.2 !important;
-          overflow: visible !important;
-          padding: 4px 8px !important;
-          display: inline-flex !important;
-          align-items: center !important;
-          gap: 4px !important;
-          box-decoration-break: clone !important;
-        }
-        .flex-shrink-0 {
-          flex-shrink: 0 !important;
-        }
-      `;
-      wrapper.appendChild(badgeFixStyle);
-
-      Array.from(document.styleSheets).forEach(sheet => {
-        try {
-          Array.from(sheet.cssRules).forEach(rule => {
-            if (rule instanceof CSSMediaRule && rule.conditionText === 'print') {
-              const styleEl = document.createElement('style');
-              let cssText = '';
-              Array.from(rule.cssRules).forEach(printRule => {
-                cssText += printRule.cssText + '\n';
-              });
-              styleEl.textContent = cssText;
-              wrapper.appendChild(styleEl);
-            }
-          });
-        } catch {
-          // skip cross-origin stylesheets
-        }
-      });
-
-      wrapper.appendChild(clone);
-      document.body.appendChild(wrapper);
-
-      await new Promise(r => setTimeout(r, 300));
-
-      const canvas = await html2canvas(clone, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        width: a4WidthPx,
-        windowWidth: a4WidthPx,
-      });
-
-      document.body.removeChild(wrapper);
-
-      const imgWidthMm = 210;
-      const pageHeightMm = 297;
-      const marginMm = 15;
-      const contentWidthMm = imgWidthMm - marginMm * 2;
-      const totalImgHeightMm = (canvas.height * contentWidthMm) / canvas.width;
-      const pageContentHeightMm = pageHeightMm - marginMm * 2;
-
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const totalPages = Math.ceil(totalImgHeightMm / pageContentHeightMm);
-
-      for (let page = 0; page < totalPages; page++) {
-        if (page > 0) pdf.addPage();
-
-        const sourceY = (page * pageContentHeightMm / totalImgHeightMm) * canvas.height;
-        const sourceHeight = Math.min(
-          (pageContentHeightMm / totalImgHeightMm) * canvas.height,
-          canvas.height - sourceY
-        );
-
-        const pageCanvas = document.createElement('canvas');
-        pageCanvas.width = canvas.width;
-        pageCanvas.height = sourceHeight;
-        const ctx = pageCanvas.getContext('2d');
-        if (ctx) {
-          ctx.fillStyle = '#ffffff';
-          ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
-          ctx.drawImage(canvas, 0, sourceY, canvas.width, sourceHeight, 0, 0, canvas.width, sourceHeight);
-        }
-
-        const pageImgData = pageCanvas.toDataURL('image/png');
-        const sliceHeightMm = (sourceHeight * contentWidthMm) / canvas.width;
-        pdf.addImage(pageImgData, 'PNG', marginMm, marginMm, contentWidthMm, sliceHeightMm);
-
-        pdf.setFontSize(7);
-        pdf.setTextColor(136, 136, 136);
-        pdf.text('www.supremainc.com', imgWidthMm - marginMm, pageHeightMm - 8, { align: 'right' });
-        pdf.text(`${page + 1}/${totalPages}`, imgWidthMm - marginMm, pageHeightMm - 4, { align: 'right' });
-      }
-
-      const fileName = `BioStarX_${meta.projectName || 'Report'}_${new Date().toISOString().split('T')[0]}.pdf`;
-      pdf.save(fileName);
-    } catch (error) {
-      console.error('PDF generation failed:', error);
-    } finally {
-      setGenerating(false);
-    }
+  const handleDownloadPDF = () => {
+    handlePrint();
   };
 
   const activeFeatures = Object.entries(features)
@@ -359,7 +179,7 @@ ${t("disclaimer.note")}
                   variant="outline"
                   size="icon"
                   onClick={handleDownloadPDF}
-                  disabled={generating}
+                  
                   className="rounded-full"
                   data-testid="button-export-pdf"
                 >
