@@ -156,10 +156,17 @@ ${t("disclaimer.note")}
     .filter(([_, value]) => value)
     .map(([key]) => key);
 
+  const printTimestamp = new Date().toLocaleString(language === 'pt' ? 'pt-BR' : language === 'en' ? 'en-US' : 'es-ES');
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="report-dialog-content max-w-4xl max-h-[90vh] overflow-y-auto rounded-md p-0">
-        <div ref={dialogRef} className="p-6 sm:p-8 print:p-6 print:pt-2">
+        <div className="hidden print:block print-header">
+          <span>{printTimestamp}</span>
+        </div>
+        <div className="hidden print:block print-footer">
+        </div>
+        <div ref={dialogRef} className="p-6 sm:p-8 print:p-6 print:pt-8">
           <DialogHeader className="mb-6 print:mb-4">
             <div className="flex items-center justify-between">
               <DialogTitle className="text-2xl sm:text-3xl font-heading font-semibold">

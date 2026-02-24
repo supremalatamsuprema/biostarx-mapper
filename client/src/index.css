@@ -270,6 +270,36 @@
     display: none !important;
   }
 
+  .print-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 5mm 15mm;
+    font-size: 8px;
+    color: #888;
+    font-family: 'Noto Sans', sans-serif;
+    z-index: 9999;
+  }
+
+  .print-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 5mm 15mm;
+    font-size: 8px;
+    color: #888;
+    font-family: 'Noto Sans', sans-serif;
+    text-align: right;
+    z-index: 9999;
+    counter-increment: page-number;
+  }
+
+  .print-footer::after {
+    content: counter(page);
+  }
+
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
