@@ -155,92 +155,151 @@ ${t("disclaimer.note")}
     setGenerating(true);
     try {
       const element = dialogRef.current;
-      const scrollParent = element.parentElement;
-      const prevOverflow = scrollParent?.style.overflow || '';
-      const prevMaxHeight = scrollParent?.style.maxHeight || '';
-      if (scrollParent) {
-        scrollParent.style.overflow = 'visible';
-        scrollParent.style.maxHeight = 'none';
-      }
 
-      const buttons = element.querySelectorAll('.print\\:hidden');
-      buttons.forEach(el => (el as HTMLElement).style.display = 'none');
+      const clone = element.cloneNode(true) as HTMLElement;
 
-      const isDark = document.documentElement.classList.contains('dark');
-      if (isDark) {
-        element.style.setProperty('--background', '0 0% 100%');
-        element.style.setProperty('--foreground', '0 0% 3.9%');
-        element.style.setProperty('--muted-foreground', '0 0% 45.1%');
-        element.style.setProperty('--border', '0 0% 89.8%');
-        element.style.setProperty('--card', '0 0% 100%');
-        element.style.setProperty('--card-foreground', '0 0% 3.9%');
-        element.style.setProperty('--muted', '0 0% 96.1%');
-        element.style.backgroundColor = 'white';
-        element.style.color = 'black';
+      clone.querySelectorAll('.print\\:hidden').forEach(el => (el as HTMLElement).remove());
 
-        const darkLogos = element.querySelectorAll('.dark\\:block');
-        const lightLogos = element.querySelectorAll('.dark\\:hidden');
-        darkLogos.forEach(el => (el as HTMLElement).style.display = 'none');
-        lightLogos.forEach(el => (el as HTMLElement).style.display = 'block');
+      clone.querySelectorAll('.hidden.print\\:block').forEach(el => {
+        (el as HTMLElement).classList.remove('hidden');
+        (el as HTMLElement).style.display = 'block';
+      });
 
-        const capacityNums = element.querySelectorAll('.tier-capacity-number');
-        capacityNums.forEach(el => (el as HTMLElement).style.color = '#888');
-      }
+      clone.querySelectorAll('.dark\\:block').forEach(el => (el as HTMLElement).style.display = 'none');
+      clone.querySelectorAll('.dark\\:hidden').forEach(el => (el as HTMLElement).style.display = 'block');
 
-      const canvas = await html2canvas(element, {
+      clone.querySelectorAll('.tier-capacity-number').forEach(el => {
+        (el as HTMLElement).style.color = '#888';
+      });
+
+      const lightVars: Record<string, string> = {
+        '--background': '0 0% 100%',
+        '--foreground': '0 0% 9%',
+        '--border': '0 0% 93%',
+        '--card': '0 0% 98%',
+        '--card-foreground': '0 0% 9%',
+        '--card-border': '0 0% 95%',
+        '--popover': '0 0% 94%',
+        '--popover-foreground': '0 0% 9%',
+        '--primary': '348 63% 43%',
+        '--primary-foreground': '348 63% 98%',
+        '--secondary': '0 0% 47%',
+        '--secondary-foreground': '0 0% 100%',
+        '--muted': '0 0% 92%',
+        '--muted-foreground': '0 0% 35%',
+        '--accent': '222 100% 50%',
+        '--accent-foreground': '222 100% 98%',
+        '--destructive': '0 84% 35%',
+        '--destructive-foreground': '0 84% 98%',
+        '--input': '0 0% 75%',
+        '--ring': '348 63% 43%',
+      };
+
+      const a4WidthPx = 794;
+      const paddingPx = 57;
+
+      const wrapper = document.createElement('div');
+      wrapper.style.cssText = `
+        position: fixed;
+        left: -9999px;
+        top: 0;
+        width: ${a4WidthPx}px;
+        background: white;
+        color: hsl(0 0% 9%);
+        z-index: -1;
+        overflow: visible;
+      `;
+      Object.entries(lightVars).forEach(([k, v]) => wrapper.style.setProperty(k, v));
+
+      clone.style.padding = `${paddingPx}px`;
+      clone.style.background = 'white';
+      clone.style.color = 'hsl(0 0% 9%)';
+      clone.style.maxHeight = 'none';
+      clone.style.overflow = 'visible';
+
+      clone.querySelectorAll('*').forEach(el => {
+        const htmlEl = el as HTMLElement;
+        const computed = window.getComputedStyle(htmlEl);
+        if (computed.color === 'rgb(255, 255, 255)' || computed.color === 'rgba(255, 255, 255, 1)') {
+          const hasBg = computed.backgroundColor && computed.backgroundColor !== 'rgba(0, 0, 0, 0)' && computed.backgroundColor !== 'transparent';
+          if (!hasBg) {
+            htmlEl.style.color = 'hsl(0 0% 9%)';
+          }
+        }
+      });
+
+      Array.from(document.styleSheets).forEach(sheet => {
+        try {
+          Array.from(sheet.cssRules).forEach(rule => {
+            if (rule instanceof CSSMediaRule && rule.conditionText === 'print') {
+              const styleEl = document.createElement('style');
+              let cssText = '';
+              Array.from(rule.cssRules).forEach(printRule => {
+                cssText += printRule.cssText + '\n';
+              });
+              styleEl.textContent = cssText;
+              wrapper.appendChild(styleEl);
+            }
+          });
+        } catch {
+          // skip cross-origin stylesheets
+        }
+      });
+
+      wrapper.appendChild(clone);
+      document.body.appendChild(wrapper);
+
+      await new Promise(r => setTimeout(r, 300));
+
+      const canvas = await html2canvas(clone, {
         scale: 2,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
         logging: false,
+        width: a4WidthPx,
+        windowWidth: a4WidthPx,
       });
 
-      if (isDark) {
-        element.style.removeProperty('--background');
-        element.style.removeProperty('--foreground');
-        element.style.removeProperty('--muted-foreground');
-        element.style.removeProperty('--border');
-        element.style.removeProperty('--card');
-        element.style.removeProperty('--card-foreground');
-        element.style.removeProperty('--muted');
-        element.style.backgroundColor = '';
-        element.style.color = '';
+      document.body.removeChild(wrapper);
 
-        const darkLogos = element.querySelectorAll('.dark\\:block');
-        const lightLogos = element.querySelectorAll('.dark\\:hidden');
-        darkLogos.forEach(el => (el as HTMLElement).style.display = '');
-        lightLogos.forEach(el => (el as HTMLElement).style.display = '');
-
-        const capacityNums = element.querySelectorAll('.tier-capacity-number');
-        capacityNums.forEach(el => (el as HTMLElement).style.color = '');
-      }
-
-      buttons.forEach(el => (el as HTMLElement).style.display = '');
-
-      if (scrollParent) {
-        scrollParent.style.overflow = prevOverflow;
-        scrollParent.style.maxHeight = prevMaxHeight;
-      }
-
-      const imgWidth = 210;
-      const pageHeight = 297;
-      const margin = 10;
-      const contentWidth = imgWidth - margin * 2;
-      const imgHeight = (canvas.height * contentWidth) / canvas.width;
+      const imgWidthMm = 210;
+      const pageHeightMm = 297;
+      const marginMm = 15;
+      const contentWidthMm = imgWidthMm - marginMm * 2;
+      const totalImgHeightMm = (canvas.height * contentWidthMm) / canvas.width;
+      const pageContentHeightMm = pageHeightMm - marginMm * 2;
 
       const pdf = new jsPDF('p', 'mm', 'a4');
-      let heightLeft = imgHeight;
-      let position = margin;
-      const imgData = canvas.toDataURL('image/png');
+      const totalPages = Math.ceil(totalImgHeightMm / pageContentHeightMm);
 
-      pdf.addImage(imgData, 'PNG', margin, position, contentWidth, imgHeight);
-      heightLeft -= (pageHeight - margin * 2);
+      for (let page = 0; page < totalPages; page++) {
+        if (page > 0) pdf.addPage();
 
-      while (heightLeft > 0) {
-        position = position - (pageHeight - margin * 2);
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', margin, position, contentWidth, imgHeight);
-        heightLeft -= (pageHeight - margin * 2);
+        const sourceY = (page * pageContentHeightMm / totalImgHeightMm) * canvas.height;
+        const sourceHeight = Math.min(
+          (pageContentHeightMm / totalImgHeightMm) * canvas.height,
+          canvas.height - sourceY
+        );
+
+        const pageCanvas = document.createElement('canvas');
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = sourceHeight;
+        const ctx = pageCanvas.getContext('2d');
+        if (ctx) {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+          ctx.drawImage(canvas, 0, sourceY, canvas.width, sourceHeight, 0, 0, canvas.width, sourceHeight);
+        }
+
+        const pageImgData = pageCanvas.toDataURL('image/png');
+        const sliceHeightMm = (sourceHeight * contentWidthMm) / canvas.width;
+        pdf.addImage(pageImgData, 'PNG', marginMm, marginMm, contentWidthMm, sliceHeightMm);
+
+        pdf.setFontSize(7);
+        pdf.setTextColor(136, 136, 136);
+        pdf.text('www.supremainc.com', imgWidthMm - marginMm, pageHeightMm - 8, { align: 'right' });
+        pdf.text(`${page + 1}/${totalPages}`, imgWidthMm - marginMm, pageHeightMm - 4, { align: 'right' });
       }
 
       const fileName = `BioStarX_${meta.projectName || 'Report'}_${new Date().toISOString().split('T')[0]}.pdf`;
