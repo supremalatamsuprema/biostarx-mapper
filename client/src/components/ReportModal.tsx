@@ -76,8 +76,12 @@ export function ReportModal({
         scrollParent.style.width = '100%';
       }
 
+      const origTitle = document.title;
+      document.title = `BioStar X - ${meta.projectName || 'Report'}`;
+
       requestAnimationFrame(() => {
         window.print();
+        document.title = origTitle;
         
         if (overlay) {
           overlay.style.display = origOverlayDisplay || '';
@@ -164,7 +168,8 @@ ${t("disclaimer.note")}
         <div className="hidden print:block print-header">
           <span>{printTimestamp}</span>
         </div>
-        <div className="hidden print:block print-footer">
+        <div className="hidden print:block print-footer" aria-hidden="true">
+          <span>www.supremainc.com</span>
         </div>
         <div ref={dialogRef} className="p-6 sm:p-8 print:p-6 print:pt-8">
           <DialogHeader className="mb-6 print:mb-4">
