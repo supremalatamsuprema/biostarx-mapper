@@ -177,14 +177,18 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
       }
       newFeatures.visitor = !!meta.bs2VisitorLicense;
 
-      if (meta.bs2UsesApp || meta.bs2AppSameNetwork) {
+      const shouldMobile = meta.bs2UsesApp || meta.bs2AppSameNetwork || meta.bs2AppOutsideNetwork;
+      const shouldRemote = meta.bs2UsesCloud || meta.bs2AppOutsideNetwork;
+
+      if (shouldMobile) {
         newFeatures.mobile = true;
+      } else {
+        newFeatures.mobile = false;
       }
-      if (meta.bs2UsesCloud || meta.bs2AppOutsideNetwork) {
+      if (shouldRemote) {
         newFeatures.remote = true;
-      }
-      if (meta.bs2AppOutsideNetwork) {
-        newFeatures.mobile = true;
+      } else {
+        newFeatures.remote = false;
       }
 
       setFeatures(newFeatures);
