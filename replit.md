@@ -36,6 +36,13 @@ Preferred communication style: Simple, everyday language.
 - **Business Logic**: Pure utility functions in `client/src/lib/calc.ts` for BOM calculation and CSV export
 - **License Data**: Tier definitions and addon constants in `client/src/data/licenseData.ts`
 - **Type Definitions**: License tiers, addons, BOM items defined in `client/src/types/license.ts`
+- **Migration Logic**: Official Suprema BioStar 2 → BioStar X promotion mapping (MIGRATION_MAPPING in licenseData.ts)
+  - **AC Migration**: Starter→N/A, Basic→Essential, Standard→Advanced+AAC, Advanced→Advanced+AAC+SVM+DIR, Professional→Enterprise+AAC+SVM+DIR, Enterprise→Elite+AAC+SVM+DIR
+  - **T&A Migration**: Starter→N/A, Standard→TNA_STD(FOC), Advanced→TNA_ENT(FOC), Professional→TNA_ENT(FOC)
+  - **Visitor**: FOC when bs2VisitorLicense=true, requires Advanced+ tier (warning shown if base tier < Advanced)
+  - **Not eligible for FOC**: Video, Remote Access/Cloud (info notes shown)
+  - **Policy**: BS2 licenses must be disabled after migration; only equivalent licenses provided
+  - **Auto-locking**: Features auto-checked based on migration mapping (AAC features for Standard+, SVM/DIR for Advanced+)
 
 ### Design Patterns
 - **Two-column dashboard layout**: 68% main form, 32% sticky BOM sidebar on desktop

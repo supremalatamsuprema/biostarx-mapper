@@ -27,6 +27,12 @@ const BS2_DOOR_LIMITS: Record<string, number> = {
   'BioStar2-Enterprise': 1000,
 };
 
+const TIER_ORDER = ['BIOSTARX-DEV', 'BIOSTARX-STR', 'BIOSTARX-ESS', 'BIOSTARX-ADV', 'BIOSTARX-ENT', 'BIOSTARX-ELT'];
+
+function tierIndex(tierId: string): number {
+  return TIER_ORDER.indexOf(tierId);
+}
+
 export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): CalculatedBOM {
   const reqD = inputs.doors;
   const reqO = inputs.operators;
@@ -38,15 +44,23 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
 
   const reqU = effectiveUsers;
 
-  const isBS2Starter = inputs.scenario === 'migration' && inputs.activationCode === 'BioStar2-Starter';
-  const isBS2Basic = inputs.scenario === 'migration' && inputs.activationCode === 'BioStar2-Basic';
+  const isMigration = inputs.scenario === 'migration';
+  const acCode = inputs.activationCode || '';
+  const acMapping = isMigration && acCode ? (MIGRATION_MAPPING.AC as any)[acCode] : null;
+  const isStarterNoMigration = acMapping?.noMigration === true;
+
+  function isFocFromMigration(addonKey: string): boolean {
+    if (!isMigration || !acMapping || isStarterNoMigration) return false;
+    return acMapping.addons?.includes(addonKey) || false;
+  }
 
   function getBomForTier(selectedTier: LicenseTier): BomItem[] {
     const bom: BomItem[] = [];
 
-    const tierIsFoc = (isBS2Starter && selectedTier.id === 'BIOSTARX-DEV') ||
-                      (isBS2Basic && selectedTier.id === 'BIOSTARX-ESS');
-    bom.push({ id: selectedTier.id, name: `BioStar X ${selectedTier.name}`, qty: 1, foc: tierIsFoc || undefined });
+    const baseFoc = isMigration && acMapping && !isStarterNoMigration && acMapping.base
+      ? selectedTier.id === acMapping.base
+      : false;
+    bom.push({ id: selectedTier.id, name: `BioStar X ${selectedTier.name}`, qty: 1, foc: baseFoc || undefined });
 
     if (selectedTier.id === 'BIOSTARX-ESS' && reqU > 1000) {
       const uGap = reqU - 1000;
@@ -59,8 +73,8 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
     }
 
     if (selectedTier.id !== 'BIOSTARX-DEV') {
-      const effectiveDoors = inputs.scenario === 'migration' && inputs.activationCode
-        ? Math.max(reqD, BS2_DOOR_LIMITS[inputs.activationCode] || 0)
+      const effectiveDoors = isMigration && acCode
+        ? Math.max(reqD, BS2_DOOR_LIMITS[acCode] || 0)
         : reqD;
 
       const dGap = Math.max(0, effectiveDoors - selectedTier.maxDoors);
@@ -74,37 +88,45 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
       bom.push({ ...ADDONS.OP_UP, qty: Math.ceil(oGap / 10) });
     }
 
+    const aacFoc = isFocFromMigration('ADV_AC');
     if (needsAdvPkg && selectedTier.id !== 'BIOSTARX-ENT' && selectedTier.id !== 'BIOSTARX-ELT') {
       if (!bom.find(b => b.id === ADDONS.ADV_AC.id)) {
-        bom.push({ ...ADDONS.ADV_AC, qty: 1 });
+        bom.push({ ...ADDONS.ADV_AC, qty: 1, foc: aacFoc || undefined });
       }
     }
 
-    if (inputs.scenario === 'migration' && inputs.activationCode) {
-      const mapping = (MIGRATION_MAPPING.AC as any)[inputs.activationCode];
-      if (mapping && mapping.addons) {
-        mapping.addons.forEach((addonKey: string) => {
-          if (addonKey === 'DOOR_UP') return;
-          const addon = (ADDONS as any)[addonKey];
-          if (addon && !bom.find(b => b.id === addon.id)) {
-            bom.push({ ...addon, qty: 1 });
+    if (isMigration && acMapping && !isStarterNoMigration && acMapping.addons) {
+      acMapping.addons.forEach((addonKey: string) => {
+        if (addonKey === 'ADV_AC') {
+          if (selectedTier.id === 'BIOSTARX-ENT' || selectedTier.id === 'BIOSTARX-ELT') return;
+          const existing = bom.find(b => b.id === ADDONS.ADV_AC.id);
+          if (existing) {
+            existing.foc = true;
+          } else {
+            bom.push({ ...ADDONS.ADV_AC, qty: 1, foc: true });
           }
-        });
-      }
+          return;
+        }
+        const addon = (ADDONS as any)[addonKey];
+        if (addon && !bom.find(b => b.id === addon.id)) {
+          bom.push({ ...addon, qty: 1, foc: true });
+        }
+      });
     }
 
     if (features.visitor) {
       if (!bom.find(b => b.id === ADDONS.VISITOR.id)) {
-        const visitorFoc = (isBS2Starter || isBS2Basic) ? true : undefined;
+        const visitorFoc = isMigration && inputs.bs2VisitorLicense ? true : undefined;
         bom.push({ ...ADDONS.VISITOR, qty: 1, foc: visitorFoc });
       }
     }
+
     if (features.tna) {
-      if (inputs.scenario === 'migration' && inputs.bs2TaLicense) {
+      if (isMigration && inputs.bs2TaLicense) {
         const taMapping = (MIGRATION_MAPPING.TA as any)[inputs.bs2TaLicense];
-        if (taMapping) {
+        if (taMapping && !taMapping.noMigration) {
           const tnaUsers = inputs.tnaUsers || reqU;
-          const mappedAddonKey = taMapping[0];
+          const mappedAddonKey = taMapping.addon;
           const mappedIsStandard = mappedAddonKey === 'TNA_STD';
           const needsUpgrade = mappedIsStandard && tnaUsers > 500;
 
@@ -115,9 +137,14 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
           } else {
             const addon = (ADDONS as any)[mappedAddonKey];
             if (addon && !bom.find(b => b.id === addon.id)) {
-              const isFoc = inputs.bs2TaLicense !== 'BioStar2-TA-Starter';
-              bom.push({ ...addon, qty: 1, foc: isFoc || undefined });
+              bom.push({ ...addon, qty: 1, foc: true });
             }
+          }
+        } else if (taMapping?.noMigration) {
+          const tnaUsers = inputs.tnaUsers || reqU;
+          const tnaAddon = tnaUsers > 500 ? ADDONS.TNA_ENT : ADDONS.TNA_STD;
+          if (!bom.find(b => b.id === tnaAddon.id)) {
+            bom.push({ ...tnaAddon, qty: 1 });
           }
         }
       } else {
@@ -128,12 +155,21 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
         }
       }
     }
+
     if (features.mobile) bom.push({ ...ADDONS.MOBILE, qty: 1 });
-    if (features.directory) bom.push({ ...ADDONS.DIR, qty: 1 });
+    if (features.directory) {
+      if (!bom.find(b => b.id === ADDONS.DIR.id)) {
+        bom.push({ ...ADDONS.DIR, qty: 1 });
+      }
+    }
     if (features.remote) bom.push({ ...ADDONS.RAC, qty: 1 });
     if (features.eventApi) bom.push({ ...ADDONS.EVT_API, qty: 1 });
     if (features.gis) bom.push({ ...ADDONS.GIS, qty: 1 });
-    if (features.serverMatching) bom.push({ ...ADDONS.SVM, qty: 1 });
+    if (features.serverMatching) {
+      if (!bom.find(b => b.id === ADDONS.SVM.id)) {
+        bom.push({ ...ADDONS.SVM, qty: 1 });
+      }
+    }
     if (features.rollCall) bom.push({ ...ADDONS.RCL, qty: 1 });
     if (features.plugin) bom.push({ ...ADDONS.PLG, qty: 1 });
     if (inputs.mcsServers > 0) {
@@ -150,10 +186,10 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
   }
 
   let candidates = [...LICENSE_TIERS];
-  if (inputs.scenario === 'migration') {
-    if (isBS2Starter) {
-      candidates = candidates.filter(t => t.id !== 'BIOSTARX-DEV' || (reqD === 0));
-    } else {
+  if (isMigration) {
+    if (isStarterNoMigration) {
+      candidates = candidates.filter(t => t.id !== 'BIOSTARX-DEV');
+    } else if (acMapping) {
       candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-DEV');
     }
   }
@@ -171,16 +207,13 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
     return reqU <= t.maxUsers && reqO <= t.maxOperators && reqD <= t.maxDoors;
   }) || candidates[candidates.length - 1];
 
-  if (inputs.scenario === 'migration' && inputs.activationCode && (MIGRATION_MAPPING.AC as any)[inputs.activationCode]) {
-    if (!(isBS2Starter && selected.id === 'BIOSTARX-DEV')) {
-      const mapping = (MIGRATION_MAPPING.AC as any)[inputs.activationCode];
-      const mappedTier = candidates.find(t => t.id === mapping.base);
-      if (mappedTier) {
-        const mappedIndex = candidates.findIndex(t => t.id === mappedTier.id);
-        const selectedIndex = candidates.findIndex(t => t.id === selected.id);
-        if (mappedIndex > selectedIndex) {
-          selected = mappedTier;
-        }
+  if (isMigration && acMapping && acMapping.base && !isStarterNoMigration) {
+    const mappedTier = candidates.find(t => t.id === acMapping.base);
+    if (mappedTier) {
+      const mappedIdx = tierIndex(mappedTier.id);
+      const selectedIdx = tierIndex(selected.id);
+      if (mappedIdx > selectedIdx) {
+        selected = mappedTier;
       }
     }
   }
@@ -204,25 +237,67 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
 
   const migrationNotes: MigrationNote[] = [];
 
-  if (isBS2Basic && features.visitor) {
+  if (isStarterNoMigration) {
     migrationNotes.push({
       type: 'warning',
-      messageKey: 'migration.basicVisitorUpgradeWarning'
+      messageKey: 'migration.starterNoMigration'
     });
   }
 
-  if (inputs.scenario === 'migration' && inputs.bs2TaLicense && features.tna) {
+  if (isMigration && inputs.bs2VisitorLicense && features.visitor && acMapping && acMapping.base) {
+    const baseTierIdx = tierIndex(acMapping.base);
+    const advIdx = tierIndex('BIOSTARX-ADV');
+    if (baseTierIdx < advIdx) {
+      migrationNotes.push({
+        type: 'warning',
+        messageKey: 'migration.basicVisitorUpgradeWarning'
+      });
+    }
+  }
+
+  if (isMigration && inputs.bs2TaLicense === 'BioStar2-TA-Starter') {
+    migrationNotes.push({
+      type: 'warning',
+      messageKey: 'migration.taStarterNoMigration'
+    });
+  }
+
+  if (isMigration && inputs.bs2TaLicense && features.tna) {
     const taMapping = (MIGRATION_MAPPING.TA as any)[inputs.bs2TaLicense];
-    if (taMapping) {
-      const mappedAddonKey = taMapping[0];
+    if (taMapping && !taMapping.noMigration) {
       const tnaUsers = inputs.tnaUsers || effectiveUsers;
-      if (mappedAddonKey === 'TNA_STD' && tnaUsers > 500) {
+      if (taMapping.addon === 'TNA_STD' && tnaUsers > 500) {
         migrationNotes.push({
           type: 'warning',
           messageKey: 'migration.tnaStandardUpgradeWarning'
         });
       }
     }
+  }
+
+  if (isMigration && inputs.video > 0) {
+    migrationNotes.push({
+      type: 'info',
+      messageKey: 'migration.videoNotEligible'
+    });
+  }
+
+  if (isMigration && features.remote) {
+    migrationNotes.push({
+      type: 'info',
+      messageKey: 'migration.remoteNotEligible'
+    });
+  }
+
+  if (isMigration && acMapping && !isStarterNoMigration) {
+    migrationNotes.push({
+      type: 'info',
+      messageKey: 'migration.bs2MustDisable'
+    });
+    migrationNotes.push({
+      type: 'info',
+      messageKey: 'migration.onlyEquivalentLicenses'
+    });
   }
 
   return { 

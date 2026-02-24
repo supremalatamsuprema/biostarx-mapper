@@ -133,19 +133,26 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
       if (meta.bs2TaLicense !== inputs.bs2TaLicense) {
         setInputs(prev => ({ ...prev, bs2TaLicense: meta.bs2TaLicense || undefined }));
       }
+      if (!!meta.bs2VisitorLicense !== !!inputs.bs2VisitorLicense) {
+        setInputs(prev => ({ ...prev, bs2VisitorLicense: !!meta.bs2VisitorLicense }));
+      }
 
       const newFeatures = { ...features };
 
       if (meta.activationCode) {
         const mapping = (MIGRATION_MAPPING.AC as any)[meta.activationCode];
-        const hasZones = mapping && mapping.addons.includes('ADV_AC');
-        newFeatures.globalApb = hasZones;
-        newFeatures.fire = hasZones;
-        newFeatures.elevator = hasZones;
-        newFeatures.interlock = hasZones;
-        newFeatures.intrusion = hasZones;
-        newFeatures.mustering = hasZones;
-        newFeatures.occupancy = hasZones;
+        const hasAAC = mapping && !mapping.noMigration && mapping.addons?.includes('ADV_AC');
+        const hasSVM = mapping && !mapping.noMigration && mapping.addons?.includes('SVM');
+        const hasDIR = mapping && !mapping.noMigration && mapping.addons?.includes('DIR');
+        newFeatures.globalApb = hasAAC;
+        newFeatures.fire = hasAAC;
+        newFeatures.elevator = hasAAC;
+        newFeatures.interlock = hasAAC;
+        newFeatures.intrusion = hasAAC;
+        newFeatures.mustering = hasAAC;
+        newFeatures.occupancy = hasAAC;
+        newFeatures.serverMatching = hasSVM;
+        newFeatures.directory = hasDIR;
       } else {
         newFeatures.globalApb = false;
         newFeatures.fire = false;
@@ -154,14 +161,21 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
         newFeatures.intrusion = false;
         newFeatures.mustering = false;
         newFeatures.occupancy = false;
+        newFeatures.serverMatching = false;
+        newFeatures.directory = false;
       }
 
-      newFeatures.tna = !!meta.bs2TaLicense;
+      const taMapping = meta.bs2TaLicense ? (MIGRATION_MAPPING.TA as any)[meta.bs2TaLicense] : null;
+      if (meta.bs2TaLicense && taMapping && !taMapping.noMigration) {
+        newFeatures.tna = true;
+      } else if (!meta.bs2TaLicense) {
+        newFeatures.tna = false;
+      }
       newFeatures.visitor = !!meta.bs2VisitorLicense;
 
       setFeatures(newFeatures);
     }
-  }, [meta.activationCode, meta.bs2TaLicense, meta.bs2VisitorLicense, inputs.scenario, inputs.activationCode, inputs.bs2TaLicense]);
+  }, [meta.activationCode, meta.bs2TaLicense, meta.bs2VisitorLicense, inputs.scenario, inputs.activationCode, inputs.bs2TaLicense, inputs.bs2VisitorLicense]);
 
   const handleGenerateReport = () => {
     if (!meta.projectName.trim()) {
@@ -228,7 +242,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
             onInputsChange={setInputs}
             onFeaturesChange={setFeatures}
             bs2VisitorLocked={inputs.scenario === 'migration' && !!meta.bs2VisitorLicense}
-            bs2TnaLocked={inputs.scenario === 'migration' && !!meta.bs2TaLicense}
+            bs2TnaLocked={inputs.scenario === 'migration' && !!meta.bs2TaLicense && !(MIGRATION_MAPPING.TA as any)[meta.bs2TaLicense]?.noMigration}
           />
           
           <DeviceLicenses inputs={inputs} onChange={setInputs} />

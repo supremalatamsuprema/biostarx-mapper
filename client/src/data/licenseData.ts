@@ -36,21 +36,21 @@ export const CLIENT_TYPES = ["Integrador", "Dealer", "Distribuidor", "Cliente Fi
 
 export const MIGRATION_MAPPING = {
   AC: {
-    'BioStar2-Starter': { base: 'BIOSTARX-STR', addons: [] },
+    'BioStar2-Starter': { base: null, addons: [], noMigration: true },
     'BioStar2-Basic': { base: 'BIOSTARX-ESS', addons: [] },
-    'BioStar2-Standard': { base: 'BIOSTARX-ESS', addons: ['DOOR_UP', 'ADV_AC'] },
-    'BioStar2-Advanced': { base: 'BIOSTARX-ADV', addons: ['ADV_AC'] },
-    'BioStar2-Professional': { base: 'BIOSTARX-ENT', addons: ['ADV_AC'] },
-    'BioStar2-Enterprise': { base: 'BIOSTARX-ELT', addons: ['ADV_AC'] },
+    'BioStar2-Standard': { base: 'BIOSTARX-ADV', addons: ['ADV_AC'] },
+    'BioStar2-Advanced': { base: 'BIOSTARX-ADV', addons: ['ADV_AC', 'SVM', 'DIR'] },
+    'BioStar2-Professional': { base: 'BIOSTARX-ENT', addons: ['ADV_AC', 'SVM', 'DIR'] },
+    'BioStar2-Enterprise': { base: 'BIOSTARX-ELT', addons: ['ADV_AC', 'SVM', 'DIR'] },
   },
   TA: {
-    'BioStar2-TA-Starter': ['TNA_STD'],
-    'BioStar2-TA-Standard': ['TNA_STD'],
-    'BioStar2-TA-Advanced': ['TNA_ENT'],
-    'BioStar2-TA-Professional': ['TNA_ENT'],
+    'BioStar2-TA-Starter': { addon: null, noMigration: true },
+    'BioStar2-TA-Standard': { addon: 'TNA_STD' },
+    'BioStar2-TA-Advanced': { addon: 'TNA_ENT' },
+    'BioStar2-TA-Professional': { addon: 'TNA_ENT' },
   },
   VISITOR: {
-    'BioStar2-Visitor': ['VISITOR'],
+    'BioStar2-Visitor': { addon: 'VISITOR', minTier: 'BIOSTARX-ADV' },
   }
 };
 

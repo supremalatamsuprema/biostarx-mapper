@@ -41,26 +41,33 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
         </div>
         
         <div className="space-y-1">
-          <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Licencia actual de AC activada (BioStar 2)</label>
+          <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+            {t("migration.acLicenseLabel")}
+          </label>
           <select 
             className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#0047FF] outline-none transition-all cursor-pointer"
             value={meta.activationCode}
             onChange={e => handleTierChange(e.target.value)}
             data-testid="select-bs2-tier"
           >
-            <option value="">{t("migration.selectLicense")}</option>
-            {Object.keys(MIGRATION_MAPPING.AC).map(tier => (
-              <option key={tier} value={tier}>
-                {tier === 'BioStar2-Starter' ? 'Starter (Free)' : tier.replace('BioStar2-', '')}
-              </option>
-            ))}
+            <option value="" className="text-black bg-white">{t("migration.selectLicense")}</option>
+            {Object.keys(MIGRATION_MAPPING.AC).map(tier => {
+              const mapping = (MIGRATION_MAPPING.AC as any)[tier];
+              const label = tier.replace('BioStar2-', '');
+              const suffix = mapping.noMigration ? ' (N/A)' : '';
+              return (
+                <option key={tier} value={tier} className="text-black bg-white">
+                  {label}{suffix}
+                </option>
+              );
+            })}
           </select>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mb-8 sm:mb-10">
         <div className="space-y-1">
           <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-            Licencia Tiempo y Asistencia activada (BioStar 2)
+            {t("migration.taLicenseLabel")}
           </label>
           <select 
             className="w-full border-b-2 border-muted bg-transparent p-2 font-bold text-base sm:text-lg focus:border-[#0047FF] outline-none transition-all cursor-pointer"
@@ -68,18 +75,23 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
             onChange={e => updateField('bs2TaLicense', e.target.value)}
             data-testid="select-bs2-ta"
           >
-            <option value="">{t("migration.noLicense")}</option>
-            {Object.keys(MIGRATION_MAPPING.TA).map(tier => (
-              <option key={tier} value={tier}>
-                {tier === 'BioStar2-TA-Starter' ? 'Starter (Free)' : tier.replace('BioStar2-TA-', '')}
-              </option>
-            ))}
+            <option value="" className="text-black bg-white">{t("migration.noLicense")}</option>
+            {Object.keys(MIGRATION_MAPPING.TA).map(tier => {
+              const mapping = (MIGRATION_MAPPING.TA as any)[tier];
+              const label = tier.replace('BioStar2-TA-', '');
+              const suffix = mapping.noMigration ? ' (N/A)' : '';
+              return (
+                <option key={tier} value={tier} className="text-black bg-white">
+                  {label}{suffix}
+                </option>
+              );
+            })}
           </select>
         </div>
         
         <div className="space-y-1">
           <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
-            Licencia de Visitantes activada (BioStar 2)
+            {t("migration.visitorLicenseLabel")}
           </label>
           <div className="pt-2">
             <label className="flex items-center gap-3 cursor-pointer group">

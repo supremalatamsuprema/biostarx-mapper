@@ -52,6 +52,7 @@ export interface ProjectInputs {
   mcsServers: number;
   activationCode?: string;
   bs2TaLicense?: string;
+  bs2VisitorLicense?: boolean;
 }
 
 export interface FeatureFlags {
