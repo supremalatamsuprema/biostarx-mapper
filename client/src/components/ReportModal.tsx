@@ -234,27 +234,23 @@ ${t("disclaimer.note")}
       clone.querySelectorAll('.rounded-full').forEach(el => {
         const htmlEl = el as HTMLElement;
         const computed = window.getComputedStyle(htmlEl);
+        const textContent = htmlEl.textContent?.trim() || '';
+        const color = computed.color;
 
-        const svgs = htmlEl.querySelectorAll('svg');
-        svgs.forEach(svg => svg.remove());
+        const replacement = document.createElement('span');
+        replacement.textContent = textContent;
+        replacement.style.cssText = `
+          color: ${color};
+          font-size: ${computed.fontSize};
+          font-weight: 700;
+          white-space: nowrap;
+          letter-spacing: ${computed.letterSpacing};
+          text-transform: ${computed.textTransform};
+        `;
 
-        htmlEl.style.display = 'inline-block';
-        htmlEl.style.borderRadius = '9999px';
-        htmlEl.style.whiteSpace = 'nowrap';
-        htmlEl.style.textAlign = 'center';
-        htmlEl.style.verticalAlign = 'middle';
-        htmlEl.style.lineHeight = '2';
-        htmlEl.style.padding = '0 10px';
-        htmlEl.style.fontSize = computed.fontSize;
-        htmlEl.style.fontWeight = computed.fontWeight;
-        htmlEl.style.overflow = 'visible';
-        if (computed.backgroundColor !== 'rgba(0, 0, 0, 0)' && computed.backgroundColor !== 'transparent') {
-          htmlEl.style.backgroundColor = computed.backgroundColor;
+        if (htmlEl.parentNode) {
+          htmlEl.parentNode.replaceChild(replacement, htmlEl);
         }
-        htmlEl.style.color = computed.color;
-        htmlEl.style.borderWidth = computed.borderWidth;
-        htmlEl.style.borderStyle = computed.borderStyle;
-        htmlEl.style.borderColor = computed.borderColor;
       });
 
       await new Promise(r => setTimeout(r, 200));
