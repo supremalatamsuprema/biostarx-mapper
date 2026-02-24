@@ -587,6 +587,9 @@ ${t("disclaimer.note")}
               <p className="text-[8px] text-muted-foreground text-center mt-2">
                 {t("report.generated")}: {new Date().toLocaleString(language === 'pt' ? 'pt-BR' : language === 'en' ? 'en-US' : 'es-ES')}
               </p>
+              <p className="text-[8px] text-muted-foreground text-center mt-1">
+                www.supremainc.com
+              </p>
             </div>
           </div>
 
