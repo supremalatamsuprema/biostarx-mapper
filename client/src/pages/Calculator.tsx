@@ -66,7 +66,11 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     dashboardFile: '',
     versionFile: '',
     licenseFile: '',
-    hardwareChecked: false
+    hardwareChecked: false,
+    bs2UsesCloud: false,
+    bs2UsesApp: false,
+    bs2AppSameNetwork: false,
+    bs2AppOutsideNetwork: false
   });
 
   const [inputs, setInputs] = useState<ProjectInputs>({
@@ -173,9 +177,19 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
       }
       newFeatures.visitor = !!meta.bs2VisitorLicense;
 
+      if (meta.bs2UsesApp || meta.bs2AppSameNetwork) {
+        newFeatures.mobile = true;
+      }
+      if (meta.bs2UsesCloud || meta.bs2AppOutsideNetwork) {
+        newFeatures.remote = true;
+      }
+      if (meta.bs2AppOutsideNetwork) {
+        newFeatures.mobile = true;
+      }
+
       setFeatures(newFeatures);
     }
-  }, [meta.activationCode, meta.bs2TaLicense, meta.bs2VisitorLicense, inputs.scenario, inputs.activationCode, inputs.bs2TaLicense, inputs.bs2VisitorLicense]);
+  }, [meta.activationCode, meta.bs2TaLicense, meta.bs2VisitorLicense, meta.bs2UsesCloud, meta.bs2UsesApp, meta.bs2AppSameNetwork, meta.bs2AppOutsideNetwork, inputs.scenario, inputs.activationCode, inputs.bs2TaLicense, inputs.bs2VisitorLicense]);
 
   const handleGenerateReport = () => {
     if (!meta.projectName.trim()) {
@@ -243,6 +257,8 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
             onFeaturesChange={setFeatures}
             bs2VisitorLocked={inputs.scenario === 'migration' && !!meta.bs2VisitorLicense}
             bs2TnaLocked={inputs.scenario === 'migration' && !!meta.bs2TaLicense}
+            bs2MobileLocked={inputs.scenario === 'migration' && (!!meta.bs2UsesApp || !!meta.bs2AppSameNetwork || !!meta.bs2AppOutsideNetwork)}
+            bs2RemoteLocked={inputs.scenario === 'migration' && (!!meta.bs2UsesCloud || !!meta.bs2AppOutsideNetwork)}
           />
           
           <DeviceLicenses inputs={inputs} onChange={setInputs} />

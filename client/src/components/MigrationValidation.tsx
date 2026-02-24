@@ -16,8 +16,18 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
     onChange({ ...meta, [field]: value });
   };
 
+  const cloudAppEligible = ['BioStar2-Standard', 'BioStar2-Advanced', 'BioStar2-Professional', 'BioStar2-Enterprise'];
+  const showCloudApp = cloudAppEligible.includes(meta.activationCode);
+
   const handleTierChange = (val: string) => {
-    updateField('activationCode', val);
+    const newMeta = { ...meta, activationCode: val };
+    if (!cloudAppEligible.includes(val)) {
+      newMeta.bs2UsesCloud = false;
+      newMeta.bs2UsesApp = false;
+      newMeta.bs2AppSameNetwork = false;
+      newMeta.bs2AppOutsideNetwork = false;
+    }
+    onChange(newMeta);
   };
 
   return (
@@ -108,6 +118,72 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
           </div>
         </div>
       </div>
+      {showCloudApp && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mb-8 sm:mb-10 animate-fadeIn">
+          <div className="space-y-1">
+            <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest ml-1">
+              {t("migration.cloudAppLabel")}
+            </label>
+            <div className="pt-2 space-y-3">
+              <label className="flex items-center gap-3 cursor-pointer group">
+                <Checkbox
+                  checked={meta.bs2UsesCloud}
+                  onCheckedChange={(checked) => updateField('bs2UsesCloud', !!checked)}
+                  className="w-5 h-5 data-[state=checked]:bg-[#0047FF] data-[state=checked]:border-[#0047FF]"
+                  data-testid="checkbox-bs2-cloud"
+                />
+                <span className="text-sm font-bold text-foreground">
+                  {t("migration.usesCloud")}
+                </span>
+              </label>
+              <label className="flex items-center gap-3 cursor-pointer group">
+                <Checkbox
+                  checked={meta.bs2UsesApp}
+                  onCheckedChange={(checked) => {
+                    const newMeta = { ...meta, bs2UsesApp: !!checked };
+                    if (!checked) {
+                      newMeta.bs2AppSameNetwork = false;
+                      newMeta.bs2AppOutsideNetwork = false;
+                    }
+                    onChange(newMeta);
+                  }}
+                  className="w-5 h-5 data-[state=checked]:bg-[#0047FF] data-[state=checked]:border-[#0047FF]"
+                  data-testid="checkbox-bs2-app"
+                />
+                <span className="text-sm font-bold text-foreground">
+                  {t("migration.usesApp")}
+                </span>
+              </label>
+              {meta.bs2UsesApp && (
+                <div className="ml-8 space-y-2 animate-fadeIn">
+                  <label className="flex items-center gap-3 cursor-pointer group">
+                    <Checkbox
+                      checked={meta.bs2AppSameNetwork}
+                      onCheckedChange={(checked) => updateField('bs2AppSameNetwork', !!checked)}
+                      className="w-4 h-4 data-[state=checked]:bg-[#0047FF] data-[state=checked]:border-[#0047FF]"
+                      data-testid="checkbox-bs2-app-same-network"
+                    />
+                    <span className="text-sm text-foreground">
+                      {t("migration.appSameNetwork")}
+                    </span>
+                  </label>
+                  <label className="flex items-center gap-3 cursor-pointer group">
+                    <Checkbox
+                      checked={meta.bs2AppOutsideNetwork}
+                      onCheckedChange={(checked) => updateField('bs2AppOutsideNetwork', !!checked)}
+                      className="w-4 h-4 data-[state=checked]:bg-[#0047FF] data-[state=checked]:border-[#0047FF]"
+                      data-testid="checkbox-bs2-app-outside-network"
+                    />
+                    <span className="text-sm text-foreground">
+                      {t("migration.appOutsideNetwork")}
+                    </span>
+                  </label>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <FileUpload 
           label={t("migration.dashCapture")} 

@@ -14,6 +14,8 @@ interface FeaturesSectionProps {
   onFeaturesChange: (features: FeatureFlags) => void;
   bs2VisitorLocked?: boolean;
   bs2TnaLocked?: boolean;
+  bs2MobileLocked?: boolean;
+  bs2RemoteLocked?: boolean;
 }
 
 export function FeaturesSection({ 
@@ -22,7 +24,9 @@ export function FeaturesSection({
   onInputsChange, 
   onFeaturesChange,
   bs2VisitorLocked = false,
-  bs2TnaLocked = false
+  bs2TnaLocked = false,
+  bs2MobileLocked = false,
+  bs2RemoteLocked = false
 }: FeaturesSectionProps) {
   const { t } = useI18n();
   const { toast } = useToast();
@@ -39,6 +43,22 @@ export function FeaturesSection({
       toast({
         title: t("validation.cannotUncheck"),
         description: t("validation.tnaLockedByMigration"),
+        variant: "destructive"
+      });
+      return;
+    }
+    if (field === 'mobile' && !value && bs2MobileLocked) {
+      toast({
+        title: t("validation.cannotUncheck"),
+        description: t("validation.mobileLockedByMigration"),
+        variant: "destructive"
+      });
+      return;
+    }
+    if (field === 'remote' && !value && bs2RemoteLocked) {
+      toast({
+        title: t("validation.cannotUncheck"),
+        description: t("validation.remoteLockedByMigration"),
         variant: "destructive"
       });
       return;

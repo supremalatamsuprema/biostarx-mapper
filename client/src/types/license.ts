@@ -37,6 +37,10 @@ export interface ProjectMeta {
   versionFile: string;
   licenseFile: string;
   hardwareChecked: boolean;
+  bs2UsesCloud: boolean;
+  bs2UsesApp: boolean;
+  bs2AppSameNetwork: boolean;
+  bs2AppOutsideNetwork: boolean;
 }
 
 export interface ProjectInputs {
