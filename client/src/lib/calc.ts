@@ -188,7 +188,7 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
   let candidates = [...LICENSE_TIERS];
   if (isMigration) {
     if (isStarterNoMigration) {
-      candidates = candidates.filter(t => t.id !== 'BIOSTARX-DEV');
+      // BS2 Starter: allow Device Manager if client has 0 doors
     } else if (acMapping) {
       candidates = candidates.filter(t => t.id !== 'BIOSTARX-STR' && t.id !== 'BIOSTARX-DEV');
     }
