@@ -4,6 +4,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { useI18n } from "@/lib/i18n";
 import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
+import logoDarkImg from "@assets/Suprema_logo_basic_1771952357115.png";
 import bxLogo from "@assets/image_1769729328685.png";
 import type { ProjectInputs } from "@/types/license";
 
@@ -24,7 +25,12 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
         <img 
           src={logoImg} 
           alt="Suprema Logo"
-          className="h-5 sm:h-6 object-contain opacity-90" 
+          className="h-5 sm:h-6 object-contain opacity-90 dark:hidden" 
+        />
+        <img 
+          src={logoDarkImg} 
+          alt="Suprema Logo"
+          className="h-5 sm:h-6 object-contain opacity-90 hidden dark:block" 
         />
       </div>
       <div className="absolute top-4 right-4 z-20 flex items-center gap-2">

@@ -4,6 +4,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { useI18n } from "@/lib/i18n";
 import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
+import logoDarkImg from "@assets/Suprema_logo_basic_1771952357115.png";
 import { downloadCSV } from "@/lib/calc";
 import {
   DropdownMenu,
@@ -56,7 +57,12 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
           <img 
             src={logoImg} 
             alt="Suprema Logo"
-            className="h-5 sm:h-6 object-contain" 
+            className="h-5 sm:h-6 object-contain dark:hidden" 
+          />
+          <img 
+            src={logoDarkImg} 
+            alt="Suprema Logo"
+            className="h-5 sm:h-6 object-contain hidden dark:block" 
           />
         </a>
         <div className="h-6 sm:h-8 w-px bg-border hidden sm:block" />
