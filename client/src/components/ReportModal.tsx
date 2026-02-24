@@ -12,6 +12,7 @@ import { useState, useRef, useCallback } from "react";
 import { downloadCSV } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
 import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
+import biostarXLogo from "@assets/BioStar-X-LOGO2.png";
 import type { ProjectMeta, ProjectInputs, FeatureFlags, CalculatedBOM } from "@/types/license";
 
 interface ReportModalProps {
@@ -43,18 +44,52 @@ export function ReportModal({
   const handlePrint = useCallback(() => {
     const dialog = dialogRef.current;
     if (dialog) {
-      const scrollParent = dialog.closest('[role="dialog"]') || dialog;
-      scrollParent.scrollTop = 0;
+      const scrollParent = dialog.closest('[role="dialog"]') as HTMLElement;
+      const portal = dialog.closest('[data-radix-portal]') as HTMLElement;
       
-      const origMaxH = (scrollParent as HTMLElement).style.maxHeight;
-      const origOverflow = (scrollParent as HTMLElement).style.overflow;
-      (scrollParent as HTMLElement).style.maxHeight = 'none';
-      (scrollParent as HTMLElement).style.overflow = 'visible';
-      
+      if (scrollParent) {
+        scrollParent.scrollTop = 0;
+      }
+
+      const overlay = portal?.querySelector(':scope > [data-state]:not([role="dialog"])') as HTMLElement;
+      const origOverlayDisplay = overlay?.style.display;
+      if (overlay) {
+        overlay.style.display = 'none';
+      }
+
+      const origStyles: { el: HTMLElement; maxHeight: string; overflow: string; position: string; transform: string; inset: string; width: string; }[] = [];
+      if (scrollParent) {
+        origStyles.push({
+          el: scrollParent,
+          maxHeight: scrollParent.style.maxHeight,
+          overflow: scrollParent.style.overflow,
+          position: scrollParent.style.position,
+          transform: scrollParent.style.transform,
+          inset: scrollParent.style.inset,
+          width: scrollParent.style.width,
+        });
+        scrollParent.style.maxHeight = 'none';
+        scrollParent.style.overflow = 'visible';
+        scrollParent.style.position = 'static';
+        scrollParent.style.transform = 'none';
+        scrollParent.style.inset = 'auto';
+        scrollParent.style.width = '100%';
+      }
+
       requestAnimationFrame(() => {
         window.print();
-        (scrollParent as HTMLElement).style.maxHeight = origMaxH;
-        (scrollParent as HTMLElement).style.overflow = origOverflow;
+        
+        if (overlay) {
+          overlay.style.display = origOverlayDisplay || '';
+        }
+        origStyles.forEach(({ el, maxHeight, overflow, position, transform, inset, width }) => {
+          el.style.maxHeight = maxHeight;
+          el.style.overflow = overflow;
+          el.style.position = position;
+          el.style.transform = transform;
+          el.style.inset = inset;
+          el.style.width = width;
+        });
       });
     } else {
       window.print();
@@ -182,9 +217,16 @@ ${t("disclaimer.note")}
                 className="h-6" 
               />
               <div className="h-6 w-px bg-border" />
-              <span className="text-sm font-heading font-semibold uppercase tracking-tight">
-                {t("header.calculador")} de BioStar <span className="text-[#B12944] italic">X</span>
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-heading font-semibold uppercase tracking-tight">
+                  {t("header.calculador")}
+                </span>
+                <img
+                  src={biostarXLogo}
+                  alt="BioStar X Logo"
+                  className="h-5 object-contain"
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 print:gap-4">
