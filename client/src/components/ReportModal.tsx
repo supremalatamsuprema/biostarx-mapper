@@ -220,55 +220,42 @@ ${t("disclaimer.note")}
 
       await new Promise(r => setTimeout(r, 500));
 
-      const inlineAllComputedStyles = (root: HTMLElement) => {
-        root.querySelectorAll('*').forEach(el => {
-          const htmlEl = el as HTMLElement;
-          const computed = window.getComputedStyle(htmlEl);
-
-          if (computed.color === 'rgb(255, 255, 255)' || computed.color === 'rgba(255, 255, 255, 1)') {
-            const hasBg = computed.backgroundColor && computed.backgroundColor !== 'rgba(0, 0, 0, 0)' && computed.backgroundColor !== 'transparent';
-            if (!hasBg) {
-              htmlEl.style.color = 'hsl(0 0% 9%)';
-            }
+      clone.querySelectorAll('*').forEach(el => {
+        const htmlEl = el as HTMLElement;
+        const computed = window.getComputedStyle(htmlEl);
+        if (computed.color === 'rgb(255, 255, 255)' || computed.color === 'rgba(255, 255, 255, 1)') {
+          const hasBg = computed.backgroundColor && computed.backgroundColor !== 'rgba(0, 0, 0, 0)' && computed.backgroundColor !== 'transparent';
+          if (!hasBg) {
+            htmlEl.style.color = 'hsl(0 0% 9%)';
           }
+        }
+      });
 
-          if (computed.borderRadius !== '0px') {
-            htmlEl.style.borderRadius = computed.borderRadius;
-          }
-          if (computed.display.includes('flex') || computed.display.includes('inline-flex')) {
-            htmlEl.style.display = computed.display;
-            htmlEl.style.alignItems = computed.alignItems;
-            htmlEl.style.justifyContent = computed.justifyContent;
-            htmlEl.style.gap = computed.gap;
-            htmlEl.style.flexWrap = computed.flexWrap;
-            htmlEl.style.flexShrink = computed.flexShrink;
-          }
-          if (computed.whiteSpace === 'nowrap') {
-            htmlEl.style.whiteSpace = 'nowrap';
-          }
+      clone.querySelectorAll('.rounded-full').forEach(el => {
+        const htmlEl = el as HTMLElement;
+        const computed = window.getComputedStyle(htmlEl);
 
-          htmlEl.style.lineHeight = computed.lineHeight;
-          htmlEl.style.paddingTop = computed.paddingTop;
-          htmlEl.style.paddingBottom = computed.paddingBottom;
-          htmlEl.style.paddingLeft = computed.paddingLeft;
-          htmlEl.style.paddingRight = computed.paddingRight;
-          htmlEl.style.fontSize = computed.fontSize;
-          htmlEl.style.fontWeight = computed.fontWeight;
-          htmlEl.style.letterSpacing = computed.letterSpacing;
-          htmlEl.style.textTransform = computed.textTransform;
+        const svgs = htmlEl.querySelectorAll('svg');
+        svgs.forEach(svg => svg.remove());
 
-          if (computed.backgroundColor !== 'rgba(0, 0, 0, 0)' && computed.backgroundColor !== 'transparent') {
-            htmlEl.style.backgroundColor = computed.backgroundColor;
-          }
-          htmlEl.style.color = htmlEl.style.color || computed.color;
-          htmlEl.style.borderWidth = computed.borderWidth;
-          htmlEl.style.borderStyle = computed.borderStyle;
-          htmlEl.style.borderColor = computed.borderColor;
-          htmlEl.style.overflow = 'visible';
-        });
-      };
-
-      inlineAllComputedStyles(clone);
+        htmlEl.style.display = 'inline-block';
+        htmlEl.style.borderRadius = '9999px';
+        htmlEl.style.whiteSpace = 'nowrap';
+        htmlEl.style.textAlign = 'center';
+        htmlEl.style.verticalAlign = 'middle';
+        htmlEl.style.lineHeight = '2';
+        htmlEl.style.padding = '0 10px';
+        htmlEl.style.fontSize = computed.fontSize;
+        htmlEl.style.fontWeight = computed.fontWeight;
+        htmlEl.style.overflow = 'visible';
+        if (computed.backgroundColor !== 'rgba(0, 0, 0, 0)' && computed.backgroundColor !== 'transparent') {
+          htmlEl.style.backgroundColor = computed.backgroundColor;
+        }
+        htmlEl.style.color = computed.color;
+        htmlEl.style.borderWidth = computed.borderWidth;
+        htmlEl.style.borderStyle = computed.borderStyle;
+        htmlEl.style.borderColor = computed.borderColor;
+      });
 
       await new Promise(r => setTimeout(r, 200));
 
