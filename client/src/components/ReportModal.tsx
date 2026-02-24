@@ -377,15 +377,15 @@ ${t("disclaimer.note")}
                   <div className="grid grid-cols-3 gap-2 py-3 border-b border-dashed">
                     <div className="text-center">
                       <p className="text-[9px] font-semibold text-muted-foreground uppercase">{t("report.doors")}</p>
-                      <p className="text-base font-semibold" style={{ color: "#c9caca" }}>{calculatedBOM.selected.maxDoors}</p>
+                      <p className="text-base font-semibold tier-capacity-number">{calculatedBOM.selected.maxDoors}</p>
                     </div>
                     <div className="text-center">
                       <p className="text-[9px] font-semibold text-muted-foreground uppercase">{t("report.users")}</p>
-                      <p className="text-base font-semibold" style={{ color: "#c9caca" }}>{calculatedBOM.selected.maxUsers.toLocaleString()}</p>
+                      <p className="text-base font-semibold tier-capacity-number">{calculatedBOM.selected.maxUsers.toLocaleString()}</p>
                     </div>
                     <div className="text-center">
                       <p className="text-[9px] font-semibold text-muted-foreground uppercase">{t("report.operators")}</p>
-                      <p className="text-base font-semibold" style={{ color: "#c9caca" }}>{calculatedBOM.selected.maxOperators}</p>
+                      <p className="text-base font-semibold tier-capacity-number">{calculatedBOM.selected.maxOperators}</p>
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -448,15 +448,15 @@ ${t("disclaimer.note")}
                     <div className="grid grid-cols-3 gap-2 py-3 border-b border-dashed">
                       <div className="text-center">
                         <p className="text-[9px] font-bold text-muted-foreground uppercase">{t("report.doors")}</p>
-                        <p className="text-base font-black" style={{ color: "#c9caca" }}>{calculatedBOM.alternative.selected.maxDoors}</p>
+                        <p className="text-base font-black tier-capacity-number">{calculatedBOM.alternative.selected.maxDoors}</p>
                       </div>
                       <div className="text-center">
                         <p className="text-[9px] font-bold text-muted-foreground uppercase">{t("report.users")}</p>
-                        <p className="text-base font-black" style={{ color: "#c9caca" }}>{calculatedBOM.alternative.selected.maxUsers.toLocaleString()}</p>
+                        <p className="text-base font-black tier-capacity-number">{calculatedBOM.alternative.selected.maxUsers.toLocaleString()}</p>
                       </div>
                       <div className="text-center">
                         <p className="text-[9px] font-bold text-muted-foreground uppercase">{t("report.operators")}</p>
-                        <p className="text-base font-black" style={{ color: "#c9caca" }}>{calculatedBOM.alternative.selected.maxOperators}</p>
+                        <p className="text-base font-black tier-capacity-number">{calculatedBOM.alternative.selected.maxOperators}</p>
                       </div>
                     </div>
                     <div className="space-y-2">

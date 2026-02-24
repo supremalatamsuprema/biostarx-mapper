@@ -216,6 +216,10 @@
   }
 }
 
+.tier-capacity-number {
+  color: #c9caca;
+}
+
 @page {
   margin: 0 0 12mm 0;
 }
@@ -319,6 +323,50 @@
   img {
     max-width: 100% !important;
     page-break-inside: avoid;
+  }
+
+  .dark [data-radix-portal] [role="dialog"],
+  .dark .report-dialog-content,
+  .dark [data-radix-portal] {
+    --background: 0 0% 100% !important;
+    --foreground: 0 0% 9% !important;
+    --border: 0 0% 93% !important;
+    --card: 0 0% 98% !important;
+    --card-foreground: 0 0% 9% !important;
+    --card-border: 0 0% 95% !important;
+    --popover: 0 0% 94% !important;
+    --popover-foreground: 0 0% 9% !important;
+    --primary: 348 63% 43% !important;
+    --primary-foreground: 348 63% 98% !important;
+    --secondary: 0 0% 47% !important;
+    --secondary-foreground: 0 0% 100% !important;
+    --muted: 0 0% 92% !important;
+    --muted-foreground: 0 0% 35% !important;
+    --accent: 222 100% 50% !important;
+    --accent-foreground: 222 100% 98% !important;
+    --destructive: 0 84% 35% !important;
+    --destructive-foreground: 0 84% 98% !important;
+    --input: 0 0% 75% !important;
+    --ring: 348 63% 43% !important;
+    color: hsl(0 0% 9%) !important;
+    background: white !important;
+  }
+
+  .dark [data-radix-portal] [role="dialog"] *,
+  .dark .report-dialog-content * {
+    color: inherit;
+  }
+
+  .dark [data-radix-portal] .dark\:hidden {
+    display: block !important;
+  }
+
+  .dark [data-radix-portal] .hidden.dark\:block {
+    display: none !important;
+  }
+
+  .tier-capacity-number {
+    color: #888 !important;
   }
 }
 
