@@ -62,14 +62,9 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
       : false;
     bom.push({ id: selectedTier.id, name: `BioStar X ${selectedTier.name}`, qty: 1, foc: baseFoc || undefined });
 
-    if (selectedTier.id === 'BIOSTARX-ESS' && reqU > 1000) {
-      const uGap = reqU - 1000;
+    if (selectedTier.id !== 'BIOSTARX-STR' && reqU > selectedTier.maxUsers) {
+      const uGap = reqU - selectedTier.maxUsers;
       bom.push({ ...ADDONS.USR_UP, qty: Math.ceil(uGap / 5000) });
-    }
-
-    if (selectedTier.id === 'BIOSTARX-ADV' && reqU > 50000) {
-      const uGap = reqU - 50000;
-      bom.push({ ...ADDONS.USR_UP, qty: Math.ceil(uGap / 50000) });
     }
 
     if (selectedTier.id !== 'BIOSTARX-DEV') {
