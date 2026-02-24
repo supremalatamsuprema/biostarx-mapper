@@ -157,7 +157,7 @@ const translations = {
     alternativeOption: "Alternative Option",
     clientNote: "Client note",
     footer: "This email was sent from the BioStar X Calculator by Suprema.",
-    moreInfo: "For more information, contact",
+    moreInfo: "For more information, please contact your country sales representative.",
     disclaimer: "Notice: This tool is a presales guidance aid. Results require official Suprema validation before any purchase process.",
     notSpecified: "Not specified"
   },
@@ -357,7 +357,7 @@ export async function registerRoutes(
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e5e5; text-align: center; color: #666; font-size: 12px;">
             <p>
               ${t.footer}<br>
-              ${t.moreInfo} <a href="mailto:latam@supremainc.com" style="color: #B12944;">latam@supremainc.com</a>
+              ${language === 'en' ? t.moreInfo : `${t.moreInfo} <a href="mailto:latam@supremainc.com" style="color: #B12944;">latam@supremainc.com</a>`}
             </p>
             <p style="margin-top: 15px;">
               <em>${t.disclaimer}</em>
