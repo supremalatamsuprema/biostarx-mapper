@@ -227,7 +227,15 @@
     visibility: visible !important;
   }
 
-  [data-radix-portal] > [data-state="open"]:not([role="dialog"]) {
+  [data-radix-portal] > [data-state]:not([role="dialog"]) {
+    display: none !important;
+  }
+
+  [class*="bg-black"] {
+    background: transparent !important;
+  }
+
+  .fixed.inset-0 {
     display: none !important;
   }
 
