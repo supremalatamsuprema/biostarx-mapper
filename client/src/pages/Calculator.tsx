@@ -166,7 +166,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
       }
 
       const taMapping = meta.bs2TaLicense ? (MIGRATION_MAPPING.TA as any)[meta.bs2TaLicense] : null;
-      if (meta.bs2TaLicense && taMapping && !taMapping.noMigration) {
+      if (meta.bs2TaLicense && taMapping) {
         newFeatures.tna = true;
       } else if (!meta.bs2TaLicense) {
         newFeatures.tna = false;
@@ -242,7 +242,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
             onInputsChange={setInputs}
             onFeaturesChange={setFeatures}
             bs2VisitorLocked={inputs.scenario === 'migration' && !!meta.bs2VisitorLicense}
-            bs2TnaLocked={inputs.scenario === 'migration' && !!meta.bs2TaLicense && !(MIGRATION_MAPPING.TA as any)[meta.bs2TaLicense]?.noMigration}
+            bs2TnaLocked={inputs.scenario === 'migration' && !!meta.bs2TaLicense}
           />
           
           <DeviceLicenses inputs={inputs} onChange={setInputs} />
