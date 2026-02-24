@@ -93,7 +93,6 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
     if (isMigration && acMapping && !isStarterNoMigration && acMapping.addons) {
       acMapping.addons.forEach((addonKey: string) => {
         if (addonKey === 'ADV_AC') {
-          if (selectedTier.id === 'BIOSTARX-ENT' || selectedTier.id === 'BIOSTARX-ELT') return;
           const existing = bom.find(b => b.id === ADDONS.ADV_AC.id);
           if (existing) {
             existing.foc = true;
@@ -103,8 +102,13 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
           return;
         }
         const addon = (ADDONS as any)[addonKey];
-        if (addon && !bom.find(b => b.id === addon.id)) {
-          bom.push({ ...addon, qty: 1, foc: true });
+        if (addon) {
+          const existing = bom.find(b => b.id === addon.id);
+          if (existing) {
+            existing.foc = true;
+          } else {
+            bom.push({ ...addon, qty: 1, foc: true });
+          }
         }
       });
     }
