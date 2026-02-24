@@ -228,6 +228,25 @@ ${t("disclaimer.note")}
         }
       });
 
+      const badgeFixStyle = document.createElement('style');
+      badgeFixStyle.textContent = `
+        .rounded-full {
+          border-radius: 9999px !important;
+          white-space: nowrap !important;
+          line-height: 1.2 !important;
+          overflow: visible !important;
+          padding: 4px 8px !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          gap: 4px !important;
+          box-decoration-break: clone !important;
+        }
+        .flex-shrink-0 {
+          flex-shrink: 0 !important;
+        }
+      `;
+      wrapper.appendChild(badgeFixStyle);
+
       Array.from(document.styleSheets).forEach(sheet => {
         try {
           Array.from(sheet.cssRules).forEach(rule => {
