@@ -397,8 +397,8 @@ export const translations: Record<Language, Record<string, string>> = {
     "report.noSpec": "Not specified",
     
     "report.purchaseNote": "Below, we share the corresponding part codes for the consideration of BioStar X purchase. These codes will allow you to correctly identify the necessary licenses and components according to the project configuration.",
-    "report.contactNote": "For any questions, validation, or follow-up on the purchase process, please contact our LATAM team at",
-    "report.supportNote": "who will gladly provide the necessary support.",
+    "report.contactNote": "For any questions, validation, or follow-up on the purchase process, please contact your country sales representative, who will gladly provide the necessary support.",
+    "report.supportNote": "",
     "report.closingNote": "We remain attentive to accompany you in the process.",
     
     "disclaimer.title": "Legal Notice",

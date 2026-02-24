@@ -653,15 +653,21 @@ ${t("disclaimer.note")}
               </p>
               <div className="mt-4 pt-4 border-t border-[#0047FF]/10">
                 <p className="text-xs text-foreground leading-relaxed">
-                  {t("report.contactNote")}{' '}
-                  <a href="mailto:latam@supremainc.com" className="text-[#0047FF] font-bold hover:underline">latam@supremainc.com</a>, {t("report.supportNote")}
+                  {t("report.contactNote")}
+                  {language !== 'en' && (
+                    <>
+                      {' '}<a href="mailto:latam@supremainc.com" className="text-[#0047FF] font-bold hover:underline">latam@supremainc.com</a>, {t("report.supportNote")}
+                    </>
+                  )}
                 </p>
                 <p className="text-xs text-foreground leading-relaxed mt-3 font-semibold">
                   {t("report.closingNote")}
                 </p>
-                <p className="text-sm text-[#B12944] font-semibold mt-2 uppercase tracking-tighter">
-                  Suprema LATAM — latam@supremainc.com
-                </p>
+                {language !== 'en' && (
+                  <p className="text-sm text-[#B12944] font-semibold mt-2 uppercase tracking-tighter">
+                    Suprema LATAM — latam@supremainc.com
+                  </p>
+                )}
               </div>
             </div>
 
