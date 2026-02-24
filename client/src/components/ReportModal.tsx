@@ -12,6 +12,7 @@ import { useState, useRef, useCallback } from "react";
 import { downloadCSV } from "@/lib/calc";
 import { useI18n } from "@/lib/i18n";
 import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
+import logoDarkImg from "@assets/Suprema_logo_basic_1771952357115.png";
 import biostarXLogo from "@assets/BioStar-X-LOGO2.png";
 import type { ProjectMeta, ProjectInputs, FeatureFlags, CalculatedBOM } from "@/types/license";
 
@@ -226,7 +227,12 @@ ${t("disclaimer.note")}
               <img 
                 src={logoImg} 
                 alt="Suprema Logo"
-                className="h-6" 
+                className="h-6 dark:hidden" 
+              />
+              <img 
+                src={logoDarkImg} 
+                alt="Suprema Logo"
+                className="h-6 hidden dark:block" 
               />
               <div className="h-6 w-px bg-border" />
               <div className="flex items-center gap-2">
