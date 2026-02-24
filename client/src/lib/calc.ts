@@ -219,8 +219,12 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
   }
 
   let alternative: CalculatedBOM['alternative'] | undefined;
-  
-  if (selected.id !== 'BIOSTARX-STR' && selected.id !== 'BIOSTARX-DEV') {
+
+  const recommendedBom = getBomForTier(selected);
+  const migrationCoversAll = isMigration && acMapping && !isStarterNoMigration &&
+    recommendedBom.every(item => item.foc || item.qty === 0);
+
+  if (!migrationCoversAll && selected.id !== 'BIOSTARX-STR' && selected.id !== 'BIOSTARX-DEV') {
     const currentIndex = candidates.findIndex(t => t.id === selected.id);
     if (currentIndex > 0) {
       const lowerTier = candidates[currentIndex - 1];
@@ -301,7 +305,7 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
   }
 
   return { 
-    bom: getBomForTier(selected), 
+    bom: recommendedBom, 
     selected,
     alternative,
     ...(migrationNotes.length > 0 ? { migrationNotes } : {})
