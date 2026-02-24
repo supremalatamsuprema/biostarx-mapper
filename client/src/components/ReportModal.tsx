@@ -196,16 +196,14 @@ ${t("disclaimer.note")}
 
       const wrapper = document.createElement('div');
       wrapper.style.cssText = `
-        position: fixed;
-        left: 0;
+        position: absolute;
+        left: -9999px;
         top: 0;
         width: ${a4WidthPx}px;
         background: white;
         color: hsl(0 0% 9%);
-        z-index: -9999;
+        z-index: -1;
         overflow: visible;
-        visibility: visible;
-        opacity: 1;
       `;
       Object.entries(lightVars).forEach(([k, v]) => wrapper.style.setProperty(k, v));
 
