@@ -14,6 +14,7 @@ import { useI18n } from "@/lib/i18n";
 import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
 import logoDarkImg from "@assets/Suprema_logo_basic_1771952357115.png";
 import biostarXLogo from "@assets/BioStar-X-LOGO2.png";
+import biostarXLogoDark from "@assets/BioStar-X_Signature_Horizontal-Combination_Negative_1771953390233.png";
 import type { ProjectMeta, ProjectInputs, FeatureFlags, CalculatedBOM } from "@/types/license";
 
 interface ReportModalProps {
@@ -242,7 +243,12 @@ ${t("disclaimer.note")}
                 <img
                   src={biostarXLogo}
                   alt="BioStar X Logo"
-                  className="h-5 object-contain"
+                  className="h-5 object-contain dark:hidden"
+                />
+                <img
+                  src={biostarXLogoDark}
+                  alt="BioStar X Logo"
+                  className="h-5 object-contain hidden dark:block"
                 />
               </div>
             </div>

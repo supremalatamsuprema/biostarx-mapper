@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { CalculatedBOM, ProjectMeta, ProjectInputs } from "@/types/license";
 import BioStar_X_LOGO2 from "@assets/BioStar-X-LOGO2.png";
+import BioStar_X_LOGO_Dark from "@assets/BioStar-X_Signature_Horizontal-Combination_Negative_1771953390233.png";
 
 interface HeaderProps {
   scenario: ProjectInputs['scenario'];
@@ -73,7 +74,12 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
           <img 
             src={BioStar_X_LOGO2} 
             alt="BioStar X Logo"
-            className="h-5 sm:h-6 object-contain" 
+            className="h-5 sm:h-6 object-contain dark:hidden" 
+          />
+          <img 
+            src={BioStar_X_LOGO_Dark} 
+            alt="BioStar X Logo"
+            className="h-5 sm:h-6 object-contain hidden dark:block" 
           />
         </div>
       </div>

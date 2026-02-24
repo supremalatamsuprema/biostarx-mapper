@@ -11,6 +11,7 @@ import type { ProjectInputs } from "@/types/license";
 import BioStar_X_LOGO from "@assets/BioStar-X-LOGO.png";
 
 import BioStar_X_LOGO2 from "@assets/BioStar-X-LOGO2.png";
+import BioStar_X_LOGO_Dark from "@assets/BioStar-X_Signature_Horizontal-Combination_Negative_1771953390233.png";
 
 interface LandingPageProps {
   onSelectScenario: (scenario: ProjectInputs['scenario']) => void;
@@ -49,7 +50,12 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
             <img 
               src={BioStar_X_LOGO2} 
               alt="BioStar X Logo"
-              className="h-[2.5em] sm:h-[3em] lg:h-[3.5em] w-auto object-contain" 
+              className="h-[2.5em] sm:h-[3em] lg:h-[3.5em] w-auto object-contain dark:hidden" 
+            />
+            <img 
+              src={BioStar_X_LOGO_Dark} 
+              alt="BioStar X Logo"
+              className="h-[2.5em] sm:h-[3em] lg:h-[3.5em] w-auto object-contain hidden dark:block" 
             />
           </div>
           <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-5xl mx-auto text-justify" style={{ fontWeight: 300 }}>
