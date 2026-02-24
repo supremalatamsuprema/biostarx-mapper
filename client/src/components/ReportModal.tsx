@@ -509,7 +509,7 @@ ${t("disclaimer.note")}
                   {activeFeatures.map(feature => (
                     <span 
                       key={feature}
-                      className="px-3 py-1 bg-[#B12944]/10 text-[#B12944] rounded-full text-[10px] font-semibold uppercase tracking-wider"
+                      className="px-3 py-1.5 bg-[#B12944]/10 text-[#B12944] rounded-full text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap leading-none"
                     >
                       {feature}
                     </span>
@@ -555,19 +555,19 @@ ${t("disclaimer.note")}
                         <span className="text-muted-foreground font-medium">
                           {item.name} <span className="text-[10px] font-mono opacity-50 ml-1">({item.id})</span>
                           {item.foc && (
-                            <span className="ml-2 inline-flex items-center gap-0.5 text-[9px] font-bold text-emerald-700 bg-emerald-500/15 px-1.5 py-0.5 rounded-full border border-emerald-500/30">
-                              <Gift className="w-2.5 h-2.5" />
+                            <span className="ml-2 inline-flex items-center gap-1 text-[9px] font-bold text-emerald-700 bg-emerald-500/15 px-2 py-1 rounded-full border border-emerald-500/30 whitespace-nowrap leading-none">
+                              <Gift className="w-2.5 h-2.5 flex-shrink-0" />
                               {t("bom.focLong")}
                             </span>
                           )}
                           {!item.foc && isMigration && (
-                            <span className="ml-2 inline-flex items-center gap-0.5 text-[9px] font-bold text-amber-700 bg-amber-500/15 px-1.5 py-0.5 rounded-full border border-amber-500/30">
-                              <DollarSign className="w-2.5 h-2.5" />
+                            <span className="ml-2 inline-flex items-center gap-1 text-[9px] font-bold text-amber-700 bg-amber-500/15 px-2 py-1 rounded-full border border-amber-500/30 whitespace-nowrap leading-none">
+                              <DollarSign className="w-2.5 h-2.5 flex-shrink-0" />
                               {t("bom.withCostLong")}
                             </span>
                           )}
                         </span>
-                        <span className="font-bold bg-[#a12944] text-white px-3 py-0.5 rounded-full text-xs">x{item.qty}</span>
+                        <span className="font-bold bg-[#a12944] text-white px-3 py-1 rounded-full text-xs whitespace-nowrap leading-none">x{item.qty}</span>
                       </div>
                     ))}
                   </div>
@@ -626,19 +626,19 @@ ${t("disclaimer.note")}
                           <span className="text-muted-foreground font-medium">
                             {item.name} <span className="text-[10px] font-mono opacity-50 ml-1">({item.id})</span>
                             {item.foc && (
-                              <span className="ml-2 inline-flex items-center gap-0.5 text-[9px] font-bold text-emerald-700 bg-emerald-500/15 px-1.5 py-0.5 rounded-full border border-emerald-500/30">
-                                <Gift className="w-2.5 h-2.5" />
+                              <span className="ml-2 inline-flex items-center gap-1 text-[9px] font-bold text-emerald-700 bg-emerald-500/15 px-2 py-1 rounded-full border border-emerald-500/30 whitespace-nowrap leading-none">
+                                <Gift className="w-2.5 h-2.5 flex-shrink-0" />
                                 {t("bom.focLong")}
                               </span>
                             )}
                             {!item.foc && isMigration && (
-                              <span className="ml-2 inline-flex items-center gap-0.5 text-[9px] font-bold text-amber-700 bg-amber-500/15 px-1.5 py-0.5 rounded-full border border-amber-500/30">
-                                <DollarSign className="w-2.5 h-2.5" />
+                              <span className="ml-2 inline-flex items-center gap-1 text-[9px] font-bold text-amber-700 bg-amber-500/15 px-2 py-1 rounded-full border border-amber-500/30 whitespace-nowrap leading-none">
+                                <DollarSign className="w-2.5 h-2.5 flex-shrink-0" />
                                 {t("bom.withCostLong")}
                               </span>
                             )}
                           </span>
-                          <span className="font-bold bg-muted-foreground/20 text-foreground px-3 py-0.5 rounded-full text-xs">x{item.qty}</span>
+                          <span className="font-bold bg-muted-foreground/20 text-foreground px-3 py-1 rounded-full text-xs whitespace-nowrap leading-none">x{item.qty}</span>
                         </div>
                       ))}
                     </div>
@@ -699,14 +699,14 @@ ${t("disclaimer.note")}
                             <td className="py-3 text-xs font-bold text-right">{item.qty}</td>
                             <td className="py-3 text-right">
                               {item.foc && (
-                                <span className="inline-flex items-center gap-0.5 text-[8px] font-bold text-emerald-700 bg-emerald-500/15 px-1.5 py-0.5 rounded-full border border-emerald-500/30">
-                                  <Gift className="w-2.5 h-2.5" />
+                                <span className="inline-flex items-center gap-1 text-[8px] font-bold text-emerald-700 bg-emerald-500/15 px-2 py-1 rounded-full border border-emerald-500/30 whitespace-nowrap leading-none">
+                                  <Gift className="w-2.5 h-2.5 flex-shrink-0" />
                                   {t("bom.focLong")}
                                 </span>
                               )}
                               {!item.foc && isMigration && (
-                                <span className="inline-flex items-center gap-0.5 text-[8px] font-bold text-amber-700 bg-amber-500/15 px-1.5 py-0.5 rounded-full border border-amber-500/30">
-                                  <DollarSign className="w-2.5 h-2.5" />
+                                <span className="inline-flex items-center gap-1 text-[8px] font-bold text-amber-700 bg-amber-500/15 px-2 py-1 rounded-full border border-amber-500/30 whitespace-nowrap leading-none">
+                                  <DollarSign className="w-2.5 h-2.5 flex-shrink-0" />
                                   {t("bom.withCostLong")}
                                 </span>
                               )}
@@ -742,14 +742,14 @@ ${t("disclaimer.note")}
                               <td className="py-3 text-xs font-bold text-right">{item.qty}</td>
                               <td className="py-3 text-right">
                                 {item.foc && (
-                                  <span className="inline-flex items-center gap-0.5 text-[8px] font-bold text-emerald-700 bg-emerald-500/15 px-1.5 py-0.5 rounded-full border border-emerald-500/30">
-                                    <Gift className="w-2.5 h-2.5" />
+                                  <span className="inline-flex items-center gap-1 text-[8px] font-bold text-emerald-700 bg-emerald-500/15 px-2 py-1 rounded-full border border-emerald-500/30 whitespace-nowrap leading-none">
+                                    <Gift className="w-2.5 h-2.5 flex-shrink-0" />
                                     {t("bom.focLong")}
                                   </span>
                                 )}
                                 {!item.foc && isMigration && (
-                                  <span className="inline-flex items-center gap-0.5 text-[8px] font-bold text-amber-700 bg-amber-500/15 px-1.5 py-0.5 rounded-full border border-amber-500/30">
-                                    <DollarSign className="w-2.5 h-2.5" />
+                                  <span className="inline-flex items-center gap-1 text-[8px] font-bold text-amber-700 bg-amber-500/15 px-2 py-1 rounded-full border border-amber-500/30 whitespace-nowrap leading-none">
+                                    <DollarSign className="w-2.5 h-2.5 flex-shrink-0" />
                                     {t("bom.withCostLong")}
                                   </span>
                                 )}
