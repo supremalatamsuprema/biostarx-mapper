@@ -84,7 +84,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
           </div>
 
           <div 
-            className="group backdrop-blur-sm p-6 sm:p-8 rounded-xl border border-border/50 cursor-pointer flex flex-col items-center text-center hover-elevate transition-all duration-300 hover:border-primary/20 bg-[#efefef] text-[#171717]"
+            className="group backdrop-blur-sm p-6 sm:p-8 rounded-xl border border-border/50 cursor-pointer flex flex-col items-center text-center hover-elevate transition-all duration-300 hover:border-primary/20 text-[#171717] bg-[#78787a]"
             onClick={() => onSelectScenario('migration')}
             data-testid="card-migration"
           >

@@ -9,7 +9,8 @@ import { Button } from "@/components/ui/button";
 import { PillButton } from "@/components/ui/pill-button";
 import { Printer, Copy, X, CheckCircle, Download, Package, Mail, Gift, DollarSign, AlertTriangle } from "lucide-react";
 import { useState, useRef, useCallback } from "react";
-import { downloadCSV } from "@/lib/calc";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 import { useI18n } from "@/lib/i18n";
 import logoImg from "@assets/m_logo_Suprema_1768527453302.png";
 import logoDarkImg from "@assets/Suprema_logo_basic_1771952357115.png";
@@ -147,15 +148,108 @@ ${t("disclaimer.note")}
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleExportCSV = () => {
-    downloadCSV({
-      projectName: meta.projectName,
-      client: meta.client,
-      tierName: selected.name,
-      bom,
-      alternative: calculatedBOM.alternative?.bom,
-      alternativeTierName: calculatedBOM.alternative?.selected.name
-    });
+  const [generating, setGenerating] = useState(false);
+
+  const handleDownloadPDF = async () => {
+    if (!dialogRef.current || generating) return;
+    setGenerating(true);
+    try {
+      const element = dialogRef.current;
+      const scrollParent = element.parentElement;
+      const prevOverflow = scrollParent?.style.overflow || '';
+      const prevMaxHeight = scrollParent?.style.maxHeight || '';
+      if (scrollParent) {
+        scrollParent.style.overflow = 'visible';
+        scrollParent.style.maxHeight = 'none';
+      }
+
+      const buttons = element.querySelectorAll('.print\\:hidden');
+      buttons.forEach(el => (el as HTMLElement).style.display = 'none');
+
+      const isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        element.style.setProperty('--background', '0 0% 100%');
+        element.style.setProperty('--foreground', '0 0% 3.9%');
+        element.style.setProperty('--muted-foreground', '0 0% 45.1%');
+        element.style.setProperty('--border', '0 0% 89.8%');
+        element.style.setProperty('--card', '0 0% 100%');
+        element.style.setProperty('--card-foreground', '0 0% 3.9%');
+        element.style.setProperty('--muted', '0 0% 96.1%');
+        element.style.backgroundColor = 'white';
+        element.style.color = 'black';
+
+        const darkLogos = element.querySelectorAll('.dark\\:block');
+        const lightLogos = element.querySelectorAll('.dark\\:hidden');
+        darkLogos.forEach(el => (el as HTMLElement).style.display = 'none');
+        lightLogos.forEach(el => (el as HTMLElement).style.display = 'block');
+
+        const capacityNums = element.querySelectorAll('.tier-capacity-number');
+        capacityNums.forEach(el => (el as HTMLElement).style.color = '#888');
+      }
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+      });
+
+      if (isDark) {
+        element.style.removeProperty('--background');
+        element.style.removeProperty('--foreground');
+        element.style.removeProperty('--muted-foreground');
+        element.style.removeProperty('--border');
+        element.style.removeProperty('--card');
+        element.style.removeProperty('--card-foreground');
+        element.style.removeProperty('--muted');
+        element.style.backgroundColor = '';
+        element.style.color = '';
+
+        const darkLogos = element.querySelectorAll('.dark\\:block');
+        const lightLogos = element.querySelectorAll('.dark\\:hidden');
+        darkLogos.forEach(el => (el as HTMLElement).style.display = '');
+        lightLogos.forEach(el => (el as HTMLElement).style.display = '');
+
+        const capacityNums = element.querySelectorAll('.tier-capacity-number');
+        capacityNums.forEach(el => (el as HTMLElement).style.color = '');
+      }
+
+      buttons.forEach(el => (el as HTMLElement).style.display = '');
+
+      if (scrollParent) {
+        scrollParent.style.overflow = prevOverflow;
+        scrollParent.style.maxHeight = prevMaxHeight;
+      }
+
+      const imgWidth = 210;
+      const pageHeight = 297;
+      const margin = 10;
+      const contentWidth = imgWidth - margin * 2;
+      const imgHeight = (canvas.height * contentWidth) / canvas.width;
+
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      let heightLeft = imgHeight;
+      let position = margin;
+      const imgData = canvas.toDataURL('image/png');
+
+      pdf.addImage(imgData, 'PNG', margin, position, contentWidth, imgHeight);
+      heightLeft -= (pageHeight - margin * 2);
+
+      while (heightLeft > 0) {
+        position = position - (pageHeight - margin * 2);
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', margin, position, contentWidth, imgHeight);
+        heightLeft -= (pageHeight - margin * 2);
+      }
+
+      const fileName = `BioStarX_${meta.projectName || 'Report'}_${new Date().toISOString().split('T')[0]}.pdf`;
+      pdf.save(fileName);
+    } catch (error) {
+      console.error('PDF generation failed:', error);
+    } finally {
+      setGenerating(false);
+    }
   };
 
   const activeFeatures = Object.entries(features)
@@ -186,9 +280,10 @@ ${t("disclaimer.note")}
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={handleExportCSV}
+                  onClick={handleDownloadPDF}
+                  disabled={generating}
                   className="rounded-full"
-                  data-testid="button-export-csv"
+                  data-testid="button-export-pdf"
                 >
                   <Download className="w-4 h-4" />
                 </Button>

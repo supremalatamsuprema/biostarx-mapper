@@ -52,7 +52,8 @@ Preferred communication style: Simple, everyday language.
 - **Design compliance**: All components use rounded-md, hover-elevate utility for interactions, no custom hover states on buttons/interactive elements
 - **Dark/Light mode**: ThemeToggle component with localStorage persistence ('biostarx-theme') and system preference detection
 - **Draft persistence**: Auto-save project data to localStorage ('biostarx-draft') to prevent data loss on reload
-- **CSV Export**: BOM can be exported as CSV with project metadata headers from both sidebar and report modal
+- **PDF Export**: Report modal "Download" button generates a PDF file using html2canvas + jsPDF (captures full report content with light-theme colors regardless of current theme)
+- **CSV Export**: BOM can be exported as CSV with project metadata headers from the sidebar
 - **Tier change animation**: Visual pulse effect when recommended license tier changes
 - **Multi-language support (i18n)**: Full translation support for Spanish, English, and Brazilian Portuguese
   - **Implementation**: React Context API with I18nProvider and useI18n hook (`client/src/lib/i18n.tsx`)
