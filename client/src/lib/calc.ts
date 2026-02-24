@@ -226,16 +226,25 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
 
   if (!migrationCoversAll && selected.id !== 'BIOSTARX-STR' && selected.id !== 'BIOSTARX-DEV') {
     const currentIndex = candidates.findIndex(t => t.id === selected.id);
-    if (currentIndex > 0) {
-      const lowerTier = candidates[currentIndex - 1];
-      const isUpgradable = lowerTier.id !== 'BIOSTARX-STR' && lowerTier.id !== 'BIOSTARX-DEV';
-      if (isUpgradable) {
-        alternative = {
-          selected: lowerTier,
-          bom: getBomForTier(lowerTier),
-          reason: "Costo optimizado mediante paquetes de expansión"
-        };
+    let altTier: LicenseTier | undefined;
+    for (let i = currentIndex - 1; i >= 0; i--) {
+      const candidate = candidates[i];
+      if (candidate.id === 'BIOSTARX-STR') continue;
+      if (candidate.id === 'BIOSTARX-DEV') {
+        if (isStarterNoMigration && reqD === 0) {
+          altTier = candidate;
+        }
+        break;
       }
+      altTier = candidate;
+      break;
+    }
+    if (altTier) {
+      alternative = {
+        selected: altTier,
+        bom: getBomForTier(altTier),
+        reason: "Costo optimizado mediante paquetes de expansión"
+      };
     }
   }
 
