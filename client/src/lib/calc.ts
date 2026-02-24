@@ -93,6 +93,7 @@ export function calculateBOM(inputs: ProjectInputs, features: FeatureFlags): Cal
     if (isMigration && acMapping && !isStarterNoMigration && acMapping.addons) {
       acMapping.addons.forEach((addonKey: string) => {
         if (addonKey === 'ADV_AC') {
+          if (selectedTier.id === 'BIOSTARX-ENT' || selectedTier.id === 'BIOSTARX-ELT') return;
           const existing = bom.find(b => b.id === ADDONS.ADV_AC.id);
           if (existing) {
             existing.foc = true;
