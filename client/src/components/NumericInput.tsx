@@ -20,10 +20,12 @@ export function NumericInput({
   max,
   className 
 }: NumericInputProps) {
-  const [display, setDisplay] = useState(value === 0 ? '' : value.toString());
+  const safeValue = value ?? 0;
+  const [display, setDisplay] = useState(safeValue === 0 ? '' : safeValue.toString());
   
   useEffect(() => { 
-    setDisplay(value === 0 ? '' : value.toString()); 
+    const v = value ?? 0;
+    setDisplay(v === 0 ? '' : v.toString()); 
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

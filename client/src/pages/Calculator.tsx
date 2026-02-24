@@ -69,7 +69,7 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     hardwareChecked: false
   });
 
-  const [inputs, setInputs] = useState<ProjectInputs>(draft?.inputs || {
+  const [inputs, setInputs] = useState<ProjectInputs>({
     scenario,
     users: 0,
     doors: 0,
@@ -79,10 +79,11 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     qr: 0,
     wireless: 0,
     tnaUsers: 0,
-    mcsServers: 0
+    mcsServers: 0,
+    ...(draft?.inputs || {})
   });
 
-  const [features, setFeatures] = useState<FeatureFlags>(draft?.features || {
+  const [features, setFeatures] = useState<FeatureFlags>({
     globalApb: false,
     fire: false,
     elevator: false,
@@ -100,7 +101,8 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     gis: false,
     serverMatching: false,
     rollCall: false,
-    plugin: false
+    plugin: false,
+    ...(draft?.features || {})
   });
 
   useEffect(() => {
