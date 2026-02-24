@@ -389,7 +389,7 @@ ${t("disclaimer.note")}
                             </span>
                           )}
                         </span>
-                        <span className="font-bold bg-primary text-white px-3 py-0.5 rounded-full text-xs">x{item.qty}</span>
+                        <span className="font-bold bg-[#a12944] text-white px-3 py-0.5 rounded-full text-xs">x{item.qty}</span>
                       </div>
                     ))}
                   </div>
