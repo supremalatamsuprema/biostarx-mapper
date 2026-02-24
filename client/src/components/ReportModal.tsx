@@ -104,8 +104,8 @@ ${t("disclaimer.note")}
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto rounded-md p-0 print:max-w-none print:h-auto print:overflow-visible">
-        <div className="p-6 sm:p-8 print:p-4">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto rounded-md p-0 print:max-w-none print:max-h-none print:h-auto print:overflow-visible">
+        <div className="p-6 sm:p-8 print:p-6 print:pt-2">
           <DialogHeader className="mb-6 print:mb-4">
             <div className="flex items-center justify-between">
               <DialogTitle className="text-2xl sm:text-3xl font-heading font-semibold">
@@ -280,9 +280,9 @@ ${t("disclaimer.note")}
             )}
 
             {/* Comparativa de Opciones */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10 print:grid-cols-1 print:gap-6">
               {/* Opción Principal - Resaltada */}
-              <div className="border-2 border-primary rounded-xl overflow-hidden bg-white shadow-md ring-2 ring-primary/20 ring-offset-2">
+              <div className="border-2 border-primary rounded-xl overflow-hidden bg-white shadow-md ring-2 ring-primary/20 ring-offset-2 print:break-inside-avoid">
                 <div className="bg-primary p-4 border-b border-primary/10">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
@@ -338,7 +338,7 @@ ${t("disclaimer.note")}
               {calculatedBOM.migrationNotes && calculatedBOM.migrationNotes.length > 0 && (
                 <div className="col-span-full space-y-2">
                   {calculatedBOM.migrationNotes.map((note, idx) => (
-                    <div key={idx} className="flex gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                    <div key={idx} className="flex gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 print:break-inside-avoid">
                       <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                       <p className="text-xs leading-relaxed text-amber-800 font-medium">
                         {t(note.messageKey)}
@@ -350,7 +350,7 @@ ${t("disclaimer.note")}
 
               {/* Opción Alternativa */}
               {calculatedBOM.alternative && (
-                <div className="border-2 border-[#0047FF]/20 rounded-xl overflow-hidden bg-white shadow-sm self-start">
+                <div className="border-2 border-[#0047FF]/20 rounded-xl overflow-hidden bg-white shadow-sm self-start print:break-inside-avoid">
                   <div className="bg-[#0047FF]/5 p-4 border-b border-[#0047FF]/10">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-[#0047FF]/10 flex items-center justify-center">
@@ -408,7 +408,7 @@ ${t("disclaimer.note")}
               )}
             </div>
 
-            <div className="p-4 bg-[#0047FF]/5 rounded-md border border-[#0047FF]/20">
+            <div className="p-4 bg-[#0047FF]/5 rounded-md border border-[#0047FF]/20 print:break-inside-avoid">
               <p className="text-xs text-foreground leading-relaxed">
                 {t("report.purchaseNote")}
               </p>
@@ -436,7 +436,7 @@ ${t("disclaimer.note")}
                   <h5 className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-3">
                     {t("report.bomRecommended")} (BioStar X {calculatedBOM.selected.name})
                   </h5>
-                  <div className="overflow-x-auto">
+                  <div className="overflow-x-auto print:overflow-visible">
                     <table className="w-full">
                       <thead>
                         <tr className="border-b border-border">
@@ -479,7 +479,7 @@ ${t("disclaimer.note")}
                     <h5 className="text-[10px] font-semibold text-[#0047FF] uppercase tracking-widest mb-3">
                       {t("report.bomOptimized")} (BioStar X {calculatedBOM.alternative.selected.name})
                     </h5>
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto print:overflow-visible">
                       <table className="w-full">
                         <thead>
                           <tr className="border-b border-border">
