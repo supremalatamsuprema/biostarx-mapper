@@ -286,29 +286,18 @@ ${t("disclaimer.note")}
       const footerMm = 12;
       const contentWidthMm = imgWidthMm - marginMm * 2;
       const pageContentHeightMm = pageHeightMm - marginMm * 2 - footerMm;
-      const overlapMm = 8;
 
       const pxPerMm = canvas.width / contentWidthMm;
       const pageContentHeightPx = pageContentHeightMm * pxPerMm;
-      const overlapPx = overlapMm * pxPerMm;
-      const stepPx = pageContentHeightPx - overlapPx;
 
-      const pages: { sourceY: number; sourceHeight: number }[] = [];
-      let y = 0;
-      while (y < canvas.height) {
-        const remaining = canvas.height - y;
-        const h = Math.min(pageContentHeightPx, remaining);
-        pages.push({ sourceY: y, sourceHeight: h });
-        y += stepPx;
-        if (remaining <= pageContentHeightPx) break;
-      }
-
+      const totalPages = Math.ceil(canvas.height / pageContentHeightPx);
       const pdf = new jsPDF('p', 'mm', 'a4');
 
-      for (let page = 0; page < pages.length; page++) {
+      for (let page = 0; page < totalPages; page++) {
         if (page > 0) pdf.addPage();
 
-        const { sourceY, sourceHeight } = pages[page];
+        const sourceY = page * pageContentHeightPx;
+        const sourceHeight = Math.min(pageContentHeightPx, canvas.height - sourceY);
 
         const pageCanvas = document.createElement('canvas');
         pageCanvas.width = canvas.width;
@@ -327,7 +316,7 @@ ${t("disclaimer.note")}
         pdf.setFontSize(7);
         pdf.setTextColor(136, 136, 136);
         pdf.text('www.supremainc.com', imgWidthMm - marginMm, pageHeightMm - 8, { align: 'right' });
-        pdf.text(`${page + 1}/${pages.length}`, imgWidthMm - marginMm, pageHeightMm - 4, { align: 'right' });
+        pdf.text(`${page + 1}/${totalPages}`, imgWidthMm - marginMm, pageHeightMm - 4, { align: 'right' });
       }
 
       const fileName = `BioStarX_${meta.projectName || 'Report'}_${new Date().toISOString().split('T')[0]}.pdf`;
