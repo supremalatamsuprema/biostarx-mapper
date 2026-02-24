@@ -227,11 +227,8 @@
     visibility: visible !important;
   }
 
-  [data-radix-portal] > [data-state="open"] {
-    position: static !important;
-    background: none !important;
-    display: block !important;
-    visibility: visible !important;
+  [data-radix-portal] > [data-state="open"]:not([role="dialog"]) {
+    display: none !important;
   }
 
   [data-radix-portal] [role="dialog"],
