@@ -77,8 +77,11 @@ const sendEmailSchema = z.object({
     bs2TaLicense: z.string().max(100).optional().default(""),
     bs2VisitorLicense: z.boolean().optional().default(false),
     dashboardFile: z.string().max(500).optional().default(""),
+    dashboardFileData: z.string().optional().default(""),
     versionFile: z.string().max(500).optional().default(""),
+    versionFileData: z.string().optional().default(""),
     licenseFile: z.string().max(500).optional().default(""),
+    licenseFileData: z.string().optional().default(""),
     hardwareChecked: z.boolean().optional().default(false)
   }),
   inputs: z.object({
@@ -369,12 +372,33 @@ export async function registerRoutes(
 
       const projectName = meta.projectName || (language === "en" ? "Project" : language === "pt" ? "Projeto" : "Proyecto");
       
+      const attachments: { filename: string; content: string; encoding: string; contentType?: string }[] = [];
+      const fileFields = [
+        { name: meta.dashboardFile, data: meta.dashboardFileData },
+        { name: meta.versionFile, data: meta.versionFileData },
+        { name: meta.licenseFile, data: meta.licenseFileData },
+      ];
+      for (const f of fileFields) {
+        if (f.name && f.data) {
+          const match = f.data.match(/^data:([^;]+);base64,(.+)$/);
+          if (match) {
+            attachments.push({
+              filename: f.name,
+              content: match[2],
+              encoding: 'base64',
+              contentType: match[1],
+            });
+          }
+        }
+      }
+
       const mailOptions = {
         from: `"Calculador BioStar X" <${process.env.GMAIL_USER}>`,
         to,
         cc: cc && cc.length > 0 ? cc.join(", ") : undefined,
         subject: `${t.title}: ${escapeHtml(projectName)}`,
         html: emailHtml,
+        attachments,
       };
 
       await transporter.sendMail(mailOptions);

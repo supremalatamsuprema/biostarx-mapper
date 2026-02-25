@@ -34,8 +34,11 @@ export interface ProjectMeta {
   bs2TaLicense: string;
   bs2VisitorLicense: boolean;
   dashboardFile: string;
+  dashboardFileData: string;
   versionFile: string;
+  versionFileData: string;
   licenseFile: string;
+  licenseFileData: string;
   hardwareChecked: boolean;
   bs2UsesCloud: boolean;
   bs2UsesApp: boolean;

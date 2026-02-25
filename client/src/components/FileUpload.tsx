@@ -4,7 +4,7 @@ import { Upload, CheckCircle } from "lucide-react";
 interface FileUploadProps {
   label: string;
   fileName: string;
-  onChange: (fileName: string) => void;
+  onChange: (fileName: string, fileData?: string) => void;
   accept?: string;
   className?: string;
 }
@@ -19,7 +19,12 @@ export function FileUpload({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      onChange(file.name);
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = reader.result as string;
+        onChange(file.name, base64);
+      };
+      reader.readAsDataURL(file);
     }
   };
 

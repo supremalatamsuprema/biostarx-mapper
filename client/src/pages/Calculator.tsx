@@ -64,8 +64,11 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     bs2TaLicense: '',
     bs2VisitorLicense: false,
     dashboardFile: '',
+    dashboardFileData: '',
     versionFile: '',
+    versionFileData: '',
     licenseFile: '',
+    licenseFileData: '',
     hardwareChecked: false,
     bs2UsesCloud: false,
     bs2UsesApp: false,
@@ -110,7 +113,8 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
   });
 
   useEffect(() => {
-    const data = { meta, inputs, features };
+    const { dashboardFileData, versionFileData, licenseFileData, ...metaWithoutFiles } = meta;
+    const data = { meta: metaWithoutFiles, inputs, features };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }, [meta, inputs, features]);
 

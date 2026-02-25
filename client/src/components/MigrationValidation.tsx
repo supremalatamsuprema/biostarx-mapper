@@ -188,19 +188,19 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
         <FileUpload 
           label={t("migration.dashCapture")} 
           fileName={meta.dashboardFile} 
-          onChange={n => updateField('dashboardFile', n)} 
+          onChange={(n, data) => { updateField('dashboardFile', n); updateField('dashboardFileData', data || ''); }} 
           accept="image/*"
         />
         <FileUpload 
           label={t("migration.helpCapture")} 
           fileName={meta.versionFile} 
-          onChange={n => updateField('versionFile', n)} 
+          onChange={(n, data) => { updateField('versionFile', n); updateField('versionFileData', data || ''); }} 
           accept="image/*"
         />
         <FileUpload 
           label={t("migration.licenseFile")} 
           fileName={meta.licenseFile} 
-          onChange={n => updateField('licenseFile', n)} 
+          onChange={(n, data) => { updateField('licenseFile', n); updateField('licenseFileData', data || ''); }} 
           accept=".lic"
         />
       </div>
