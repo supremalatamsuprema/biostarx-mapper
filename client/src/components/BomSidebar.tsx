@@ -21,7 +21,7 @@ interface BomSidebarProps {
 export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta, onSendEmail, hasCapacityData = true, isMigration = false }: BomSidebarProps) {
   const { bom, selected, alternative } = calculatedBOM;
   const totalItems = getTotalItems(bom);
-  const { t } = useI18n();
+  const { t, language } = useI18n();
 
   const handleExportCSV = () => {
     downloadCSV({
@@ -30,7 +30,8 @@ export function BomSidebar({ calculatedBOM, onGenerateReport, tierChanged, meta,
       tierName: selected.name,
       bom: bom,
       alternative: alternative?.bom,
-      alternativeTierName: alternative?.selected.name
+      alternativeTierName: alternative?.selected.name,
+      language
     });
   };
 

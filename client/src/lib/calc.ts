@@ -328,31 +328,91 @@ export interface CSVExportOptions {
   bom: BomItem[];
   alternative?: BomItem[];
   alternativeTierName?: string;
+  language?: string;
 }
 
+const csvStrings: Record<string, Record<string, string>> = {
+  es: {
+    project: 'Proyecto',
+    client: 'Cliente',
+    mainTier: 'Tier Principal',
+    date: 'Fecha',
+    recommended: 'OPCIÓN RECOMENDADA',
+    alternative: 'OPCIÓN ALTERNATIVA (OPTIMIZADA)',
+    tier: 'Tier',
+    altNote: 'Esta es una opción de costo optimizado basada en paquetes de expansión.',
+    note: 'Nota',
+    noName: 'Sin nombre',
+    noClient: 'Sin especificar',
+    partNumber: 'Part Number',
+    description: 'Descripcion',
+    quantity: 'Cantidad',
+    noteHeader: 'Nota',
+    foc: 'Free of Charge',
+  },
+  en: {
+    project: 'Project',
+    client: 'Client',
+    mainTier: 'Main Tier',
+    date: 'Date',
+    recommended: 'RECOMMENDED OPTION',
+    alternative: 'ALTERNATIVE OPTION (OPTIMIZED)',
+    tier: 'Tier',
+    altNote: 'This is a cost-optimized option based on expansion packages.',
+    note: 'Note',
+    noName: 'Unnamed',
+    noClient: 'Not specified',
+    partNumber: 'Part Number',
+    description: 'Description',
+    quantity: 'Quantity',
+    noteHeader: 'Note',
+    foc: 'Free of Charge',
+  },
+  pt: {
+    project: 'Projeto',
+    client: 'Cliente',
+    mainTier: 'Tier Principal',
+    date: 'Data',
+    recommended: 'OPÇÃO RECOMENDADA',
+    alternative: 'OPÇÃO ALTERNATIVA (OTIMIZADA)',
+    tier: 'Tier',
+    altNote: 'Esta é uma opção de custo otimizado baseada em pacotes de expansão.',
+    note: 'Nota',
+    noName: 'Sem nome',
+    noClient: 'Não especificado',
+    partNumber: 'Part Number',
+    description: 'Descrição',
+    quantity: 'Quantidade',
+    noteHeader: 'Nota',
+    foc: 'Free of Charge',
+  },
+};
+
 export function generateCSVContent(options: CSVExportOptions): string {
-  const { projectName, client, tierName, bom, alternative, alternativeTierName } = options;
-  const headers = ['Part Number', 'Descripcion', 'Cantidad', 'Nota'];
+  const { projectName, client, tierName, bom, alternative, alternativeTierName, language = 'es' } = options;
+  const s = csvStrings[language] || csvStrings.es;
+  const locale = language === 'pt' ? 'pt-BR' : language === 'en' ? 'en-US' : 'es-ES';
+  const headers = [s.partNumber, s.description, s.quantity, s.noteHeader];
   
   const content = [
-    `# Proyecto: ${projectName?.trim() || 'Sin nombre'}`,
-    `# Cliente: ${client?.trim() || 'Sin especificar'}`,
-    `# Tier Principal: BioStar X ${tierName}`,
-    `# Fecha: ${new Date().toLocaleDateString('es-ES')}`,
+    `# ${s.project}: ${projectName?.trim() || s.noName}`,
+    `# ${s.client}: ${client?.trim() || s.noClient}`,
+    `# ${s.mainTier}: BioStar X ${tierName}`,
+    `# ${s.date}: ${new Date().toLocaleDateString(locale)}`,
     '',
-    '### OPCIÓN RECOMENDADA ###',
+    `### ${s.recommended} ###`,
     headers.join(','),
-    ...bom.map(item => [item.id, item.name, item.qty.toString(), item.foc ? 'Free of Charge' : ''].map(cell => `"${cell}"`).join(',')),
+    ...bom.map(item => [item.id, item.name, item.qty.toString(), item.foc ? s.foc : ''].map(cell => `"${cell}"`).join(',')),
   ];
 
   if (alternative && alternativeTierName) {
     content.push(
       '',
-      '### OPCIÓN ALTERNATIVA (OPTIMIZADA) ###',
-      `# Tier: BioStar X ${alternativeTierName}`,
-      `# Nota: Esta es una opción de costo optimizado basada en paquetes de expansión.`,
+      `### ${s.alternative} ###`,
+      `# ${s.tier}: BioStar X ${alternativeTierName}`,
+      `# ${s.note}: ${s.altNote}`,
       headers.join(','),
-      ...alternative.map(item => [item.id, item.name, item.qty.toString(), item.foc ? 'Free of Charge' : ''].map(cell => `"${cell}"`).join(','))
+      ...alternative.map(item => [item.id, item.name, item.qty.toString(), item.foc ? s.foc : ''].map(cell => `"${cell}"`).join(','))
     );
   }
 
