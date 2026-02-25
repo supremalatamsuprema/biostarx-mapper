@@ -429,7 +429,8 @@ export function generateCSVFilename(projectName?: string): string {
 
 export function downloadCSV(options: CSVExportOptions): void {
   const csvContent = generateCSVContent(options);
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const bom = '\uFEFF';
+  const blob = new Blob([bom + csvContent], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
