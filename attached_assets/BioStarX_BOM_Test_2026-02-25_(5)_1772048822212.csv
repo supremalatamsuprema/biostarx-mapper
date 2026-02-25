@@ -1,0 +1,15 @@
+# Proyecto: Test
+# Cliente: Test
+# Tier Principal: BioStar X Advanced
+# Fecha: 25/2/2026
+
+### OPCIÓN RECOMENDADA ###
+Part Number,Descripcion,Cantidad,Nota
+"BIOSTARX-ADV","BioStar X Advanced","1",""
+
+### OPCIÓN ALTERNATIVA (OPTIMIZADA) ###
+# Tier: BioStar X Essential
+# Nota: Esta es una opción de costo optimizado basada en paquetes de expansión.
+Part Number,Descripcion,Cantidad,Nota
+"BIOSTARX-ESS","BioStar X Essential","1",""
+"BIOSTARX-UP-USR","Upgr: +5k Users","1",""
