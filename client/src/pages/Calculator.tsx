@@ -118,7 +118,8 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }, [meta, inputs, features]);
 
-  const hasCapacityData = inputs.users > 0 || inputs.doors > 0 || inputs.devices > 0 || inputs.operators > 0;
+  const doorsExceeded = inputs.doors > 2000;
+  const hasCapacityData = !doorsExceeded && (inputs.users > 0 || inputs.doors > 0 || inputs.devices > 0 || inputs.operators > 0);
 
   const calculatedBOM = useMemo<CalculatedBOM>(() => {
     return calculateBOM(inputs, features);
