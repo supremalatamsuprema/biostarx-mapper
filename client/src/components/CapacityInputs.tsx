@@ -1,6 +1,7 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { NumericInput } from "@/components/NumericInput";
 import { useI18n } from "@/lib/i18n";
+import { AlertTriangle } from "lucide-react";
 import type { ProjectInputs } from "@/types/license";
 
 interface CapacityInputsProps {
@@ -44,6 +45,15 @@ export function CapacityInputs({ inputs, onChange, sectionNumber = 2 }: Capacity
           onChange={v => updateField('operators', v)}
         />
       </div>
+
+      {inputs.doors > 2000 && (
+        <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-700 rounded-md flex items-start gap-3" data-testid="warning-max-doors">
+          <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+          <p className="text-sm text-amber-800 dark:text-amber-300 font-medium">
+            {t("validation.maxDoorsExceeded")}
+          </p>
+        </div>
+      )}
     </GlassCard>
   );
 }
