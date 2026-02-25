@@ -26,7 +26,7 @@ interface HeaderProps {
 }
 
 export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateReport, hasCapacityData = true }: HeaderProps) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const { bom, selected, alternative } = calculatedBOM;
 
   const handleExportCSV = () => {
@@ -37,7 +37,8 @@ export function Header({ scenario, onReset, calculatedBOM, meta, onGenerateRepor
       tierName: selected.name,
       bom: bom,
       alternative: alternative?.bom,
-      alternativeTierName: alternative?.selected.name
+      alternativeTierName: alternative?.selected.name,
+      language
     });
   };
 
