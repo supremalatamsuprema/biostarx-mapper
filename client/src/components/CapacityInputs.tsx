@@ -54,6 +54,15 @@ export function CapacityInputs({ inputs, onChange, sectionNumber = 2 }: Capacity
           </p>
         </div>
       )}
+
+      {inputs.devices > 1000 && (
+        <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-700 rounded-md flex items-start gap-3" data-testid="warning-max-devices">
+          <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+          <p className="text-sm text-amber-800 dark:text-amber-300 font-medium">
+            {t("validation.maxDevicesExceeded")}
+          </p>
+        </div>
+      )}
     </GlassCard>
   );
 }
