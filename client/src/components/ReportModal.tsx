@@ -106,7 +106,7 @@ export function ReportModal({
   const handleCopy = () => {
     const bomText = bom.map(item => `${item.id} - ${item.name} x${item.qty}${item.foc ? ' [FOC]' : ''}`).join('\n');
     const text = `
-${t("report.title").toUpperCase()} - BioStar X Mapper
+${t("report.title").toUpperCase()} - BioStar X Calculator
 ===================================
 
 ${t("report.project").toUpperCase()}: ${meta.projectName || t("report.noName")}

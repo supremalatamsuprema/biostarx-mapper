@@ -276,7 +276,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "email.validationInvalid": "Ingresa un correo válido"
   },
   en: {
-    "app.title": "BioStar X Mapper",
+    "app.title": "BioStar X Calculator",
     "app.welcome": "Calculator",
     "app.description": "BioStar X Calculator is a tool designed to facilitate the calculation and correct selection of BioStar X licensing. Through this tool, it is possible to quickly and accurately identify the necessary licenses according to the size, scope, and configuration of each project.",
     
@@ -537,7 +537,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "email.validationInvalid": "Enter a valid email"
   },
   pt: {
-    "app.title": "BioStar X Mapper",
+    "app.title": "BioStar X Calculator",
     "app.welcome": "Bem-vindo ao",
     "app.description": "BioStar X Calculator é uma ferramenta projetada para facilitar o cálculo e a seleção correta do licenciamento BioStar X. Através desta ferramenta, é possível identificar de forma rápida e precisa as licenças necessárias de acordo com o tamanho, escopo e configuração de cada projeto.",
     
