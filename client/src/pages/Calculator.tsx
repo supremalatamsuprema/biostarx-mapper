@@ -201,22 +201,6 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
   }, [meta.activationCode, meta.bs2TaLicense, meta.bs2VisitorLicense, meta.bs2UsesCloud, meta.bs2UsesApp, meta.bs2AppSameNetwork, meta.bs2AppOutsideNetwork, inputs.scenario, inputs.activationCode, inputs.bs2TaLicense, inputs.bs2VisitorLicense]);
 
   const handleGenerateReport = () => {
-    if (!meta.projectName.trim()) {
-      toast({
-        title: t("validation.required"),
-        description: t("validation.projectName"),
-        variant: "destructive"
-      });
-      return;
-    }
-    if (!meta.client.trim()) {
-      toast({
-        title: t("validation.required"), 
-        description: t("validation.client"),
-        variant: "destructive"
-      });
-      return;
-    }
     if (inputs.users === 0 && inputs.doors === 0 && inputs.devices === 0 && inputs.operators === 0) {
       toast({
         title: t("validation.required"),
