@@ -23,6 +23,7 @@ export function DisclaimerModal({ open, onAccept }: DisclaimerModalProps) {
         className="max-w-lg rounded-md border-0 p-0 overflow-hidden"
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
+        aria-describedby={t("disclaimer.note") ? undefined : "disclaimer-desc"}
       >
         <div className="bg-gradient-to-br from-[#00C2FF] via-[#0047FF] to-[#FF00E5] p-1">
           <div className="bg-background rounded-md p-8">
@@ -43,9 +44,11 @@ export function DisclaimerModal({ open, onAccept }: DisclaimerModalProps) {
                 </p>
               </div>
               
-              <DialogDescription className="text-sm text-muted-foreground leading-relaxed text-center font-medium font-['Noto_Sans_KR']">
-                {t("disclaimer.note")}
-              </DialogDescription>
+              {t("disclaimer.note") && (
+                <DialogDescription className="text-sm text-muted-foreground leading-relaxed text-center font-medium font-['Noto_Sans_KR']">
+                  {t("disclaimer.note")}
+                </DialogDescription>
+              )}
             </div>
 
             <PillButton 
