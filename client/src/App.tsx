@@ -18,6 +18,7 @@ function App() {
   };
 
   const handleSelectScenario = (selectedScenario: ProjectInputs['scenario']) => {
+    localStorage.removeItem('biostarx-draft');
     setScenario(selectedScenario);
   };
 
