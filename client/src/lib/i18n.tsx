@@ -143,7 +143,7 @@ export const translations: Record<Language, Record<string, string>> = {
     
     "disclaimer.title": "Aviso Legal",
     "disclaimer.text": "Esta herramienta es una guía de ayuda para preventa. Los resultados son estimaciones basadas en los datos ingresados y requieren validación oficial de Suprema antes de cualquier proceso de compra. Para los fines del cálculo de licencias y la entrega de resultados, cierta información como el correo electrónico y los datos ingresados por el usuario podrán ser procesados. La información ingresada se utilizará únicamente para generar y entregar los resultados del cálculo por correo electrónico, y no será almacenada en una base de datos separada. Los usuarios son responsables de asegurarse de que la información ingresada sea precisa y limitada a lo necesario para el propósito previsto. Por favor, absténgase de incluir datos personales innecesarios que estén fuera del alcance de esta herramienta.",
-    "disclaimer.note": "",
+    "disclaimer.note": "El software se proporciona \"tal cual\" sin garantías de ningún tipo. Suprema no se hace responsable por decisiones de compra basadas únicamente en estos resultados.",
     "disclaimer.accept": "Aceptar y Continuar",
     
     "validation.required": "Campo requerido",
@@ -407,7 +407,7 @@ export const translations: Record<Language, Record<string, string>> = {
     
     "disclaimer.title": "Legal Notice",
     "disclaimer.text": "This tool is a presales guidance aid. The results are estimates based on the entered data and require official Suprema validation before any purchase process. For the purpose of license calculation and result delivery, certain information such as email and user input data may be processed. The entered information will be used solely for generating and delivering the calculation results via email and will not be stored in a separate database. Users are responsible for ensuring that the information entered is accurate and limited to what is necessary for the intended purpose. Please refrain from including unnecessary personal data beyond the scope of this tool.",
-    "disclaimer.note": "",
+    "disclaimer.note": "The software is provided \"as is\" without warranties of any kind. Suprema is not responsible for purchase decisions based solely on these results.",
     "disclaimer.accept": "Accept and Continue",
     
     "validation.required": "Required field",
@@ -670,7 +670,7 @@ export const translations: Record<Language, Record<string, string>> = {
     
     "disclaimer.title": "Aviso Legal",
     "disclaimer.text": "Esta ferramenta é um guia de auxílio para pré-venda. Os resultados são estimativas baseadas nos dados inseridos e requerem validação oficial da Suprema antes de qualquer processo de compra. Para fins de cálculo de licenças e entrega de resultados, certas informações como e-mail e dados inseridos pelo usuário poderão ser processadas. As informações inseridas serão utilizadas exclusivamente para gerar e entregar os resultados do cálculo por e-mail, e não serão armazenadas em um banco de dados separado. Os usuários são responsáveis por garantir que as informações inseridas sejam precisas e limitadas ao necessário para o propósito pretendido. Por favor, abstenha-se de incluir dados pessoais desnecessários que estejam fora do escopo desta ferramenta.",
-    "disclaimer.note": "",
+    "disclaimer.note": "O software é fornecido \"como está\" sem garantias de qualquer tipo. A Suprema não se responsabiliza por decisões de compra baseadas exclusivamente nestes resultados.",
     "disclaimer.accept": "Aceitar e Continuar",
     
     "validation.required": "Campo obrigatório",
