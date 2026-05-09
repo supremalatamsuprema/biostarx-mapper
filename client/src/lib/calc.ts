@@ -395,8 +395,6 @@ export function generateCSVContent(options: CSVExportOptions): string {
   const headers = [s.partNumber, s.description, s.quantity, s.noteHeader];
   
   const content = [
-    `# ${s.project}: ${projectName?.trim() || s.noName}`,
-    `# ${s.client}: ${client?.trim() || s.noClient}`,
     `# ${s.mainTier}: BioStar X ${tierName}`,
     `# ${s.date}: ${new Date().toLocaleDateString(locale)}`,
     '',

@@ -109,18 +109,6 @@ export function ReportModal({
 ${t("report.title").toUpperCase()} - BioStar X Calculator
 ===================================
 
-${t("report.project").toUpperCase()}: ${meta.projectName || t("report.noName")}
-${t("report.client").toUpperCase()}: ${meta.client || t("report.noSpec")}
-${t("report.country").toUpperCase()}: ${meta.country || t("report.noSpec")}
-${t("report.type").toUpperCase()}: ${meta.clientType}
-${t("report.scenario").toUpperCase()}: ${inputs.scenario === 'migration' ? t("scenario.migration") : t("scenario.new")}
-
-${t("report.contactInfo").toUpperCase()}
---------
-${meta.contactFirst} ${meta.contactLast}
-${meta.email}
-${meta.phone}
-
 ${t("capacity.title").toUpperCase()}
 ----------------
 ${t("capacity.users")}: ${inputs.users}
@@ -143,7 +131,7 @@ ${bomText}
 ${t("disclaimer.note")}
     `.trim();
     
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text.replace(/\n{3,}/g, '\n\n'));
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -421,58 +409,6 @@ ${t("disclaimer.note")}
                   alt="BioStar X Logo"
                   className="h-5 object-contain hidden dark:block"
                 />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 print:gap-4">
-              <div className="space-y-4">
-                <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground border-b border-border pb-2">
-                  {t("report.projectInfo")}
-                </h4>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">{t("report.project")}:</span>
-                    <span className="text-xs font-bold">{meta.projectName || t("report.noName")}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">{t("report.client")}:</span>
-                    <span className="text-xs font-bold">{meta.client || t("report.noSpec")}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">{t("report.country")}:</span>
-                    <span className="text-xs font-bold">{meta.country || t("report.noSpec")}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">{t("report.type")}:</span>
-                    <span className="text-xs font-bold">{meta.clientType}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">{t("report.scenario")}:</span>
-                    <span className="text-xs font-bold">
-                      {inputs.scenario === 'migration' ? t("scenario.migration") : t("scenario.new")}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground border-b border-border pb-2">
-                  {t("report.contactInfo")}
-                </h4>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">{t("report.name")}:</span>
-                    <span className="text-xs font-bold">{meta.contactFirst} {meta.contactLast}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">{t("report.email")}:</span>
-                    <span className="text-xs font-bold">{meta.email || t("report.noSpec")}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">{t("report.phone")}:</span>
-                    <span className="text-xs font-bold">{meta.phone || t("report.noSpec")}</span>
-                  </div>
-                </div>
               </div>
             </div>
 
