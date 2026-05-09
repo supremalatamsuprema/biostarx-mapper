@@ -33,7 +33,7 @@ export function MigrationValidation({ meta, onChange }: MigrationValidationProps
   return (
     <GlassCard className="p-8 sm:p-12 animate-fadeIn">
       <h3 className="text-base sm:text-lg font-medium font-['Noto_Sans_KR'] text-[#A12944] mb-6 sm:mb-8 pb-4 border-b border-border flex items-center gap-2">
-        <span>02.</span>
+        <span>01.</span>
         {t("migration.sectionTitle")}
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mb-8 sm:mb-10">

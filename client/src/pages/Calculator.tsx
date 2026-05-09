@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { Header } from "@/components/Header";
-import { ProjectMetadataForm } from "@/components/ProjectMetadataForm";
 import { MigrationValidation } from "@/components/MigrationValidation";
 import { CapacityInputs } from "@/components/CapacityInputs";
 import { FeaturesSection } from "@/components/FeaturesSection";
@@ -235,13 +234,11 @@ export function Calculator({ scenario, onReset }: CalculatorProps) {
 
       <div className="flex flex-col xl:flex-row gap-8 xl:gap-12 items-start">
         <div className="w-full xl:w-[68%] space-y-6 sm:space-y-8">
-          <ProjectMetadataForm meta={meta} onChange={setMeta} />
-          
           {inputs.scenario === 'migration' && (
             <MigrationValidation meta={meta} onChange={setMeta} />
           )}
           
-          <CapacityInputs inputs={inputs} onChange={setInputs} sectionNumber={inputs.scenario === 'migration' ? 3 : 2} />
+          <CapacityInputs inputs={inputs} onChange={setInputs} sectionNumber={inputs.scenario === 'migration' ? 2 : 1} />
           
           <FeaturesSection 
             inputs={inputs}

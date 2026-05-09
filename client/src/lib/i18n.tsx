@@ -727,7 +727,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "migration.taLicenseLabel": "Licença de Tempo e Presença ativada (BioStar 2)",
     "migration.visitorLicenseLabel": "Licença de Visitantes ativada (BioStar 2)",
     
-    "capacity.sectionTitle": "02. Dimensionamento e Capacidade",
+    "capacity.sectionTitle": "Dimensionamento e Capacidade",
     "capacity.totalUsers": "Usuários Totais",
     "capacity.totalDoors": "Total de Portas",
     "capacity.totalDevices": "Total de Dispositivos",
@@ -751,7 +751,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "features.plugin": "Plugin",
     "features.mcsServers": "Multi Comm Servers",
     
-    "devices.sectionTitle": "04. Licenças de Dispositivos",
+    "devices.sectionTitle": "Licenças de Dispositivos",
     "devices.videoChannels": "Canais de Vídeo",
     "devices.qrCameras": "Câmeras QR",
     "devices.wirelessLocks": "Fechaduras Sem Fio",
