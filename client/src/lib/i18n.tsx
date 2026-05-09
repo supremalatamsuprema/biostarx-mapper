@@ -765,10 +765,6 @@ export const translations: Record<Language, Record<string, string>> = {
     "mobile.generateMaster": "Gerar Relatório Mestre",
     "mobile.items": "itens",
     
-    "bom.alternativeTitle": "Opción Alternativa (Optimizado)",
-    "bom.alternativeReason": "Costo optimizado mediante paquetes de expansión",
-    "bom.originalTitle": "Opción Recomendada (Capacidad Nativa)",
-    
     "clientType.integrator": "Integrador",
     "clientType.dealer": "Dealer",
     "clientType.distributor": "Distribuidor",
