@@ -284,32 +284,6 @@ export async function registerRoutes(
           </div>
 
           <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-            <h2 style="color: #333; margin-top: 0;">${t.projectInfo}</h2>
-            <table style="width: 100%;">
-              <tr>
-                <td style="padding: 5px 0;"><strong>${t.project}:</strong></td>
-                <td>${escapeHtml(meta.projectName || t.notSpecified)}</td>
-              </tr>
-              <tr>
-                <td style="padding: 5px 0;"><strong>${t.client}:</strong></td>
-                <td>${escapeHtml(meta.client || t.notSpecified)}</td>
-              </tr>
-              <tr>
-                <td style="padding: 5px 0;"><strong>${t.country}:</strong></td>
-                <td>${escapeHtml(meta.country || t.notSpecified)}</td>
-              </tr>
-              <tr>
-                <td style="padding: 5px 0;"><strong>${t.clientType}:</strong></td>
-                <td>${escapeHtml(meta.clientType || t.notSpecified)}</td>
-              </tr>
-              <tr>
-                <td style="padding: 5px 0;"><strong>${t.scenario}:</strong></td>
-                <td>${inputs.scenario === "new" ? t.scenarioNew : t.scenarioMigration}</td>
-              </tr>
-            </table>
-          </div>
-
-          <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
             <h2 style="color: #333; margin-top: 0;">${t.sizing}</h2>
             <table style="width: 100%;">
               <tr>
