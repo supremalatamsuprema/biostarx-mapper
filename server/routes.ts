@@ -126,6 +126,7 @@ const translations = {
     foc: "Sin Costo (FOC)",
     withCost: "Con Costo",
     alternativeOption: "Opción Alternativa",
+    alternativeReason: "Costo optimizado mediante paquetes de expansión",
     clientNote: "Nota del cliente",
     footer: "Este correo fue enviado desde el Calculador BioStar X de Suprema.",
     moreInfo: "Para más información, contactar a",
@@ -158,6 +159,7 @@ const translations = {
     foc: "Free of Charge (FOC)",
     withCost: "With Cost",
     alternativeOption: "Alternative Option",
+    alternativeReason: "Cost optimized through expansion packages",
     clientNote: "Client note",
     footer: "This email was sent from the BioStar X Calculator by Suprema.",
     moreInfo: "For more information, please contact your country sales representative.",
@@ -190,6 +192,7 @@ const translations = {
     foc: "Sem Custo (FOC)",
     withCost: "Com Custo",
     alternativeOption: "Opção Alternativa",
+    alternativeReason: "Custo otimizado por meio de pacotes de expansão",
     clientNote: "Nota do cliente",
     footer: "Este e-mail foi enviado do Calculador BioStar X da Suprema.",
     moreInfo: "Para mais informações, contate",
@@ -244,7 +247,7 @@ export async function registerRoutes(
 
         alternativeHtml = `
           <h3 style="color: #0047FF; margin-top: 30px;">${t.alternativeOption}: BioStar X ${escapeHtml(alternative.selected.name)}</h3>
-          <p style="font-style: italic; color: #666;">${escapeHtml(alternative.reason)}</p>
+          <p style="font-style: italic; color: #666;">${t.alternativeReason}</p>
           <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
             <thead>
               <tr style="background: #f5f5f5;">

@@ -310,6 +310,8 @@ export const translations: Record<Language, Record<string, string>> = {
     "report.bomOptimized": "BOM - Optimized Option",
     "bom.original": "ORIGINAL BOM",
     "bom.alternative": "ALTERNATIVE BOM",
+    "bom.alternativeTitle": "Alternative Option (Optimized)",
+    "bom.alternativeReason": "Cost optimized through expansion packages",
     "bom.referenceList": "Required Reference List",
     
     "form.project": "Project Information",
@@ -571,6 +573,8 @@ export const translations: Record<Language, Record<string, string>> = {
     "report.bomOptimized": "BOM - Opção Otimizada",
     "bom.original": "BOM ORIGINAL",
     "bom.alternative": "BOM ALTERNATIVO",
+    "bom.alternativeTitle": "Opção Alternativa (Otimizada)",
+    "bom.alternativeReason": "Custo otimizado por meio de pacotes de expansão",
     "bom.referenceList": "Lista de Referências Necessárias",
     
     "form.project": "Informações do Projeto",
